@@ -280,7 +280,7 @@ function logout() {
 function getStates(){
 
     // Connect to health.ny.gov to get the list of states 
-    $html = file_get_contents('https://coronavirus.health.ny.gov/covid-19-travel-advisory');
+    $html = @file_get_contents('https://coronavirus.health.ny.gov/covid-19-travel-advisory');
     $allStates = "'Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming'";
     $stateArray = array();
     $doc = new DOMDocument();
@@ -320,7 +320,7 @@ function getStates(){
                         break;
                 }
             }
-            return $stateList;
+            return $stateList. ".";
         }
         else {
             return "";
@@ -334,7 +334,7 @@ function getStates(){
 function getSymptoms(){
 
     // Connect to the CDC site to get the symptoms
-    $html = file_get_contents('https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/symptoms.html');
+    $html = @file_get_contents('https://www.cdc.gov/coronavirus/2019-ncov/symptoms-testing/symptoms.html');
     $symptomsArray = array();
     $doc = new DOMDocument();
     libxml_use_internal_errors(TRUE);
@@ -370,7 +370,7 @@ function getSymptoms(){
                         break;
                 }
             }
-            return $symptomList;
+            return $symptomList. ".";
         }
         else {
             return "";

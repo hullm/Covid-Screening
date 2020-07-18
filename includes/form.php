@@ -33,7 +33,7 @@
                     </div>
                 </div>
                     <!-- Symptoms Tab -->
-                <div class="tab"><h4>Are you experiencing any other COVID-19 symptoms. <?php echo getSymptoms(); ?>.</h4>
+                <div class="tab"><h4>Are you experiencing any other COVID-19 symptoms? <?php echo getSymptoms(); ?></h4>
                     <div class="row">
                         <div class="radio">
                             <label>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <!-- Travel Tab -->
-                <div class="tab"><h4>Have you traveled internationally or to any of the following states: <?php echo getStates(); ?>?</h4>
+                <div class="tab"><h4>Have you traveled internationally or to any of the restricted states?  <?php echo getStates();?></h4>
                     <div class="row">
                         <div class="radio">
                             <label>
