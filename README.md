@@ -47,6 +47,11 @@ sudo mv ~/test.php /var/www/html/test.php
 Test your PHP install by opening the test.php page in a web browser.  You should see the PHP info page. (http://*servername*/test.php)
 ![Login Screen](https://covid.lkgeorge.org/images/phpinstalled.png)
 
+After testing PHP delete the test.php file.
+```bash
+sudo rm /var/www/html/test.php
+```
+
 # Step 3 - Install MariaDB
 MariaDB is a fork of mysql, we'll install it here.
 ```bash
@@ -135,3 +140,27 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_pas
 FLUSH PRIVILEGES;
 EXIT;
 ```
+
+After you set the password test it by seeing if you can sign in as root with your password.
+```bash
+mysql -u root -p
+
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 11
+Server version: 8.0.20-0ubuntu0.20.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql>EXIT;
+Bye
+```
+
+# Optional Step - Install phpMyAdmin
+You can optionally instlal phpMyAdmin if you want to.  It will give you web access to the database.
