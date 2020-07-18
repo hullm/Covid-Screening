@@ -1,0 +1,17 @@
+[database]
+servername = localhost
+username = username
+password = password
+dbname = covid
+
+[active directory]
+DC = "server.domain.com"
+netbios = "domain"
+rootDN = "dc=domain,dc=com"
+studentOU = "OU=Students,DC=domain,DC=com"
+
+[site settings]
+sites = "Elementary School,High School"
+title = "Covid Screening"
+logontext = "School District's Daily Health Screening Questionnaire."
+
