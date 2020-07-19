@@ -1,6 +1,7 @@
 # Covid-Screening
-Screening form for Covid 19 symptoms.
+Screening form for Covid 19 symptoms.  
 ![Login Screen](https://covid.lkgeorge.org/images/loginscreen.png)
+This is still in development.  We currently have the user portion working so people can check in using the system.  The administrative side needs to be built next.
 
 # Requirements
 Covid Screening was built on a server running Ubuntu 20.04 Server, Apache 2.4.41, PHP 7.4.3, and MariaDB 15.1.  In order to ensure compatibility, create a server running Ubuntu 20.04 Server with a static IP address, Internet access, and ssh access.  If you want to access it from the web you'll need to open port 80 and optionally port 443 if you choose to add a certificate.  You'll also need to create DNS entries for the server.
@@ -162,21 +163,6 @@ mysql>EXIT;
 Bye
 ```
 
-# Optional Step - Install phpMyAdmin
-You can optionally install phpMyAdmin.  It will give you web access to manage the database.
-```bash
-sudo apt -y install phpmyadmin
-```
-
-During the install you'll be asked to select a web server, use the space bar to select apache2 then tab to the ok button and hit enter.
-
-![phpMyAdmin Install](https://covid.lkgeorge.org/images/phpmyadmininstall.png)
-
-After that you'll be asked if you want to configure a database for phpmyadmin, answer yes.  After that provide a password for the database and confirm the password.
-
-Test your phpMyAdmin install by opening it in a web browser.  You can sign in using root as the username and the password you set earlier. (http://*servername*/phpmyadmin)
-![phpMyAdmin Install](https://covid.lkgeorge.org/images/phpmyadmin.png)
-
 # Step 4 - Install PHP LDAP Tools
 In order to authenticate using Active Directory we need to install the PHP LDAP tools.  After the tools are installed we need to restart Apache.
 ```bash
@@ -236,3 +222,26 @@ After the config files are setup open the site in a web browser. (http://*server
 If everyting is setup properly the first time you log in it will redirect you to the setup page which will create the database.  If everything went well click view the site.
 
 ![Database Created](https://covid.lkgeorge.org/images/dbcreated.png)
+
+# Optional Step - Install phpMyAdmin
+You can optionally install phpMyAdmin.  It will give you web access to manage the database.
+```bash
+sudo apt -y install phpmyadmin
+```
+
+During the install you'll be asked to select a web server, use the space bar to select apache2 then tab to the ok button and hit enter.
+
+![phpMyAdmin Install](https://covid.lkgeorge.org/images/phpmyadmininstall.png)
+
+After that you'll be asked if you want to configure a database for phpmyadmin, answer yes.  After that provide a password for the database and confirm the password.
+
+Test your phpMyAdmin install by opening it in a web browser.  You can sign in using root as the username and the password you set earlier. (http://*servername*/phpmyadmin)
+![phpMyAdmin Install](https://covid.lkgeorge.org/images/phpmyadmin.png)
+
+# Optional Step - Install Let's Encrypt Certificate
+If your server has a public address, an external DNS entry and port 80 and 443 open you can use Let's Encrypt to install a free certificate.  The certificate will renew automatically using a program called certbot.  We need to install certbot and run it.
+```bash
+sudo apt -y install certbot python3-certbot-apache
+sudo certbot --apache
+```
+This will start a wizard where you'll be asked a few question.  You'll be asked to enter an email address, to agree to the terms, if you want to share your email, and asked for the site's name.  After that it will verify you have ownership of the domain by placing some test files on the site.  If it can then browse to those files it knows you have ownership.  After a clean up you'll be asked if you want to redirect all requests to HTTPS.  When done you're site will be secured.
