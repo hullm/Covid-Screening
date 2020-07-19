@@ -177,11 +177,12 @@ We're going to install the Covid Screening site to the root of the web server.  
 sudo rm /var/www/html/index.html
 ```
 
-Now we need to change to the correct directory, initiate a git repository, and pull down the site.
+Now we need to change to the correct directory, clone the repository and move the files to the web root.
 ```bash
 cd /var/www/html
-sudo git init
-sudo git pull https://github.com/hullm/Covid-Screening
+sudo git clone https://github.com/hullm/Covid-Screening
+sudo cp -r Covid-Screening/. .
+sudo rm -r Covid-Screening/
 ```
 
 After the site is downloaded we're going to move the config file out of the website so we can set some settings.
@@ -246,3 +247,9 @@ sudo apt -y install certbot python3-certbot-apache
 sudo certbot --apache
 ```
 This will start a wizard where you'll be asked a few question.  You'll be asked to enter an email address, to agree to the terms, if you want to share your email, and asked for the site's name.  After that it will verify you have ownership of the domain by placing some test files on the site.  If it can then browse to those files it knows you have ownership.  After a clean up you'll be asked if you want to redirect all requests to HTTPS.  When done you're site will be secured.
+
+# Updating the Covid Screening Site
+This is still under development.  After installing you can use git pull to update the site.
+```code
+cd /var/www/html
+git pull
