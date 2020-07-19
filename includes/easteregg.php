@@ -1,7 +1,7 @@
 <div class="container">
     <div id="easterEgg" class="modal fade" style="display:none" tabindex="-1">
         <div class="modal-dialog modal-xl" role="document">
-            <div class="modal-content">
+            <div class="modal-content modal-round">
                 <div class="modal-header">
                     <h2>Created by Matt Hull & Dane Davis</h2>
                     <button class="close" data-dismiss="modal" aria-label="Close">

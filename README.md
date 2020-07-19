@@ -205,7 +205,7 @@ Set the values in the config file.
 * **studentOU**: The root OU that contains your students.
 * **sites**: The sites that people will check in to.
 * **title**: The title of the webpage.
-* **logintext**:: The message tha appears on the login screen
+* **logintext**: The message tha appears on the login screen
 
 When you're done press control+x to exit, answer y to same, and enter to accept the file name.
 ![Config File](https://covid.lkgeorge.org/images/config.png)
