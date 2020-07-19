@@ -264,7 +264,7 @@ function visitorSignIn($firstName, $lastName, $email){
     $_SESSION["firstName"] = $firstName;
     $_SESSION["lastName"] = $lastName;
     $_SESSION["email"] = $email;
-    $_SESSION["userType"] = "Adult";
+    $_SESSION["userType"] = "Visitor";
 }
 
 function logout() {
