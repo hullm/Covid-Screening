@@ -3,7 +3,7 @@
 // Send error information to the browser
 error_reporting(E_ALL);
 ini_set('display_errors', 'on');
-$configFile="../../configdev.ini";
+$configFile="../config.ini";
 
 // Read in the config file
 $config = parse_ini_file($configFile);
@@ -11,7 +11,7 @@ $config = parse_ini_file($configFile);
 // Start a new session if it doesn't exist
 if(!isset($_SESSION)) {
     session_start();
-}    
+}
 
 // If the user is already signed in on the login page send them to the index, 
 // and if they aren't signed in send them to the login screen.

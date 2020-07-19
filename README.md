@@ -1,9 +1,9 @@
 # Covid-Screening
-Screening form for Covid 19 symtoms.
+Screening form for Covid 19 symptoms.
 ![Login Screen](https://covid.lkgeorge.org/images/loginscreen.png)
 
 # Requirements
-Covid Screening was built on a server running Ubuntu 20.04 Server, Apache 2.4.41, PHP 7.4.3, and MariaDB 15.1.  In order to ensure compatability, create a server running Ubuntu 20.04 Server with a static IP address, Internet access, and ssh access.  If you want to access it from the web you'll need to open port 80 and optionally port 443 if you choose to add a certificate.  You'll also need to create DNS entries for the server.
+Covid Screening was built on a server running Ubuntu 20.04 Server, Apache 2.4.41, PHP 7.4.3, and MariaDB 15.1.  In order to ensure compatibility, create a server running Ubuntu 20.04 Server with a static IP address, Internet access, and ssh access.  If you want to access it from the web you'll need to open port 80 and optionally port 443 if you choose to add a certificate.  You'll also need to create DNS entries for the server.
 
 # Step 1 - Install Apache
 
@@ -131,7 +131,7 @@ Success.
 All done!
 ```
 
-We're going to run an sql command that will allow the root user to authenticate using a password.  By defualt it uses the auth_socket plugin which uses the linux user's credentials.  We want to switch to mysql_native_password for the root user.  Make sure to change your_password to the password you want for the root user.
+We're going to run an sql command that will allow the root user to authenticate using a password.  By default it uses the auth_socket plugin which uses the linux user's credentials.  We want to switch to mysql_native_password for the root user.  Make sure to change your_password to the password you want for the root user.
 
 ```bash
 sudo mysql
@@ -163,4 +163,76 @@ Bye
 ```
 
 # Optional Step - Install phpMyAdmin
-You can optionally instlal phpMyAdmin if you want to.  It will give you web access to the database.
+You can optionally install phpMyAdmin.  It will give you web access to manage the database.
+```bash
+sudo apt -y install phpmyadmin
+```
+
+During the install you'll be asked to select a web server, use the space bar to select apache2 then tab to the ok button and hit enter.
+
+![phpMyAdmin Install](https://covid.lkgeorge.org/images/phpmyadmininstall.png)
+
+After that you'll be asked if you want to configure a database for phpmyadmin, answer yes.  After that provide a password for the database and confirm the password.
+
+Test your phpMyAdmin install by opening it in a web browser.  You can sign in using root as the username and the password you set earlier. (http://*servername*/phpmyadmin)
+![phpMyAdmin Install](https://covid.lkgeorge.org/images/phpmyadmin.png)
+
+# Step 4 - Install PHP LDAP Tools
+In order to authenticate using Active Directory we need to install the PHP LDAP tools.  After the tools are installed we need to restart Apache.
+```bash
+sudo apt -y install php-ldap
+sudo systemctl restart apache2
+```
+
+# Step 5 - Install Covid Screening
+
+We're going to install the Covid Screening site to the root of the web server.  Before we can do that we need to remove the default index.html file
+```bash
+sudo rm /var/www/html/index.html
+```
+
+Noe we need to change to the correct directory, initiate a git repository, and pull down the site.
+```bash
+cd /var/www/html
+sudo git init
+sudo git pull https://github.com/hullm/Covid-Screening
+```
+
+After the site is downloaded we're going to move the config file out of the website so we can set some settings.
+```bash
+sudo mv config.ini.example ../config.ini
+```
+
+Let's open the config file so we can setup the site.
+```bash
+sudo nano ../config.ini
+```
+Set the values in the config file.
+* **servername**: localhost will work fine for this setting, but if you have the database on another server you can put it's address here.
+* **username**: This will probably be root, but if you created another account enter the username here.
+* **password**: The password for the SQL account being used.
+* **dbname**: The name of the database that will be created for this site.
+* **DC**: The FQDN or IP of a domain controller in your environment.
+* **netbios**: The NETBIOS name of your domain.
+* **rootDN**: The RootDN of your domain.
+* **studentOU**: The root OU that contains your students.
+* **sites**: The sites that people will check in to.
+* **title**: The title of the webpage.
+* **logintext**:: The message tha appears on the login screen
+
+When you're done press control+x to exit, answer y to same, and enter to accept the file name.
+![Config File](https://covid.lkgeorge.org/images/config.png)
+
+Now we need to edit config.php to tell it where the config file is located.  Open includes/config.php and set the path to the config file.
+```bash
+sudo nano includes/config.php
+```
+Set $configFile= to ../config.ini, or where ever you put it if you chose a different spot.  When you're done press control+x to exit, answer y to same, and enter to accept the file name.
+![Config File](https://covid.lkgeorge.org/images/phpconfig.png)
+
+After the config files are setup open the site in a web browser. (http://*servername*/)
+![Login Screen](https://covid.lkgeorge.org/images/loginscreen.png)
+
+If everyting is setup properly the first time you log in it will redirect you to the setup page which will create the database.  If everything went well click view the site.
+
+![Database Created](https://covid.lkgeorge.org/images/dbcreated.png)

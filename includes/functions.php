@@ -207,7 +207,7 @@ function isAuthenticated($userName, $password) {
 
     include 'includes/config.php';
 
-    // Connect to Active Directory using incofmation from the config.ini file
+    // Connect to Active Directory using information from the config.ini file
     $config = parse_ini_file($configFile);
     $ldap = ldap_connect("ldap://". $config['DC']);
     $netbiosName =  $config['netbios']. "\\". $userName;
