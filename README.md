@@ -252,4 +252,4 @@ This will start a wizard where you'll be asked a few question.  You'll be asked 
 This is still under development.  After installing you can use git pull to update the site.
 ```code
 cd /var/www/html
-git pull
+sudo git pull
