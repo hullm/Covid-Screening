@@ -220,9 +220,9 @@ After the config files are setup open the site in a web browser. (http://*server
 
 If everyting is setup properly the first time you log in it will redirect you to the setup page which will create the database.  If everything went well click View the site.
 
-At this point the site is up and running, but you can install a couple other optional things that might help.
-
 ![Database Created](https://covid.lkgeorge.org/images/dbcreated.png)
+
+At this point the site is up and running, but you can install a couple other optional things that might help.
 
 # Optional Step - Install phpMyAdmin
 You can optionally install phpMyAdmin.  It will give you web access to manage the database.
