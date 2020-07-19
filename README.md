@@ -14,7 +14,7 @@ sudo apt update; sudo apt -y upgrade
 sudo apt install -y apache2
 ```
 
-Ubuntu's UncomplicatedFirewall may be enabled.  If so we need allow Apache through the firewall.  You can see if it's is enabled using the following command.
+Ubuntu's UncomplicatedFirewall may be enabled.  If so we need allow Apache through the firewall.  You can see if it's enabled using the following command.
 
 ```bash
 sudo ufw status verbose
@@ -177,7 +177,7 @@ We're going to install the Covid Screening site to the root of the web server.  
 sudo rm /var/www/html/index.html
 ```
 
-Noe we need to change to the correct directory, initiate a git repository, and pull down the site.
+Now we need to change to the correct directory, initiate a git repository, and pull down the site.
 ```bash
 cd /var/www/html
 sudo git init
@@ -209,17 +209,18 @@ Set the values in the config file.
 When you're done press control+x to exit, answer y to same, and enter to accept the file name.
 ![Config File](https://covid.lkgeorge.org/images/config.png)
 
-Now we need to edit config.php to tell it where the config file is located.  Open includes/config.php and set the path to the config file.
+If you chose to store config.ini in a different location you need to edit config.php to tell it where the config file is located.  Open includes/config.php and set the path to the config file.
 ```bash
 sudo nano includes/config.php
 ```
-Set $configFile= to ../config.ini, or where ever you put it if you chose a different spot.  When you're done press control+x to exit, answer y to same, and enter to accept the file name.
-![Config File](https://covid.lkgeorge.org/images/phpconfig.png)
+Set $configFile to the path of the config file.  When you're done press control+x to exit, answer y to same, and enter to accept the file name.
 
 After the config files are setup open the site in a web browser. (http://*servername*/)
 ![Login Screen](https://covid.lkgeorge.org/images/loginscreen.png)
 
-If everyting is setup properly the first time you log in it will redirect you to the setup page which will create the database.  If everything went well click view the site.
+If everyting is setup properly the first time you log in it will redirect you to the setup page which will create the database.  If everything went well click View the site.
+
+At this point the site is up and running, but you can install a couple other optional things that might help.
 
 ![Database Created](https://covid.lkgeorge.org/images/dbcreated.png)
 
