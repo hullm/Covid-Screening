@@ -170,7 +170,23 @@ sudo apt -y install php-ldap
 sudo systemctl restart apache2
 ```
 
-# Step 5 - Install Covid Screening
+# Step 5 - Verify Your Timezone
+When people submit the form it will record the time they submitted.  You'll want to make sure the server's time zone is set properly so the times are correct.  First verify the time zone.
+```bash
+timedatectl
+```
+
+If the timezone is properly set then you're good to go.  If not you need to set the timezone.  
+```bash
+sudo timedatectl set-timezone America/New_York
+```
+
+If you're not in New York you can search timezones with the list-timezones option.  The command below shows all American timezones.
+```bash
+timedatectl list-timezones | grep America
+```
+
+# Step 6 - Install Covid Screening
 
 We're going to install the Covid Screening site to the root of the web server.  Before we can do that we need to remove the default index.html file
 ```bash
