@@ -235,7 +235,7 @@ Set $configFile to the path of the config file.  When you're done press control+
 After the config files are setup open the site in a web browser. (http://*servername*/)
 ![Login Screen](https://covid.lkgeorge.org/images/loginscreen.png)
 
-If everyting is setup properly the first time you log in it will redirect you to the setup page which will create the database.  If everything went well click View the site.
+If everything is setup properly the first time you log in it will redirect you to the setup page which will create the database.  If everything went well click View the site.
 
 ![Database Created](https://covid.lkgeorge.org/images/dbcreated.png)
 
@@ -263,6 +263,9 @@ sudo apt -y install certbot python3-certbot-apache
 sudo certbot --apache
 ```
 This will start a wizard where you'll be asked a few question.  You'll be asked to enter an email address, to agree to the terms, if you want to share your email, and asked for the site's name.  After that it will verify you have ownership of the domain by placing some test files on the site.  If it can then browse to those files it knows you have ownership.  After a clean up you'll be asked if you want to redirect all requests to HTTPS.  When done you're site will be secured.
+
+# Optional Step - Enabling reCAPTCHA v3
+Coming soon, the ability to add a CAPTCHA to the visitor form.
 
 # Updating the Covid Screening Site
 This is still under development.  After installing you can use git pull to update the site.
