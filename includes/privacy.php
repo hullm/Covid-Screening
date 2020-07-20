@@ -20,7 +20,7 @@
                             <li>Username (Employee's only)</li>
                             <li>Email address </li>
                             <li>Phone number </li>
-                            <li>True or False if you passed the questionnaire, no symtom information is stored. </li>
+                            <li>True or False if you passed the questionnaire, no symptom information is stored. </li>
                             <li>Date and time form was filled out.</li>
                         </ul>
                     </p>
@@ -35,7 +35,7 @@
                     </p>
                     <h4>Your consent</h4>
                     <p>
-                        By compleing the form you consent to the terms of this privacy policy.
+                        By completing the form you consent to the terms of this privacy policy.
                     </p>
                     <h4>Data removal</h4>
                     <p>
