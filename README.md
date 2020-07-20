@@ -1,7 +1,7 @@
 # Covid-Screening
 Screening form for Covid 19 symptoms.  
 ![Login Screen](https://covid.lkgeorge.org/images/loginscreen.png)
-This is still in development.  We currently have the user portion working so people can check in using the system.  The administrative side needs to be built next.
+Created by Matt Hull and Dane Davis, this is still in development.  We currently have the user portion working so people can check in using the system.  The administrative side needs to be built next.
 
 # Requirements
 Covid Screening was built on a server running Ubuntu 20.04 Server, Apache 2.4.41, PHP 7.4.3, and MariaDB 15.1.  In order to ensure compatibility, create a server running Ubuntu 20.04 Server with a static IP address, Internet access, and ssh access.  If you want to access it from the web you'll need to open port 80 and optionally port 443 if you choose to add a certificate.  You'll also need to create DNS entries for the server.
