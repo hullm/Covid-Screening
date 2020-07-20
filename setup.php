@@ -63,6 +63,12 @@ if ($connection->query($sql) === TRUE) {
     echo "People table already exists...<br />";
 }
 
+// Change all adults to employees in the database
+$sql = "UPDATE Tracking SET UserType='Employee' WHERE UserType='Adult';";
+$connection->query($sql);
+$sql = "UPDATE People SET UserType='Employee' WHERE UserType='Adult';";
+$connection->query($sql);
+
 // Close the connection to the database
 $connection->close();
 

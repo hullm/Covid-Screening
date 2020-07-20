@@ -1,6 +1,6 @@
 <?php
 
-// This file contains the functiones needed for the site.
+// This file contains the functions needed for the site.
 
 function db_connect() {
 
@@ -33,7 +33,7 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
         // Connect to the database
         $connection = db_connect();
 
-        // Prepair the variables for adding to the database
+        // Prepare the variables for adding to the database
         $fixedUserName = mysqli_real_escape_string($connection,$userName);
         $fixedFirstName = mysqli_real_escape_string($connection,$firstName);
         $fixedLastName = mysqli_real_escape_string($connection,$lastName);
@@ -163,16 +163,16 @@ function getAdminResults($startDate, $endDate, $userType, $building){
     // Connect to the database
     $connection = db_connect();
 
-    // Prepair the variables for the database query
+    // Prepare the variables for the database query
     $fixedBuilding = mysqli_real_escape_string($connection,$building);
     
     // Get the correct value for the userType
     switch ($userType) {
-        case "Adult":
-            $userTypeQuery = "UserType='Adult'";
+        case "Employee":
+            $userTypeQuery = "UserType='Employee'";
             break;
         case "Admin":
-            $userTypeQuery = "UserType='Adult'";
+            $userTypeQuery = "UserType='Employee'";
         case "Student":
             $userTypeQuery = "UserType='Student'";
             break;
@@ -231,7 +231,7 @@ function isAuthenticated($userName, $password) {
                     $_SESSION["userType"]="Student";
                 }
                 else {
-                    $_SESSION["userType"]="Adult";
+                    $_SESSION["userType"]="Employee";
                 }
 
                 // Set the session variables
