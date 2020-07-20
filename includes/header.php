@@ -1,5 +1,8 @@
 <?php 
 
+// Purge old data
+purgeOldData(120);
+
 // Add javascript to the body tag if needed
 if (basename($_SERVER['PHP_SELF']) == "login.php") {
     $showLogout="visibility:hidden;";

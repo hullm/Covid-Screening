@@ -96,6 +96,31 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
     }
 }
 
+function purgeOldData($days){
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Remove old entries from the Tracking table
+    $sql = "DELETE FROM Tracking WHERE DateSubmitted<=DATE_ADD(CURDATE(), INTERVAL ". -$days. " DAY);";
+
+    // Execute the sql command and output an error if present
+    if ($connection->query($sql) === FALSE) {
+        echo $sql. "<br />";
+        echo "Failed to delete records from the database...";
+    }
+
+    // Remove old entries from the People table
+    $sql = "DELETE FROM People WHERE LastCheckin<=DATE_ADD(CURDATE(), INTERVAL ". -$days. " DAY);";
+
+    // Execute the sql command and output an error if present
+    if ($connection->query($sql) === FALSE) {
+        echo $sql. "<br />";
+        echo "Failed to delete records from the database...";
+    }
+
+}
+
 function alreadySubmitted($userName) {
 
     // Connect to the database
