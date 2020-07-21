@@ -4,6 +4,16 @@ include 'includes/functions.php';
 include 'includes/submit.php';
 include 'includes/header.php';
 ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;" id="failedLogin">
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!-- <div class="alert alert-danger" role="alert">
+        This is a danger alert—check it out!
+    </div> -->
     <!-- Login Buttons -->
     <div class="container">
         <div class="row justify-content-center" style="padding-top:4%;">
@@ -11,7 +21,7 @@ include 'includes/header.php';
                 <button id="employee-login-button"
                 class="btn btn-lg btn-light button-rounded"
                 style="border-color: grey; border-size: 3px;"
-                data-toggle="modal" data-target="#employee-login-modal">Employee Log In</button>
+                data-toggle="modal" data-target="#employee-login-modal">Employee/Student</button>
             </div>
             <div class="col-sm-2 text-center">
                 &nbsp;
@@ -39,7 +49,7 @@ include 'includes/header.php';
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content modal-round">
                     <div class="modal-header">
-                        <h2 class="modal-title text-center" id="employee-modal-title">Employee Login</h2>
+                        <h2 class="modal-title text-center" id="employee-modal-title">Employee/Student Login</h2>
                         <button class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -54,7 +64,7 @@ include 'includes/header.php';
                                 <input type="text" class="form-control" name="username" id="username" placeholder="Enter username">
                             </div>
                             <div class="form-group login">
-                                <label for="exampleInputPassword1">  <i class="fas fa-lock"></i> Password</label>
+                                <label for="password">  <i class="fas fa-lock"></i> Password</label>
                                 <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                             </div>
                     </div>
@@ -97,6 +107,9 @@ include 'includes/header.php';
                                 <input type="email" class="form-control" name="email" id="email" placeholder="Email..." oninvalid=";" required>
                             </div>
                             <div class="modal-footer">
+                            <?php if ($config['sitekey']!='') {
+                                    echo "<input type=\"hidden\" name=\"recaptcha_response\" id=\"recaptchaResponse\">";
+                                } ?>
                                 <button type="submit" name="visitor_submit" class="btn btn-success">Submit</button>
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             </div>
@@ -129,3 +142,14 @@ window.onclick = function(event){
     }
 }
 </script>
+
+<?php if ($config['sitekey']!='') { ?>
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('<?php echo $config['sitekey'];?>', { action: 'contact' }).then(function (token) {
+                var recaptchaResponse = document.getElementById('recaptchaResponse');
+                recaptchaResponse.value = token;
+            });
+        });
+    </script>
+<?php } ?>

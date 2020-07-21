@@ -5,6 +5,8 @@
 <script>
 function off() {
     document.getElementById("overlay").style.display = "none";
-    location.replace("index.php?logout");
+    if ("<?php echo $_SESSION['userType']?>" != "Admin") {
+        location.replace("index.php?logout");
+    }
 }
 </script>

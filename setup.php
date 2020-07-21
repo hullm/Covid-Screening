@@ -5,7 +5,7 @@ include 'includes/functions.php';
 // Create connection to the database server, not the database
 $conn = new mysqli($config['servername'],$config['username'],$config['password']);
 
-// Verify the connection was sucessful
+// Verify the connection was successful
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }

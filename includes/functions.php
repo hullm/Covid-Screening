@@ -183,7 +183,7 @@ function getUserResults($userName){
     }
 }
 
-function getAdminResults($startDate, $endDate, $userType, $building){
+function getReportResults($startDate, $endDate, $userType, $building, $hasPassed){
 
     // Connect to the database
     $connection = db_connect();
@@ -205,32 +205,50 @@ function getAdminResults($startDate, $endDate, $userType, $building){
             $userTypeQuery = "UserType='Visitor'";
             break;
         default:
-            $userTypeQuery = "";
+            $userTypeQuery = "UserType IS NOT NULL";
             break;
-    } 
+    }
+    
+    if ($building!="All") {
+        $buildingQuery = "Building='". $fixedBuilding. "'";
+    }
+    else {
+        $buildingQuery = "Building IS NOT NULL";
+    }
 
-    // See what the users result was for today
+    if ($hasPassed!="All") {
+        $hasPassQuery = "hasPassed=". $hasPassed;
+    }
+    else {
+        $hasPassQuery = "hasPassed IS NOT NULL";
+    }
+
+    // See what the users result was for selected date range
     $sql = "SELECT UserName,FirstName,LastName,Email,PhoneNumber,Building,UserType,HasPassed,DateSubmitted,TimeSubmitted 
         FROM Tracking WHERE ".
-        "DateSubmitted>=". $startDate. " AND ".
-        "DateSubmitted<=". $endDate. " AND ".
-        "Building='". $fixedBuilding. "' AND ".
+        "DateSubmitted>='". $startDate. "' AND ".
+        "DateSubmitted<='". $endDate. "' AND ".
+        $hasPassQuery. " AND ".
+        $buildingQuery. " AND ".
         $userTypeQuery. ";";
+
 
     // Look up the data
     if ($connection->query($sql) === FALSE) {
         echo $sql. "<br />";
-        echo "Failed to add record to the database...";
+        echo "Failed to query the database...";
     }
     $results = $connection->query($sql);
 
     return $results;
-
 }
 
 function isAuthenticated($userName, $password) {
 
     include 'includes/config.php';
+
+    // Connect to the database
+    $connection = db_connect();
 
     // Connect to Active Directory using information from the config.ini file
     $config = parse_ini_file($configFile);
@@ -257,6 +275,22 @@ function isAuthenticated($userName, $password) {
                 }
                 else {
                     $_SESSION["userType"]="Employee";
+                }
+                
+                // Prepare the variables for the database query
+                $fixedUserName = mysqli_real_escape_string($connection,$userName);
+                $sql = "SELECT UserType FROM People WHERE UserName='". $fixedUserName. "';";
+                if ($connection->query($sql) === FALSE) {
+                    echo $sql. "<br />";
+                    echo "Failed to query the database...";
+                }
+                $results = $connection->query($sql);
+
+                if ($results->num_rows > 0) {
+                    $row = $results->fetch_assoc();
+                    if ($row['UserType'] == "Admin" ) {
+                        $_SESSION["userType"]="Admin";
+                    } 
                 }
 
                 // Set the session variables
@@ -285,7 +319,7 @@ function isAuthenticated($userName, $password) {
 function visitorSignIn($firstName, $lastName, $email){
     // Set session variables for visitor sign in.  No authentication required
     $_SESSION["loggedIn"] = TRUE;
-    $_SESSION["userName"] = $firstName.$lastName;
+    $_SESSION["userName"] = $firstName.$lastName."_visitor";
     $_SESSION["firstName"] = $firstName;
     $_SESSION["lastName"] = $lastName;
     $_SESSION["email"] = $email;
@@ -298,6 +332,7 @@ function logout() {
     $_SESSION["firstName"] = "";
     $_SESSION["lastName"] = "";
     $_SESSION["email"] = "";
+    $_SESSION["userType"] = "";
     header("location:login.php");
     die; 
 }

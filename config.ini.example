@@ -15,3 +15,6 @@ sites = "Elementary School,High School"
 title = "Covid Screening"
 logontext = "School District's Daily Health Screening Questionnaire."
 
+[reCAPTCHA Settings]
+sitekey=""
+secretkey=""
