@@ -250,13 +250,17 @@ function isAuthenticated($userName, $password) {
     // Connect to the database
     $connection = db_connect();
 
+    // Fix the username if they gave an email address
+    if(strpos($userName, "@") == true){
+        $userName = strstr($userName, '@', true);
+    } 
+
     // Connect to Active Directory using information from the config.ini file
     $config = parse_ini_file($configFile);
     $ldap = ldap_connect("ldap://". $config['DC']);
     $netbiosName =  $config['netbios']. "\\". $userName;
     ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-    
     if (strlen($password) > 0){
 
         $ADConnection = @ldap_bind($ldap, $netbiosName, $password);
@@ -278,7 +282,7 @@ function isAuthenticated($userName, $password) {
                 }
                 
                 // Prepare the variables for the database query
-                $fixedUserName = mysqli_real_escape_string($connection,$userName);
+                $fixedUserName = mysqli_real_escape_string($connection,$userLookup[0]["samaccountname"][0]);
                 $sql = "SELECT UserType FROM People WHERE UserName='". $fixedUserName. "';";
                 if ($connection->query($sql) === FALSE) {
                     echo $sql. "<br />";
