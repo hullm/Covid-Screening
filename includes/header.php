@@ -26,7 +26,7 @@ if ((basename($_SERVER['PHP_SELF']) == "reports.php") && $_SESSION['userType'] !
     header("Location: index.php?logout");
 }
 
-if ($_SESSION['userType'] == "Admin"){
+if (isset($_GET['logout']) && $_SESSION['userType'] == "Admin"){
     $showReports="";
 }
 else{
