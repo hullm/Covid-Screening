@@ -1,7 +1,9 @@
 # Covid-Screening
-Screening form for Covid 19 symptoms.  
+This is a screening form for Covid 19 symptoms.  It asks you questions to see if you are risk for entering the school.  This connects to the NY state health site to retrieve the list of restricted sites, as well as the CDC site to pull the most current list of symptoms.  If you pass the questionnaire you're granted access to the building otherwise you're denied access.  When you submit the form  your contact information is logged as well as the results of the screening survey.  Data older then 120 days is purged automatically.  More information about what data is collected is available in the Privacy Policy.  
 ![Login Screen](https://covid.lkgeorge.org/images/loginscreen.png)
-Created by Matt Hull and Dane Davis, this is still in development.  We currently have the user portion working so people can check in using the system.  The administrative side needs to be built next.
+Created by Matt Hull and Dane Davis.  
+
+![Login Screen](https://covid.lkgeorge.org/images/reports.png)
 
 # Requirements
 Covid Screening was built on a server running Ubuntu 20.04 Server, Apache 2.4.41, PHP 7.4.3, and MariaDB 15.1.  In order to ensure compatibility, create a server running Ubuntu 20.04 Server with a static IP address, Internet access, and ssh access.  If you want to access it from the web you'll need to open port 80 and optionally port 443 if you choose to add a certificate.  You'll also need to create DNS entries for the server.
@@ -222,9 +224,13 @@ Set the values in the config file.
 * **sites**: The sites that people will check in to.
 * **title**: The title of the webpage.
 * **logintext**: The message tha appears on the login screen
+* **admins**: Comma separated list of usernames who will act as administrators.  Users in this list will be able to create the database and view reports.  You need to have at least one administrator.
+* **sitekey**: reCAPTCHA v3 site key, more information below in reCAPTCHA section. 
+* **secretkey**: reCAPTCHA v3 secret key, more information below in reCAPTCHA section.
+* **score**: Score used to determine if the person submitting is a robot or human.
 
 When you're done press control+x to exit, answer y to same, and enter to accept the file name.
-![Config File](https://covid.lkgeorge.org/images/config.png)
+![Config File](https://covid.lkgeorge.org/images/config2.png)
 
 If you chose to store config.ini in a different location you need to edit config.php to tell it where the config file is located.  Open includes/config.php and set the path to the config file.
 ```bash
@@ -265,7 +271,11 @@ sudo certbot --apache
 This will start a wizard where you'll be asked a few question.  You'll be asked to enter an email address, to agree to the terms, if you want to share your email, and asked for the site's name.  After that it will verify you have ownership of the domain by placing some test files on the site.  If it can then browse to those files it knows you have ownership.  After a clean up you'll be asked if you want to redirect all requests to HTTPS.  When done you're site will be secured.
 
 # Optional Step - Enabling reCAPTCHA v3
-Coming soon, the ability to add a CAPTCHA to the visitor form.
+You can enable the reCAPTCHA setting on the site for the visitor form.  This will prevent random bots from filling out the form.  In order to set this up you need to visit https://www.google.com/recaptcha/intro/v3.html and log in to the Admin Console.  Once signed in you will click the + to to create a new reCAPTCHA site.
+
+You'll need to provide a label for the site, then choose reCAPTCHA v3.  Then add your domain to the list and accept the Terms of Service.  You'll be asked if you want to receive alerts, once you decide click submit.
+
+After you submit you'll be presented with a site key and a secret key.  Copy those into the correct spots in the config.ini file.  Then choose the score threshold for determining if someone is human or a bot.  The default is .5,  the lower the number the higher the chance it's a bot.  The accepted values are 0.0 - 1.0 where 1.0 is most likely a human. After you set this up you'll see the reCAPTCHA badge in the lower right corner.
 
 # Updating the Covid Screening Site
 This is still under development.  After installing you can use git pull to update the site.
