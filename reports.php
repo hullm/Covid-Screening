@@ -5,7 +5,7 @@ include 'includes/submit.php';
 include 'includes/header.php';
 include 'includes/footer.php';
 $buildings = explode(',',$config['sites']);
-
+purgeOldData(120);
 ?>
 
 <form class="needs-validation" method="POST" action="reports.php" novalidate>

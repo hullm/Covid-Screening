@@ -1,8 +1,5 @@
 <?php 
 
-// Purge old data
-purgeOldData(120);
-
 // Add javascript to the body tag if needed
 if (basename($_SERVER['PHP_SELF']) == "login.php") {
     $showLogout="visibility:hidden;";
@@ -22,10 +19,15 @@ else{
     $reCAPTCHA="";
 }
 
+// Kick them out if they aren't an admin and they try to get to reports or setup.
 if ((basename($_SERVER['PHP_SELF']) == "reports.php") && $_SESSION['userType'] != "Admin") {
     header("Location: index.php?logout");
 }
+if ((basename($_SERVER['PHP_SELF']) == "setup.php") && $_SESSION['userType'] != "Admin") {
+    header("Location: index.php?logout");
+}
 
+// Only show the reports button if they are an admin
 if (isset($_SESSION['userType']) && $_SESSION['userType'] == "Admin"){
     $showReports="";
 }
@@ -51,8 +53,6 @@ else{
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs4/dt-1.10.21/b-1.6.2/b-colvis-1.6.2/b-html5-1.6.2/datatables.min.js"></script>
-    <!-- DataTables -->
-    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"> -->
     <link rel="stylesheet" href="assets/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.bootstrap4.css">
     <ling rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.css">

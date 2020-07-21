@@ -17,11 +17,12 @@ function db_connect() {
         $connection = @mysqli_connect($config['servername'],$config['username'],$config['password'],$config['dbname']);
     }
 
-    // Verify the connection was sucessful, if not send them to the setup page
+    // Verify the connection was successful, if not send them to the setup page
     if($connection == FALSE) {
         header("location:setup.php");
         die; 
     }
+
     return $connection;
 }
 
@@ -247,9 +248,6 @@ function isAuthenticated($userName, $password) {
 
     include 'includes/config.php';
 
-    // Connect to the database
-    $connection = db_connect();
-
     // Fix the username if they gave an email address
     if(strpos($userName, "@") == true){
         $userName = strstr($userName, '@', true);
@@ -263,11 +261,14 @@ function isAuthenticated($userName, $password) {
     ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
     if (strlen($password) > 0){
 
+        // Connect to Active Directory with the username and password provided by the user
         $ADConnection = @ldap_bind($ldap, $netbiosName, $password);
 
+        // If it worked then they provided the right info, grab information about them from Active Directory
         if ($ADConnection) {
+            
+            // Look up the user in Active Directory
             $result = ldap_search($ldap,$config['rootDN'],"(sAMAccountName=$userName)");
-
             $userLookup = ldap_get_entries($ldap, $result);
             
             // If the user is found create a session
@@ -280,19 +281,11 @@ function isAuthenticated($userName, $password) {
                 else {
                     $_SESSION["userType"]="Employee";
                 }
-                
-                // Prepare the variables for the database query
-                $fixedUserName = mysqli_real_escape_string($connection,$userLookup[0]["samaccountname"][0]);
-                $sql = "SELECT UserType FROM People WHERE UserName='". $fixedUserName. "';";
-                if ($connection->query($sql) === FALSE) {
-                    echo $sql. "<br />";
-                    echo "Failed to query the database...";
-                }
-                $results = $connection->query($sql);
 
-                if ($results->num_rows > 0) {
-                    $row = $results->fetch_assoc();
-                    if ($row['UserType'] == "Admin" ) {
+                // Find out if the user is an admin
+                $admins = explode(',', $config['admins']);
+                foreach($admins as $admin) {
+                    if (strtolower($admin) == strtolower($userName)){
                         $_SESSION["userType"]="Admin";
                     } 
                 }
@@ -305,22 +298,24 @@ function isAuthenticated($userName, $password) {
                 $_SESSION["loggedIn"] = TRUE;
             }
 
+            // Close the connection to Active Directory
             @ldap_close($ldap);
 
             return TRUE;
 
         } 
         else {
-            return FALSE;
+            return FALSE; //Unable to connect to Active Directory with the username and password provided
         }
     } 
     else {
-        return FALSE;
+        return FALSE; // The password was blank, if a blank password is passed it will succeed for stupid reasons
     }
 
 }
 
 function visitorSignIn($firstName, $lastName, $email){
+
     // Set session variables for visitor sign in.  No authentication required
     $_SESSION["loggedIn"] = TRUE;
     $_SESSION["userName"] = $firstName.$lastName."_visitor";
@@ -331,6 +326,8 @@ function visitorSignIn($firstName, $lastName, $email){
 }
 
 function logout() {
+
+    // Set the session variables to empty strings.
     $_SESSION["loggedIn"] = FALSE;
     $_SESSION["userName"] = "";
     $_SESSION["firstName"] = "";

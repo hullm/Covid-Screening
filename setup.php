@@ -1,6 +1,7 @@
 <?php
 include 'includes/config.php';
 include 'includes/functions.php';
+include 'includes/header.php';
 
 // Create connection to the database server, not the database
 $conn = new mysqli($config['servername'],$config['username'],$config['password']);
@@ -76,3 +77,5 @@ echo "Database upgraded successfully <br />";
 
 ?>
 <a href="login.php">View the site</a>
+
+<?php include 'includes/footer.php'; ?>

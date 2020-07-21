@@ -1,8 +1,8 @@
 [database]
-servername = localhost
-username = username
-password = password
-dbname = covid
+servername = "localhost"
+username = "username"
+password = "password"
+dbname = "covid"
 
 [active directory]
 DC = "server.domain.com"
@@ -14,7 +14,9 @@ studentOU = "OU=Students,DC=domain,DC=com"
 sites = "Elementary School,High School"
 title = "Covid Screening"
 logontext = "School District's Daily Health Screening Questionnaire."
+admins = ""
 
 [reCAPTCHA Settings]
-sitekey=""
-secretkey=""
+sitekey = ""
+secretkey = ""
+score = "0.5"

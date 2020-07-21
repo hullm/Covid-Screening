@@ -45,7 +45,7 @@ if (basename($_SERVER['PHP_SELF']) == "login.php") {
             $recaptcha = json_decode($recaptcha);
 
             // Take action based on the score returned:
-            if ($recaptcha->score >= 0.5) {
+            if ($recaptcha->score >= $config['score']) {
                 visitorSignIn($_POST["firstname"], $_POST["lastname"], $_POST["email"]);
                 header("location:index.php");
                 die;
