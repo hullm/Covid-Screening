@@ -282,8 +282,12 @@ You'll need to provide a label for the site, then choose reCAPTCHA v3.  Then add
 
 After you submit you'll be presented with a site key and a secret key.  Copy those into the correct spots in the config.ini file.  Then choose the score threshold for determining if someone is human or a bot.  The default is .5,  the lower the number the higher the chance it's a bot.  The accepted values are 0.0 - 1.0 where 1.0 is most likely a human. After you set this up you'll see the reCAPTCHA badge in the lower right corner.
 
+# Optional Step - Adding a QR Code
+Visitors may not want to use a dirty school device to sign in.  You can add a QR code to the login screen so visitors can easily use their personal devices to access the form.  Place a file named qrcode.png in the images folder and it will appear in the login screen. 
+
 # Updating the Covid Screening Site
-This is still under development.  After installing you can use git pull to update the site.
+After installing you can use git pull to update the site.
 ```code
 cd /var/www/html
 sudo git pull
+```

@@ -38,7 +38,11 @@ include 'includes/header.php';
     <div class="container">
         <div class="row justify-content-center" style="padding-top:4%;">
             <div class="col-16 text-center">
-                
+            <?php 
+                clearstatcache();
+                if (file_exists("images/qrcode.png")) {
+                    echo "<img src=\"images/qrcode.png\" />";
+                } ?>
             </div>
         </div>
     </div>
