@@ -190,5 +190,4 @@ $(document).ready(function() {
     });
     table.columns([1]).visible(false);
 });
-
 </script>

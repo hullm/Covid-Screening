@@ -244,6 +244,25 @@ function getReportResults($startDate, $endDate, $userType, $building, $hasPassed
     return $results;
 }
 
+function getMissingReports(){
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Get the list of users who didn't submit yet today
+    $sql = "SELECT UserName,FirstName,LastName,Email,PhoneNumber,UserType FROM People WHERE LastCheckin<CURDATE();";
+
+    // Look up the data
+    if ($connection->query($sql) === FALSE) {
+        echo $sql. "<br />";
+        echo "Failed to query the database...";
+    }
+    $results = $connection->query($sql);
+
+    return $results;
+}
+
+
 function isAuthenticated($userName, $password) {
 
     include 'includes/config.php';

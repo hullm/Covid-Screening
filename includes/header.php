@@ -30,9 +30,11 @@ if ((basename($_SERVER['PHP_SELF']) == "setup.php") && $_SESSION['userType'] != 
 // Only show the reports button if they are an admin
 if (isset($_SESSION['userType']) && $_SESSION['userType'] == "Admin"){
     $showReports="";
+    $showMissing="";
 }
 else{
     $showReports="visibility:hidden;";
+    $showMissing="visibility:hidden;";
 }
 ?>
 
@@ -78,8 +80,9 @@ else{
             <?php echo $showTypewriter; ?>
         </div>
         <div class="p-2" style="padding-right: 20px !important;">
-            <a href="reports.php"><i class="fas fa-list-alt" style="font-size:36px; color:white; padding-right:20px; <?php echo $showReports; ?>"></i></a>
-            <a href="index.php?logout"><i class="fas fa-sign-out-alt" style="font-size:36px; color:white; <?php echo $showLogout; ?>"></i></a>
+            <a href="missing.php" data-toggle="tooltip" title="View Missing Check Ins"><i class="fas fa-ghost" style="font-size:36px; color:white; padding-right:20px; <?php echo $showMissing; ?>"></i></a>
+            <a href="reports.php" data-toggle="tooltip" title="View Reports"><i class="fas fa-list-alt" style="font-size:36px; color:white; padding-right:20px; <?php echo $showReports; ?>"></i></a>
+            <a href="index.php?logout" data-toggle="tooltip" title="Log Out"><i class="fas fa-sign-out-alt" style="font-size:36px; color:white; <?php echo $showLogout; ?>"></i></a>
         </div>
     </div>
 </div>
