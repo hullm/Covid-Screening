@@ -143,6 +143,8 @@ purgeOldData(120);
             </table>
         </div>
     </div>
+    <br />
+    <br />
 <?php }?>
 
 <script>
