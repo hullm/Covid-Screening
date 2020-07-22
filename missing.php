@@ -12,6 +12,9 @@ $results = getMissingReports();
 
 <div class = "container">
     <div class = "row justify-content-md-center">
+        <h4>Today's Missing Check Ins</h>
+    </div>
+    <div class = "row justify-content-md-center">
         <table id="missing" class="table table-striped table-dark hover">
             <thead>
                 <tr>
