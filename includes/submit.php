@@ -7,6 +7,8 @@ if(isset($_GET['logout'])){
 
 // Check and see if the user submitted the form on the login page
 if (basename($_SERVER['PHP_SELF']) == "login.php") {
+    
+    // If they provided the right username and password then send them to the form, if not show access denied message
     if (isset($_POST["employee_submit"])){
         if (isAuthenticated($_POST["username"], $_POST["password"])) {
             header("location:index.php");
@@ -33,18 +35,19 @@ if (basename($_SERVER['PHP_SELF']) == "login.php") {
     // Check for visitor sign in
     if (isset($_POST["visitor_submit"])){
 
+        // Check for a reCAPTCH posting
         if (isset($_POST['recaptcha_response'])) {
 
-            // Build POST request:
+            // Build POST request for the reCAPTCHA
             $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
             $recaptcha_secret = $config['secretkey'];
             $recaptcha_response = $_POST['recaptcha_response'];
 
-            // Make and decode POST request:
+            // Make and decode POST request
             $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
             $recaptcha = json_decode($recaptcha);
 
-            // Take action based on the score returned:
+            // Take action based on the score returned if it was ok sign them in as a guest and send them to the form
             if ($recaptcha->score >= $config['score']) {
                 visitorSignIn($_POST["firstname"], $_POST["lastname"], $_POST["email"]);
                 header("location:index.php");
@@ -66,6 +69,7 @@ if (basename($_SERVER['PHP_SELF']) == "login.php") {
                 <?php
             }
         } 
+        // reCAPTCHA isn't enabled so just sign them in and send them to the form
         else {
             visitorSignIn($_POST["firstname"], $_POST["lastname"], $_POST["email"]);
             header("location:index.php");
@@ -200,5 +204,4 @@ if (basename($_SERVER['PHP_SELF']) == "reports.php"){
         $resultsFailedSelected = "";
     }
 }
-
 ?>

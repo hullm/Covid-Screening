@@ -7,7 +7,6 @@
                 <div class="row">
                     <div class="tab"><h4>Please enter your phone number</h4>
                         <p><input name="phone_number" placeholder="(123) 456-7890" value="<?php echo getPhonenumber($_SESSION["userName"]);?>" oninput="this.className = ''" onblur="formatPhone(this);"></p>
-                        <!-- <p><input name="phone_number" placeholder="(123) 456-7890" value="<?php echo getPhonenumber($_SESSION["userName"]);?>" oninvalid=";"></p> -->
                         <label for building> <h4>Please select a building</h4></label>
                             <select name = "building" class = "form-control" required>
                                 <option value="" disable selected>Select a building...</option>
@@ -32,7 +31,7 @@
                         </div>
                     </div>
                 </div>
-                    <!-- Symptoms Tab -->
+                <!-- Symptoms Tab -->
                 <div class="tab"><h4>Are you experiencing any other COVID-19 symptoms? <?php echo getSymptoms(); ?></h4>
                     <div class="row">
                         <div class="radio">
@@ -49,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                <!-- One "tab" for each step in the form: -->
+                <!-- Test Positive Tab -->
                 <div class="tab"><h4>Have you tested positive through a diagnostic test for COVID-19 in the past 14 days?</h4>
                     <div class="row">
                         <div class="radio">
@@ -220,6 +219,7 @@ function fixStepIndicator(n) {
 }
 
 function formatPhone(obj) {
+    // This function will make sure the phone number is 10 digits and then it will format it properly
     var numbers = obj.value.replace(/\D/g, ''),
         char = {0:'(',3:') ',6:' - '};
     obj.value = '';

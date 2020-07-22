@@ -3,6 +3,7 @@ include 'includes/config.php';
 include 'includes/functions.php';
 include 'includes/submit.php';
 include 'includes/header.php';
+include 'includes/footer.php';
 
 // If the user is visiting for the first time today we'll show 
 // them the form, otherwise we'll show them their result.
@@ -15,6 +16,4 @@ if (alreadySubmitted($currentUser)) {
 } else {
     include 'includes/form.php';
 }
-
-include 'includes/footer.php';
 ?>

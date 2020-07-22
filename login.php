@@ -11,9 +11,6 @@ include 'includes/header.php';
         </button>
     </div>
 
-    <!-- <div class="alert alert-danger" role="alert">
-        This is a danger alert—check it out!
-    </div> -->
     <!-- Login Buttons -->
     <div class="container">
         <div class="row justify-content-center" style="padding-top:4%;">

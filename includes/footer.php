@@ -1,6 +1,6 @@
 <?php 
 include 'includes/privacy.php';
-include 'includes/easteregg.php';
+include 'includes/easteregg.php'; //Shhhh it's a secret...
 ?>
 <div class="footer">
     <button id="privacy_policy"
@@ -10,7 +10,6 @@ include 'includes/easteregg.php';
         Privacy Policy
     </button>
     &copy;2020 Lake George CSD
-
     <button id="easter_egg"
         class="btn btn-sm btn-link"
         data-toggle="modal"
@@ -19,7 +18,8 @@ include 'includes/easteregg.php';
 </div>
 </body>
 </html>
-<!-- Handles typewriter effect for subtitle -->
+
+<!-- Handles typewriter effect for on the login page -->
 <script>
 var i = 0;
 var txt = '<?php echo str_replace("'","\'",$config['logontext']); ?>';

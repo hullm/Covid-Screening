@@ -1,6 +1,6 @@
 <?php 
 
-// Add javascript to the body tag if needed
+// Show the typewriter and reCAPTCHA on the login page, and remove the logout.
 if (basename($_SERVER['PHP_SELF']) == "login.php") {
     $showLogout="visibility:hidden;";
     $onLoad="onload=typeWriter()";
