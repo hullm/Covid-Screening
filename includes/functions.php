@@ -195,10 +195,10 @@ function getReportResults($startDate, $endDate, $userType, $building, $hasPassed
     // Get the correct value for the userType
     switch ($userType) {
         case "Employee":
-            $userTypeQuery = "UserType='Employee'";
+            $userTypeQuery = "(UserType='Employee' OR UserType='Admin')";
             break;
         case "Admin":
-            $userTypeQuery = "UserType='Employee'";
+            $userTypeQuery = "(UserType='Employee' OR UserType='Admin')";
         case "Student":
             $userTypeQuery = "UserType='Student'";
             break;
