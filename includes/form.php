@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <!-- Travel Tab -->
-                <div class="tab"><h4>Have you traveled internationally or to any of the restricted states?  <?php echo getStates();?></h4>
+                <div class="tab"><h4>Have you traveled internationally or to any of the restricted states in the last 14 days?  <?php echo getStates();?></h4>
                     <div class="row">
                         <div class="radio">
                             <label>
