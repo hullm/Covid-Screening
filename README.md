@@ -188,6 +188,11 @@ If you're not in New York you can search timezones with the list-timezones optio
 timedatectl list-timezones | grep America
 ```
 
+After you set your timezone restart MariaDB.
+```bash
+sudo systemctl restart mysql
+```
+
 # Step 6 - Install Covid Screening
 
 We're going to install the Covid Screening site to the root of the web server.  Before we can do that we need to remove the default index.html file
