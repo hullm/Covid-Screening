@@ -2,6 +2,12 @@
 
 // This file contains the functions needed for the site.
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require '/var/www/PHPMailer/src/Exception.php';
+require '/var/www/PHPMailer/src/PHPMailer.php';
+require '/var/www/PHPMailer/src/SMTP.php';
+
 function db_connect() {
 
     // Use this to connect to the database
@@ -348,7 +354,8 @@ function isAuthenticated($userName, $password) {
                 }
 
                 // Find out if the user is an admin
-                $admins = explode(',', $config['admins']);
+                $admins = explode(',', 
+                ['admins']);
                 foreach($admins as $admin) {
                     if (strtolower($admin) == strtolower($userName)){
                         $_SESSION["userType"]="Admin";
@@ -538,4 +545,59 @@ function getSymptoms(){
         return ""; // The website didn't have any data
     }
 }
+
+function entryDeniedEmail($firstName, $lastName, $building){
+
+    // Get settings from config
+    include 'includes/config.php';
+    $config = parse_ini_file($configFile); 
+    $host = $config['host'];
+    $smtpAuth = $config['smtpAuth'];
+    $port = $config['port'];
+    $recipients = explode(',',$config['mailRecipients']);
+    $fromAddress = $config['fromAddress'];
+    $fromName = $config['fromName'];
+
+    // Set variables for email
+    $subject = "ALERT: Building Entry Denied";
+    $message = $firstName." ".$lastName." has been denied access at the ".$building.".";
+    
+    $mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+    try {
+        //Server settings
+        // $mail->SMTPDebug = 2;                                 // Enable verbose debug output
+        $mail->isSMTP();                                      // Set mailer to use SMTP
+        $mail->Host = $host;  // Specify main and backup SMTP servers
+        $mail->SMTPAuth = $smtpAuth;                               // Enable SMTP authentication
+        $mail->Port = $port;                                    // TCP port to connect to
+
+
+        $mail->SMTPOptions = array(
+          'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+          )
+        );
+
+        //Recipients
+        $mail->setFrom($fromAddress, $fromName);
+        for ($i=0; $i<count($recipients); $i++){
+            $mail->addAddress($recipients[$i]);
+        }
+        // $mail->addAddress('hullm@lkgeorge.org');
+        // $mail->addAddress('davisd@lkgeorge.org');
+
+        //Content
+        $mail->isHTML(true);                                  // Set email format to HTML
+        $mail->Subject = "$subject";
+        $mail->Body    = $message;
+        $mail->send();
+        // echo 'Message has been sent';
+    }
+    catch (Exception $e) {
+        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+    }
+  }
+
 ?>

@@ -97,6 +97,11 @@ if (basename($_SERVER['PHP_SELF']) == "index.php") {
         // Determine if the users passed the checks
         if ($temperature <> "no" || $symptoms <> "no" || $tested <> "no" || $contact <> "no" || $travel <> "no"){
             $hasPassed = "FALSE";
+            
+            // Send email if the user fails the checks.
+            if($config['host']!=""){
+                entryDeniedEmail($_SESSION['firstName'], $_SESSION['lastName'],$building);
+            }
         } 
         else {
             $hasPassed = "TRUE";
