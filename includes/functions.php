@@ -251,8 +251,8 @@ function getReportResults($startDate, $endDate, $userType, $building, $hasPassed
         "DateSubmitted<='". $endDate. "' AND ".
         $hasPassQuery. " AND ".
         $buildingQuery. " AND ".
-        $userTypeQuery. ";";
-
+        $userTypeQuery. " ".
+        "ORDER BY LastName, FirstName;";
     // Look up the data and output the SQL string if it fails
     if ($connection->query($sql) === FALSE) {
         echo $sql. "<br />";
@@ -264,15 +264,34 @@ function getReportResults($startDate, $endDate, $userType, $building, $hasPassed
     return $results;
 }
 
-function getMissingReports(){
+function getMissingResults($building ){
 
-    // Finds out who hasn't submitted today
+    // When you use the missing page and perform a query this function is called to get the data.
 
     // Connect to the database
     $connection = db_connect();
 
-    // Get the list of users who didn't submit yet today
-    $sql = "SELECT UserName,FirstName,LastName,Email,PhoneNumber,UserType FROM People WHERE LastCheckin<CURDATE();";
+    // Prepare the variables for the database query
+    $fixedBuilding = mysqli_real_escape_string($connection,$building);
+    
+    // Set the SQL WHERE clause for the UserType
+    $userTypeQuery = "(People.UserType='Employee' OR People.UserType='Admin')";
+    
+    // Set the SQL WHERE clause for the building
+    if ($building!="All") {
+        $buildingQuery = "Tracking.Building='". $fixedBuilding. "'";
+    }
+    else {
+        $buildingQuery = "Tracking.Building IS NOT NULL";
+    }
+
+    // Build the SQL string to get the results
+    $sql = "SELECT DISTINCT People.UserName,People.FirstName,People.LastName,People.Email,People.PhoneNumber,People.UserType,Tracking.Building
+        FROM People INNER JOIN Tracking ON People.UserName=Tracking.UserName WHERE ". 
+        "People.LastCheckIn<CURDATE() AND ".
+        $buildingQuery. " AND ".
+        $userTypeQuery. " ".
+        "ORDER BY People.LastName, People.FirstName;";
 
     // Look up the data and output the SQL string if it fails
     if ($connection->query($sql) === FALSE) {
@@ -284,7 +303,6 @@ function getMissingReports(){
     // Return the results
     return $results;
 }
-
 
 function isAuthenticated($userName, $password) {
 

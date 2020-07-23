@@ -131,8 +131,6 @@ if (basename($_SERVER['PHP_SELF']) == "reports.php"){
         // Set the default values for the form elements
         $fromDateValue = $fromDate;
         $toDateValue = $toDate;
-
-        // Choose which option is enabled in the UserType dropdown
         $userTypeAllSelected = "";
         $employeeSelected = "";
         $studentSelected = "";
@@ -142,6 +140,8 @@ if (basename($_SERVER['PHP_SELF']) == "reports.php"){
         $resultsAllSelected = "";
         $resultsPassedSelected = "";
         $resultsFailedSelected = "";
+        
+        // Choose which option is enabled in the UserType dropdown
         switch ($userType) {
             case "Employee":
                 $employeeSelected = "selected";
@@ -196,6 +196,36 @@ if (basename($_SERVER['PHP_SELF']) == "reports.php"){
         $resultsAllSelected = "selected";
         $resultsPassedSelected = "";
         $resultsFailedSelected = "";
+    }
+}
+
+// Check if the user submitted the form on the missing page 
+if (basename($_SERVER['PHP_SELF']) == "missing.php"){
+    if (isset($_POST["submit"])){
+
+        // Get the values from the form
+        $building = $_POST["building"];
+
+        // Query the database
+        $results = getMissingResults($building);
+
+        // Set the default values for the form elements
+        $buildingValue = "";
+        $buildingAllSelected = "";
+
+        // Set the defaults for building
+        $buildingValue = $building;
+        if ($buildingValue == "All") {
+            $buildingAllSelected = "selected";
+        }
+        else {
+            $buildingAllSelected = "";
+        }
+    }
+    else {
+
+        // Set the default values for the form elements
+        $buildingAllSelected = "selected";
     }
 }
 ?>

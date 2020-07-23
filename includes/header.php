@@ -2,7 +2,8 @@
 
 // Show the typewriter and reCAPTCHA on the login page, and remove the logout.
 if (basename($_SERVER['PHP_SELF']) == "login.php") {
-    $showLogout="visibility:hidden;";
+    //$showLogout="visibility:hidden;";
+    $showLogout="False";
     $onLoad="onload=typeWriter()";
     $showTypewriter="<p id='subtitle' style='color:white; text-shadow:2px 2px 5px black;'></p>";
     if ($config['sitekey']!='') {
@@ -13,7 +14,7 @@ if (basename($_SERVER['PHP_SELF']) == "login.php") {
     }
 }
 else{
-    $showLogout="";
+    $showLogout="True";
     $onLoad="";
     $showTypewriter="";
     $reCAPTCHA="";
@@ -29,12 +30,36 @@ if ((basename($_SERVER['PHP_SELF']) == "setup.php") && $_SESSION['userType'] != 
 
 // Only show the reports button if they are an admin
 if (isset($_SESSION['userType']) && $_SESSION['userType'] == "Admin"){
-    $showReports="";
-    $showMissing="";
+    // $showReports="";
+    // $showMissing="";
+    $isAdmin="True";
 }
 else{
-    $showReports="visibility:hidden;";
-    $showMissing="visibility:hidden;";
+    // $showReports="visibility:hidden;";
+    // $showMissing="visibility:hidden;";
+    $isAdmin="False";
+}
+
+// Set the active page in the nav bar
+$navHomeActive = "";
+$navHomeSpan = "";
+$navReportsActive = "";
+$navReportsSpan = "";
+$navMissingActive = "";
+$navMissingSpan = "";
+switch (basename($_SERVER['PHP_SELF'])) {
+    case "index.php":
+        $navHomeActive = "active";
+        $navHomeSpan = "<span class=\"sr-only\">(current)</span>";
+        break;
+    case "reports.php":
+        $navReportsActive = "active";
+        $navReportsSpan = "<span class=\"sr-only\">(current)</span>";
+        break;
+    case "missing.php":
+        $navMissingActive = "active";
+        $navMissingSpan = "<span class=\"sr-only\">(current)</span>";
+        break;
 }
 ?>
 
@@ -69,20 +94,43 @@ else{
 <body id="main" <?php echo $onLoad; ?>>
 
 <!-- Logo -->
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="index.php"><strong><?php echo str_replace("'","\'",$config['title']); ?></strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item <?php echo $navHomeActive;?>">
+                    <a class="nav-link" href="index.php">Home <?php echo $navHomeSpan; ?></a>
+                </li>
+        <?php   if($isAdmin == "True") {?>
+                <li class="nav-item <?php echo $navReportsActive;?>">
+                    <a class="nav-link" href="reports.php">Reports <?php echo $navReportsSpan; ?></a>
+                </li>
+                <li class="nav-item <?php echo $navMissingActive;?>">
+                    <a class="nav-link" href="missing.php">Missing <?php echo $navMissingSpan; ?></a>
+                </li>
+        <?php   } 
+                if ($showLogout == "True") { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.php?logout">Logout</a>
+                </li>
+        <?php   } ?>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+
+
 <div class ="container-fluid">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-center">
         <div class="p-2">
-            <a href="index.php"><img src="/images/logo.png"></a>
-        </div>
-        
-        <div class="p-2">
-            <h1 style="color:white; padding-left:20px;"><?php echo str_replace("'","\'",$config['title']); ?></h1>
             <?php echo $showTypewriter; ?>
-        </div>
-        <div class="p-2" style="padding-right: 20px !important;">
-            <a href="missing.php" data-toggle="tooltip" title="View Missing Check Ins"><i class="fas fa-ghost" style="font-size:36px; color:white; padding-right:20px; <?php echo $showMissing; ?>"></i></a>
-            <a href="reports.php" data-toggle="tooltip" title="View Reports"><i class="fas fa-list-alt" style="font-size:36px; color:white; padding-right:20px; <?php echo $showReports; ?>"></i></a>
-            <a href="index.php?logout" data-toggle="tooltip" title="Log Out"><i class="fas fa-sign-out-alt" style="font-size:36px; color:white; <?php echo $showLogout; ?>"></i></a>
         </div>
     </div>
 </div>

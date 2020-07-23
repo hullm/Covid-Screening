@@ -174,7 +174,7 @@ function validateForm() {
         w = x[currentTab].getElementsByTagName("select");
     }
     else {
-        w="This really doesn't do a thing but is just in here because it's a cheap hack";
+        w="Created by Matt Hull and Dane Davis.";
     }
 
     if ((currentTab == 0 && y[0].value.length != 16) || (y[0].value=="") || w[0].value==""){

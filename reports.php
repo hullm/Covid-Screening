@@ -7,95 +7,96 @@ include 'includes/footer.php';
 $buildings = explode(',',$config['sites']);
 purgeOldData(120);
 ?>
-
-<form class="needs-validation" method="POST" action="reports.php" novalidate>
-    <div class="form-row justify-content-around">
-        <div class="col-md-2 mb-5">
-            <label for="fromdate">From Date</label>
-            <input type="date" class="form-control" name="from_date" id="from_date" placeholder="mm/dd/yyyy" value="<?php echo $fromDateValue;?>" required>
-            <div class="valid-feedback">
-                Looks good!
-            </div>
-            <div class="invalid-feedback">
-                Please select a date!
-            </div>
-        </div>
-        <div class="col-md-2 mb-5">
-            <label for="todate">To Date</label>
-            <input type="date" class="form-control" name="to_date" id="to_date" placeholder="mm/dd/yyyy" value="<?php echo $toDateValue;?>" required>
-            <div class="valid-feedback">
-                Looks good!
-            </div>
-            <div class="invalid-feedback">
-                Please select a date!
-            </div>
-        </div>
-        <div class="col-md-2 mb-5">
-            <label for="usertype">User Type</label>
-            <div class="input-group">
-                <select class="custom-select form-control" name="user_type" id="user_type" required>
-                    <option value="All" <?php echo $userTypeAllSelected;?>>All</option>
-                    <option value="Employee" <?php echo $employeeSelected;?>>Employee</option>
-                    <option value="Student" <?php echo $studentSelected;?>>Student</option>
-                    <option value="Visitor" <?php echo $visitorSelected;?>>Visitor</option>
-                </select>
+<div class="container">
+    <form id="reportsForm" class="needs-validation" method="POST" action="reports.php" novalidate>
+        <div class="form-row justify-content-around">
+            <div class="col-md-2 mb-5">
+                <label for="fromdate">From Date</label>
+                <input type="date" class="form-control" name="from_date" id="from_date" placeholder="mm/dd/yyyy" value="<?php echo $fromDateValue;?>" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
                 <div class="invalid-feedback">
-                    Please choose a user type.
+                    Please select a date!
                 </div>
             </div>
-        </div>
-        <div class="col-md-2 mb-5">
-            <label for="usertype">Building</label>
-            <div class="input-group">
-                <select class="custom-select form-control" name="building" id="building" required>
-                    <option value="All" <?php echo $buildingAllSelected; ?>>All</option>
-                    <?php 
-                    foreach($buildings as $location ) {
-                        if ($location ==  $buildingValue){ 
-                            echo "<option value=\"". $location. "\" selected>". $location. "</option>";
-                        }
-                        else {
-                            echo "<option value=\"". $location. "\">". $location. "</option>";
-                        }
-                    }?>
-                </select>
+            <div class="col-md-2 mb-5">
+                <label for="todate">To Date</label>
+                <input type="date" class="form-control" name="to_date" id="to_date" placeholder="mm/dd/yyyy" value="<?php echo $toDateValue;?>" required>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
                 <div class="invalid-feedback">
-                    Please choose a building.
+                    Please select a date!
+                </div>
+            </div>
+            <div class="col-md-2 mb-5">
+                <label for="usertype">User Type</label>
+                <div class="input-group">
+                    <select class="custom-select form-control" name="user_type" id="user_type" required>
+                        <option value="All" <?php echo $userTypeAllSelected;?>>All</option>
+                        <option value="Employee" <?php echo $employeeSelected;?>>Employee</option>
+                        <option value="Student" <?php echo $studentSelected;?>>Student</option>
+                        <option value="Visitor" <?php echo $visitorSelected;?>>Visitor</option>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please choose a user type.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-5">
+                <label for="usertype">Building</label>
+                <div class="input-group">
+                    <select class="custom-select form-control" name="building" id="building" required>
+                        <option value="All" <?php echo $buildingAllSelected; ?>>All</option>
+                        <?php 
+                        foreach($buildings as $location ) {
+                            if ($location ==  $buildingValue){ 
+                                echo "<option value=\"". $location. "\" selected>". $location. "</option>";
+                            }
+                            else {
+                                echo "<option value=\"". $location. "\">". $location. "</option>";
+                            }
+                        }?>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please choose a building.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-5">
+                <label for="usertype">Results</label>
+                <div class="input-group">
+                    <select class="custom-select form-control" name="passed" id="passed" required>
+                        <option value="All" <?php echo $resultsAllSelected;?>>All</option>
+                        <option value="True" <?php echo $resultsPassedSelected;?>>Passed</option>
+                        <option value="False" <?php echo $resultsFailedSelected;?>>Failed</option>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please choose a building.
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-2 mb-5">
-            <label for="usertype">Results</label>
-            <div class="input-group">
-                <select class="custom-select form-control" name="passed" id="passed" required>
-                    <option value="All" <?php echo $resultsAllSelected;?>>All</option>
-                    <option value="True" <?php echo $resultsPassedSelected;?>>Passed</option>
-                    <option value="False" <?php echo $resultsFailedSelected;?>>Failed</option>
-                </select>
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please choose a building.
-                </div>
+        <div class="form-row justify-content-md-center">
+            <div class="col-md-2 mb-2">
+                <button class="btn btn-success mx-auto d-block" type="submit" name="submit">Submit form</button>
+            </div>
+            <div class="col-md-2 mb-2"> 
+                <button class="btn btn-danger mx-auto d-block" type="reset" name="reset">Reset Form</button>
             </div>
         </div>
-    </div>
-    <div class="form-row justify-content-md-center">
-        <div class="col-md-2 mb-2">
-            <button class="btn btn-success" type="submit" name="submit">Submit form</button>
-        </div>
-        <div class="col-md-2 mb-2"> 
-            <button class="btn btn-danger" type="reset" name="reset">Reset Form</button>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
 <?php if(isset($_POST["submit"]) AND $results->num_rows>0){?>
     <div class = "container">
         <div class = "row justify-content-md-center">
@@ -188,6 +189,13 @@ $(document).ready(function() {
             }
         ]
     });
-    table.columns([1]).visible(false);
+    var width = window.innerWidth;
+
+    if (width<480) {
+        table.columns([1,4,5,6,7,8]).visible(false);
+    }
+    else {
+        table.columns([1]).visible(false);
+    }
 });
 </script>
