@@ -1,9 +1,10 @@
 # Covid-Screening
 This is a screening form for Covid 19 symptoms.  It asks you questions to see if you are risk for entering the school.  This connects to the NY state health site to retrieve the list of restricted sites, as well as the CDC site to pull the most current list of symptoms.  If you pass the questionnaire you're granted access to the building otherwise you're denied access.  When you submit the form  your contact information is logged as well as the results of the screening survey.  Data older then 120 days is purged automatically.  More information about what data is collected is available in the Privacy Policy.  
-![Login Screen](https://covid.lkgeorge.org/images/loginscreen.png)
+![Login Screen](https://covid.lkgeorge.org/images/loginscreen1.png)
 Created by Matt Hull and Dane Davis.  
 
-![Login Screen](https://covid.lkgeorge.org/images/reports.png)
+![Reports Screen](https://covid.lkgeorge.org/images/reports1.png)
+![Missing Screen](https://covid.lkgeorge.org/images/missing.png)
 
 # Requirements
 Covid Screening was built on a server running Ubuntu 20.04 Server, Apache 2.4.41, PHP 7.4.3, and MariaDB 15.1.  In order to ensure compatibility, create a server running Ubuntu 20.04 Server with a static IP address, Internet access, and ssh access.  If you want to access it from the web you'll need to open port 80 and optionally port 443 if you choose to add a certificate.  You'll also need to create DNS entries for the server.
