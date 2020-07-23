@@ -133,30 +133,27 @@ if (basename($_SERVER['PHP_SELF']) == "reports.php"){
         $toDateValue = $toDate;
 
         // Choose which option is enabled in the UserType dropdown
+        $userTypeAllSelected = "";
+        $employeeSelected = "";
+        $studentSelected = "";
+        $visitorSelected = "";
+        $buildingValue = "";
+        $buildingAllSelected = "";
+        $resultsAllSelected = "";
+        $resultsPassedSelected = "";
+        $resultsFailedSelected = "";
         switch ($userType) {
             case "Employee":
-                $userTypeAllSelected = "";
                 $employeeSelected = "selected";
-                $studentSelected = "";
-                $visitorSelected = "";
                 break;
             case "Student":
-                $userTypeAllSelected = "";
-                $employeeSelected = "";
                 $studentSelected = "selected";
-                $visitorSelected = "";
                 break;
             case "Visitor":
-                $userTypeAllSelected = "";
-                $employeeSelected = "";
-                $studentSelected = "";
                 $visitorSelected = "selected";
                 break;
             default:
                 $userTypeAllSelected = "selected";
-                $employeeSelected = "";
-                $studentSelected = "";
-                $visitorSelected = "";
                 break;
         }
 
@@ -170,21 +167,18 @@ if (basename($_SERVER['PHP_SELF']) == "reports.php"){
         }
 
         // Choose which option is enabled in the Passed dropdown
+        $resultsAllSelected = "selected";
+        $resultsPassedSelected = "";
+        $resultsFailedSelected = "";
         switch ($passed) {
             case "True":
-                $resultsAllSelected = "";
                 $resultsPassedSelected = "selected";
-                $resultsFailedSelected = "";
                 break;
             case "False":
-                $resultsAllSelected = "";
-                $resultsPassedSelected = "";
                 $resultsFailedSelected = "selected";
                 break;
             default:
                 $resultsAllSelected = "selected";
-                $resultsPassedSelected = "";
-                $resultsFailedSelected = "";
                 break;
         }
     }
