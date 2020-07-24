@@ -37,9 +37,15 @@ include 'includes/header.php';
             <div class="col-16 text-center">
             <?php 
                 clearstatcache();
-                if (file_exists("images/qrcode.png")) {
-                    echo "<img src=\"images/qrcode.png\" />";
-                } ?>
+                if (file_exists("images/qrcode.png")) { ?>
+                    <img src="images/qrcode.png" />" <br />
+                <?php
+                    if ($config['qrcodetext'] != "") { ?>
+                    <div class="qrcode">
+                        <?php echo $config['qrcodetext']; ?>
+                    </div>
+            <?php   } 
+                }   ?>
             </div>
         </div>
     </div>

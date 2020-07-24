@@ -584,8 +584,6 @@ function entryDeniedEmail($firstName, $lastName, $building){
         for ($i=0; $i<count($recipients); $i++){
             $mail->addAddress($recipients[$i]);
         }
-        // $mail->addAddress('hullm@lkgeorge.org');
-        // $mail->addAddress('davisd@lkgeorge.org');
 
         //Content
         $mail->isHTML(true);                                  // Set email format to HTML
