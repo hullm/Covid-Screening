@@ -168,14 +168,7 @@ mysql>EXIT;
 Bye
 ```
 
-# Step 4 - Install PHP LDAP Tools
-In order to authenticate using Active Directory we need to install the PHP LDAP tools.  After the tools are installed we need to restart Apache.
-```bash
-sudo apt -y install php-ldap
-sudo systemctl restart apache2
-```
-
-# Step 5 - Verify Your Timezone
+# Step 4 - Verify Your Timezone
 When people submit the form it will record the time they submitted.  You'll want to make sure the server's time zone is set properly so the times are correct.  First verify the time zone.
 ```bash
 timedatectl
@@ -196,7 +189,7 @@ After you set your timezone restart MariaDB.
 sudo systemctl restart mysql
 ```
 
-# Step 6 - Added EMail Support
+# Step 5 - Added EMail Support
 Now we will install PHPMailer so emails can be sent if wanted.  We will clone the repository into /var/www.
 
 ```bash
@@ -206,7 +199,7 @@ sudo git clone https://github.com/PHPMailer/PHPMailer
 
 Once installed you can add settings to the config.ini file to enable email.  At this point you would need an SMTP server that doesn't require authentication to relay your mail.  Authenticated SMTP servers may come at a later point.  When someone fails the survey an email will be sent to the appropriate people letting them know.
 
-# Step 7 - Install Covid Screening
+# Step 6 - Install Covid Screening
 
 We're going to install the Covid Screening site to the root of the web server.  Before we can do that we need to remove the default index.html file
 ```bash
