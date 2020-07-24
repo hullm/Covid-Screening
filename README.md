@@ -1,6 +1,6 @@
 # Covid-Screening
 This is a screening form for Covid 19 symptoms.  It asks you questions to see if you are risk for entering the school.  This connects to the NY state health site to retrieve the list of restricted sites, as well as the CDC site to pull the most current list of symptoms.  If you pass the questionnaire you're granted access to the building otherwise you're denied access.  When you submit the form  your contact information is logged as well as the results of the screening survey.  Data older then 120 days is purged automatically.  More information about what data is collected is available in the Privacy Policy.  
-![Login Screen](https://covid.lkgeorge.org/images/loginscreen1.png)
+![Login Screen](https://covid.lkgeorge.org/images/loginscreen2.png)
 Created by Matt Hull and Dane Davis.  
 
 ![Reports Screen](https://covid.lkgeorge.org/images/reports1.png)
@@ -223,20 +223,27 @@ Set the values in the config file.
 * **username**: This will probably be root, but if you created another account enter the username here.
 * **password**: The password for the SQL account being used.
 * **dbname**: The name of the database that will be created for this site.
-* **DC**: The FQDN or IP of a domain controller in your environment.
+* **DC**: The FQDN or IP address of a domain controller in your environment.
 * **netbios**: The NETBIOS name of your domain.
 * **rootDN**: The RootDN of your domain.
 * **studentOU**: The root OU that contains your students.
 * **sites**: The sites that people will check in to.
 * **title**: The title of the webpage.
-* **logintext**: The message tha appears on the login screen
+* **logintext**: The message tha appears on the login screen.
+* **qrcodetext**: The message tha appears under the QR code if you have one enabled.
 * **admins**: Comma separated list of usernames who will act as administrators.  Users in this list will be able to create the database and view reports.  You need to have at least one administrator.
 * **sitekey**: reCAPTCHA v3 site key, more information below in reCAPTCHA section. 
 * **secretkey**: reCAPTCHA v3 secret key, more information below in reCAPTCHA section.
 * **score**: Score used to determine if the person submitting is a robot or human.
+* **host**: The FQDN or IP address of an SMTP server.
+* **smtpAuth**: This is set to false at this point, a future version may support authentication, but not yet.
+* **port**: The SMTP port, default is 25.
+* **fromAddress**: The address from which emails will come.
+* **fromName**: The name on the email address from which emails will come.
+* **mailRecipients**: A comma separated list of email addresses who will receive an alert if someone fails the survey. 
 
 When you're done press control+x to exit, answer y to same, and enter to accept the file name.
-![Config File](https://covid.lkgeorge.org/images/config2.png)
+![Config File](https://covid.lkgeorge.org/images/config3.png)
 
 If you chose to store config.ini in a different location you need to edit config.php to tell it where the config file is located.  Open includes/config.php and set the path to the config file.
 ```bash
@@ -249,12 +256,19 @@ After the config files are setup open the site in a web browser. (http://*server
 
 If everything is setup properly the first time you log in it will redirect you to the setup page which will create the database.  If everything went well click View the site.
 
-![Database Created](https://covid.lkgeorge.org/images/dbcreated.png)
+![Database Created](https://covid.lkgeorge.org/images/dbcreated1.png)
 
 At this point the site is up and running, but you can install a couple other optional things that might help.
 
 # Optional Step - Install phpMyAdmin
-You can optionally install phpMyAdmin.  It will give you web access to manage the database.
+You can optionally install phpMyAdmin.  It will give you web access to manage the database.  You may run into a problem during the install.  To prevent it we'll disable password validation in MariaDB so you won't get the error.
+```bash
+mysql -u -root -p
+UNINSTALL COMPONENT "file://component_validate_password";
+QUIT;
+```
+
+Now you can install phpMyAdmin.
 ```bash
 sudo apt -y install phpmyadmin
 ```
@@ -268,6 +282,13 @@ After that you'll be asked if you want to configure a database for phpmyadmin, a
 Test your phpMyAdmin install by opening it in a web browser.  You can sign in using root as the username and the password you set earlier. (http://*servername*/phpmyadmin)
 ![phpMyAdmin Install](https://covid.lkgeorge.org/images/phpmyadmin.png)
 
+After you install phpMyAdmin you can enable password validation in MariaDB.
+```bash
+mysql -u -root -p
+INSTALL COMPONENT "file://component_validate_password";
+QUIT;
+```
+
 # Optional Step - Install Let's Encrypt Certificate
 If your server has a public address, an external DNS entry and port 80 and 443 open you can use Let's Encrypt to install a free certificate.  The certificate will renew automatically using a program called certbot.  We need to install certbot and run it.
 ```bash
@@ -275,6 +296,16 @@ sudo apt -y install certbot python3-certbot-apache
 sudo certbot --apache
 ```
 This will start a wizard where you'll be asked a few question.  You'll be asked to enter an email address, to agree to the terms, if you want to share your email, and asked for the site's name.  After that it will verify you have ownership of the domain by placing some test files on the site.  If it can then browse to those files it knows you have ownership.  After a clean up you'll be asked if you want to redirect all requests to HTTPS.  When done you're site will be secured.
+
+# Optional Step - Added EMail Support
+If you want the system to be able to send out emails you will need to instal PHPMailer.  We will clone the repository into /var/www.
+
+```bash
+cd /var/www
+sudo git clone https://github.com/PHPMailer/PHPMailer
+```
+
+Once installed you can add settings to the config.ini file to enable email.  At this point you would need an SMTP server that doesn't require authentication to relay your mail.  Authenticated SMTP servers may come at a later point.  When someone fails the survey an email will be sent to the appropriate people letting them know.
 
 # Optional Step - Enabling reCAPTCHA v3
 You can enable the reCAPTCHA setting on the site for the visitor form.  This will prevent random bots from filling out the form.  In order to set this up you need to visit https://www.google.com/recaptcha/intro/v3.html and log in to the Admin Console.  Once signed in you will click the + to to create a new reCAPTCHA site.
@@ -284,7 +315,7 @@ You'll need to provide a label for the site, then choose reCAPTCHA v3.  Then add
 After you submit you'll be presented with a site key and a secret key.  Copy those into the correct spots in the config.ini file.  Then choose the score threshold for determining if someone is human or a bot.  The default is .5,  the lower the number the higher the chance it's a bot.  The accepted values are 0.0 - 1.0 where 1.0 is most likely a human. After you set this up you'll see the reCAPTCHA badge in the lower right corner.
 
 # Optional Step - Adding a QR Code
-Visitors may not want to use a dirty school device to sign in.  You can add a QR code to the login screen so visitors can easily use their personal devices to access the form.  Place a file named qrcode.png in the images folder and it will appear in the login screen. 
+Visitors may not want to use a dirty school device to sign in.  You can add a QR code to the login screen so visitors can easily use their personal devices to access the form.  Place a file named qrcode.png in the images folder and it will appear in the login screen. If you want to add text you can do so in config.ini.  Change qrcodetext to what you want ti include below the QR code.
 
 # Updating the Covid Screening Site
 After installing you can use git pull to update the site.

@@ -14,9 +14,18 @@ studentOU = "OU=Students,DC=domain,DC=com"
 sites = "Elementary School,High School"
 title = "Covid Screening"
 logontext = "School District's Daily Health Screening Questionnaire."
+qrcodetext = ""
 admins = ""
 
 [reCAPTCHA Settings]
 sitekey = ""
 secretkey = ""
 score = "0.5"
+
+[mail settings]
+host = "server.domain.com"
+smtpAuth = false
+port = "25"
+fromAddress = "covid@domain.com"
+fromName = "COVID Screening"
+mailRecipients = "username@email.com"
