@@ -354,8 +354,7 @@ function isAuthenticated($userName, $password) {
                 }
 
                 // Find out if the user is an admin
-                $admins = explode(',', 
-                ['admins']);
+                $admins = explode(',',$config['admins']);
                 foreach($admins as $admin) {
                     if (strtolower($admin) == strtolower($userName)){
                         $_SESSION["userType"]="Admin";
