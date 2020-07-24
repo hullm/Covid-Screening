@@ -114,6 +114,17 @@ h1 {
     box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.5);
 }
 
+.setupMessage {
+    background-color: #ffffff;
+    margin: 20px auto;
+    font-family: Raleway;
+    padding: 10px;
+    width: 100%;
+    min-width: 300px;
+    border-radius: 25px;
+    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.5);
+}
+
 input {
     padding: 10px;
     width: 100%;

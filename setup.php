@@ -2,7 +2,14 @@
 include 'includes/config.php';
 include 'includes/functions.php';
 include 'includes/header.php';
+?>
 
+<div class="container">
+    <div class="row justify-content-center" style="padding-top:4%;">
+        <div class="col-16 text-center">
+            <div class="setupMessage">
+
+<?php
 // Create connection to the database server, not the database
 $conn = new mysqli($config['servername'],$config['username'],$config['password']);
 
@@ -77,5 +84,9 @@ echo "Database upgraded successfully <br />";
 
 ?>
 <a href="login.php">View the site</a>
+</div>
+</div>
+</div>
+</div>
 
 <?php include 'includes/footer.php'; ?>

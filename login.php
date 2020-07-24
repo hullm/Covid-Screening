@@ -4,12 +4,6 @@ include 'includes/functions.php';
 include 'includes/submit.php';
 include 'includes/header.php';
 ?>
-    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;" id="failedLogin">
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
 
     <!-- Login Buttons -->
     <div class="container">
