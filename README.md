@@ -37,7 +37,7 @@ Test your Apache install by opening the site in a web browser.  You should see t
 # Step 2 - Install PHP
 Install PHP and the modules for Apache.
 ```bash
-sudo apt -y install php libapache2-mod-php
+sudo apt -y install php libapache2-mod-php php-ldap php-dom php-mysqli
 ````
 After installing PHP you'll need to restart Apache.
 ```bash
@@ -140,8 +140,10 @@ We're going to run an sql command that will allow the root user to authenticate 
 ```bash
 sudo mysql
 
+UNINSTALL COMPONENT "file://component_validate_password";
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password';
 FLUSH PRIVILEGES;
+INSTALL COMPONENT "file://component_validate_password";
 EXIT;
 ```
 
@@ -262,7 +264,7 @@ sudo nano includes/config.php
 Set $configFile to the path of the config file.  When you're done press control+x to exit, answer y to same, and enter to accept the file name.
 
 After the config files are setup open the site in a web browser. (http://*servername*/)
-![Login Screen](https://covid.lkgeorge.org/images/loginscreen.png)
+![Login Screen](https://covid.lkgeorge.org/images/loginscreen2.png)
 
 If everything is setup properly the first time you log in it will redirect you to the setup page which will create the database.  If everything went well click View the site.
 
