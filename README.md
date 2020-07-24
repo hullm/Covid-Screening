@@ -194,7 +194,17 @@ After you set your timezone restart MariaDB.
 sudo systemctl restart mysql
 ```
 
-# Step 6 - Install Covid Screening
+# Step 6 - Added EMail Support
+Now we will install PHPMailer so emails can be sent if wanted.  We will clone the repository into /var/www.
+
+```bash
+cd /var/www
+sudo git clone https://github.com/PHPMailer/PHPMailer
+```
+
+Once installed you can add settings to the config.ini file to enable email.  At this point you would need an SMTP server that doesn't require authentication to relay your mail.  Authenticated SMTP servers may come at a later point.  When someone fails the survey an email will be sent to the appropriate people letting them know.
+
+# Step 7 - Install Covid Screening
 
 We're going to install the Covid Screening site to the root of the web server.  Before we can do that we need to remove the default index.html file
 ```bash
