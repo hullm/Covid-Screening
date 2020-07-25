@@ -3,6 +3,7 @@ servername = "localhost"
 username = "username"
 password = "password"
 dbname = "covid"
+purgeafter = "14"
 
 [active directory]
 DC = "server.domain.com"

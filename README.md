@@ -228,6 +228,7 @@ Set the values in the config file.
 * **username**: This will probably be root, but if you created another account enter the username here.
 * **password**: The password for the SQL account being used.
 * **dbname**: The name of the database that will be created for this site.
+* **purgeafter** : The number of days that data will remain in the database.  Anything older than that will be purged automatically.
 * **DC**: The FQDN or IP address of a domain controller in your environment.
 * **netbios**: The NETBIOS name of your domain.
 * **rootDN**: The RootDN of your domain.
@@ -248,7 +249,7 @@ Set the values in the config file.
 * **mailRecipients**: A comma separated list of email addresses who will receive an alert if someone fails the survey. 
 
 When you're done press control+x to exit, answer y to same, and enter to accept the file name.
-![Config File](https://covid.lkgeorge.org/images/config3.png)
+![Config File](https://covid.lkgeorge.org/images/config4.png)
 
 If you chose to store config.ini in a different location you need to edit config.php to tell it where the config file is located.  Open includes/config.php and set the path to the config file.
 ```bash

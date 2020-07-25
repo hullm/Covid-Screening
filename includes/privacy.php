@@ -39,7 +39,7 @@
                     </p>
                     <h4>Data removal</h4>
                     <p>
-                        Data will be purged from the database after 120 days..
+                        Data will be purged from the database after <?php echo $config['purgeafter'];?> days.
                     </p>
                 </div>
             </div>
