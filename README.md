@@ -289,7 +289,7 @@ Test your phpMyAdmin install by opening it in a web browser.  You can sign in us
 
 After you install phpMyAdmin you can enable password validation in MariaDB.
 ```bash
-mysql -u -root -p
+mysql -u root -p
 INSTALL COMPONENT "file://component_validate_password";
 QUIT;
 ```
