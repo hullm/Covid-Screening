@@ -268,7 +268,7 @@ At this point the site is up and running, but you can install a couple other opt
 # Optional Step - Install phpMyAdmin
 You can optionally install phpMyAdmin.  It will give you web access to manage the database.  You may run into a problem during the install.  To prevent it we'll disable password validation in MariaDB so you won't get the error.
 ```bash
-mysql -u -root -p
+mysql -u root -p
 UNINSTALL COMPONENT "file://component_validate_password";
 QUIT;
 ```
