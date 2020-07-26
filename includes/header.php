@@ -120,7 +120,15 @@ switch (basename($_SERVER['PHP_SELF'])) {
                 </li>
         <?php   } ?>
             </ul>
+        <?php if ($showLogout == "True") { ?>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <div class="nav-link"><i class="fas fa-user"></i> &nbsp;<?php echo $_SESSION["firstName"]. " ". $_SESSION["lastName"]; ?></div>
+                </li>
+            </ul>
+        <?php   } ?>
         </div>
+        
     </div>
 </nav>
 

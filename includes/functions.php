@@ -270,6 +270,26 @@ function getReportResults($startDate, $endDate, $userType, $building, $hasPassed
     return $results;
 }
 
+function getRecentResults($numberOfDays) {
+    
+    // Connect to the database
+    $connection = db_connect();
+    
+    // 
+    $sql = "SELECT id,UserName,FirstName,LastName,Email,PhoneNumber,Building,UserType,HasPassed,DateSubmitted,TimeSubmitted  
+        FROM Tracking ORDER BY id DESC LIMIT ". $numberOfDays. ";";
+
+    // Look up the data and output the SQL string if it fails
+    if ($connection->query($sql) === FALSE) {
+        echo $sql. "<br />";
+        echo "Failed to query the database...";
+    }
+    $results = $connection->query($sql);
+
+    // Return the results
+    return $results;
+}
+
 function getMissingResults($building ){
 
     // When you use the missing page and perform a query this function is called to get the data.
@@ -443,7 +463,6 @@ function  getScreenedResults(){
     return $chartData;
 
 }
-
 
 function isAuthenticated($userName, $password) {
 
