@@ -7,10 +7,15 @@ include 'includes/header.php';
 // If the user is visiting for the first time today we'll show 
 // them the form, otherwise we'll show them their result.
 if (alreadySubmitted($currentUser)) {
-    if (getUserResults($currentUser)) {
-        include 'includes/allow.php';
-    } else {
-        include 'includes/deny.php';
+    if (isset($_SESSION['userType']) && $_SESSION['userType'] == "Admin") {
+        include 'includes/charts.php';
+    }
+    else {
+        if (getUserResults($currentUser)) {
+            include 'includes/allow.php';
+        } else {
+            include 'includes/deny.php';
+        }
     }
 } else {
     include 'includes/form.php';

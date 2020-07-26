@@ -3,6 +3,7 @@ This is a screening form for Covid 19 symptoms.  It asks you questions to see if
 ![Login Screen](https://covid.lkgeorge.org/images/loginscreen2.png)
 Created by Matt Hull and Dane Davis.  
 
+![Stats Screen](https://covid.lkgeorge.org/images/stats.png)
 ![Reports Screen](https://covid.lkgeorge.org/images/reports1.png)
 ![Missing Screen](https://covid.lkgeorge.org/images/missing.png)
 

@@ -310,6 +310,141 @@ function getMissingResults($building ){
     return $results;
 }
 
+function  getScreenedTodayLabels(){
+
+    // This function will return labels needed for the Total Screened Today pie chart
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Build the SQL string to get the number who have submitted today.
+    $sql = "SELECT UserType, COUNT(ID) as SubmittedToday FROM Tracking WHERE DateSubmitted=CURDATE() GROUP BY UserType ORDER BY UserType;";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+
+    // Build the chartData string
+    $chartData = "";
+    if ($results->num_rows > 0) {
+        while ($row=$results->fetch_assoc()) {
+            $chartData .= "'". $row['UserType']. "',";
+        }
+    } 
+    else {
+        $chartData = "Employee";
+    }
+
+    // Return the results
+    return $chartData;
+
+}
+
+function  getScreenedTodayData(){
+    
+    // This function will return data needed for the Total Screened Today pie chart
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Build the SQL string to get the number who have submitted today.
+    $sql = "SELECT UserType, COUNT(ID) as SubmittedToday FROM Tracking WHERE DateSubmitted=CURDATE() GROUP BY UserType ORDER BY UserType;";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+
+    // Build the chartData string
+    $chartData = "";
+    if ($results->num_rows > 0) {
+        while ($row=$results->fetch_assoc()) {
+            $chartData .= $row['SubmittedToday']. ",";
+        }
+    } 
+    else {
+        $chartData = "0";
+    }
+
+    // Return the results
+    return $chartData;
+
+}
+
+function  getEmployeesScreenedToday(){
+    
+    // This function will return data needed for the Employees Screened Today pie chart
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Build the SQL string to get the number who have submitted today.
+    $sql = "SELECT COUNT(ID) as SubmittedToday FROM People WHERE LastCheckin=CURDATE();";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+    if ($results->num_rows > 0) {
+        $result = $results->fetch_assoc();
+        $chartData = $result['SubmittedToday']. ",";
+    }
+    else {
+        $chartData = "0,";
+    }
+
+    // Build the SQL string to get the number who haven't submitted today.
+    $sql = "SELECT COUNT(ID) as SubmittedToday FROM People WHERE LastCheckin<CURDATE();";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+    if ($results->num_rows > 0) {
+        $result = $results->fetch_assoc();
+        $chartData .= $result['SubmittedToday'];
+    }
+    else {
+        $chartData .= "0";
+    }
+
+    // Return the results
+    return $chartData;
+
+}
+
+function  getScreenedResults(){
+    
+    // This function will return data needed for the Screening Results pie chart
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Build the SQL string to get the number who have submitted today.
+    $sql = "SELECT COUNT(ID) as PassedToday FROM Tracking WHERE HasPassed = True AND DateSubmitted=CURDATE();";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+    if ($results->num_rows > 0) {
+        $result = $results->fetch_assoc();
+        $chartData = $result['PassedToday']. ",";
+    }
+    else {
+        $chartData = "0,";
+    }
+
+    // Build the SQL string to get the number who haven't submitted today.
+    $sql = "SELECT COUNT(ID) as FailedToday FROM Tracking WHERE HasPassed = False AND DateSubmitted<CURDATE();";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+    if ($results->num_rows > 0) {
+        $result = $results->fetch_assoc();
+        $chartData .= $result['FailedToday'];
+    }
+    else {
+        $chartData .= "0";
+    }
+
+    // Return the results
+    return $chartData;
+
+}
+
+
 function isAuthenticated($userName, $password) {
 
     // Takes the provided username and password and see if it's correct
