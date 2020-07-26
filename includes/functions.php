@@ -427,7 +427,7 @@ function  getScreenedResults(){
     }
 
     // Build the SQL string to get the number who haven't submitted today.
-    $sql = "SELECT COUNT(ID) as FailedToday FROM Tracking WHERE HasPassed = False AND DateSubmitted<CURDATE();";
+    $sql = "SELECT COUNT(ID) as FailedToday FROM Tracking WHERE HasPassed = False AND DateSubmitted=CURDATE();";
     
     // Get the data from the database
     $results = $connection->query($sql);
@@ -436,7 +436,7 @@ function  getScreenedResults(){
         $chartData .= $result['FailedToday'];
     }
     else {
-        $chartData .= "0";
+        $chartData .= "1";
     }
 
     // Return the results
