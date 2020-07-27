@@ -221,3 +221,14 @@ $(document).ready(function() {
     }
 });
 </script>
+
+<script>
+// Check for new data
+    setInterval(function() {
+        $.get("api.php?GetLatestEntry", function(data, status){
+            if (<?php echo GetLatestEntry();?> < data){
+                window.location.href = "index.php";
+            }
+        });
+    }, 5000);
+</script>

@@ -159,6 +159,27 @@ function alreadySubmitted($userName) {
     
 }
 
+function  GetLatestEntry() {
+
+    // Returns the ID of the most recent entry
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Look up the latest entry
+    $sql = "SELECT id FROM Tracking ORDER BY id DESC LIMIT 1;";
+    $results = $connection->query($sql);
+
+    // Return the latest entry
+    if ($results->num_rows > 0) {
+        $row = $results->fetch_assoc();     
+        return $row['id'];
+    } 
+    else {
+        return "1";
+    }
+}
+
 function getPhoneNumber($userName){
 
     // Get the employees phone number from the people table if it exists
