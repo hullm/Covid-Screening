@@ -30,13 +30,9 @@ if ((basename($_SERVER['PHP_SELF']) == "setup.php") && $_SESSION['userType'] != 
 
 // Only show the reports button if they are an admin
 if (isset($_SESSION['userType']) && $_SESSION['userType'] == "Admin"){
-    // $showReports="";
-    // $showMissing="";
     $isAdmin="True";
 }
 else{
-    // $showReports="visibility:hidden;";
-    // $showMissing="visibility:hidden;";
     $isAdmin="False";
 }
 

@@ -27,8 +27,9 @@ function db_connect() {
 
     // Verify the connection was successful, if not send them to the setup page
     if($connection == FALSE) {
-        header("location:setup.php");
-        die; 
+        echo "<script>";
+        echo "window.location.href = \"setup.php\";";
+        echo "</script>";
     }
 
     // Send back the connection
