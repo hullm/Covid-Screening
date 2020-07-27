@@ -87,6 +87,7 @@ var myChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
         labels: ['Screened', 'Not Screened'],
+        render: 'value',
         datasets: [{
             data: [<?php echo getEmployeesScreenedToday(); ?>],
             backgroundColor: [
@@ -105,6 +106,12 @@ var myChart = new Chart(ctx, {
         title: {
             display: true,
             text: 'Employees Screened Today'
+        },
+        plugins: {
+            labels: { render: 'value',
+                fontColor: '#000',
+                position: 'inside'
+            }
         }
     }
 });
@@ -138,6 +145,12 @@ var myChart = new Chart(ctx, {
         title: {
             display: true,
             text: 'Total Screened Today'
+        },
+        plugins: {
+            labels: { render: 'value',
+                fontColor: '#000',
+                position: 'inside'
+            }
         }
     }
 });
@@ -167,6 +180,12 @@ var myChart = new Chart(ctx, {
         title: {
             display: true,
             text: 'Screening Results'
+        },
+        plugins: {
+            labels: { render: 'value',
+                fontColor: '#000',
+                position: 'inside'
+            }
         }
     }
 });
