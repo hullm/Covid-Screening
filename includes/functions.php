@@ -765,11 +765,11 @@ function entryDeniedEmail($firstName, $lastName, $building){
         $mail->isHTML(true);                                  // Set email format to HTML
         $mail->Subject = "$subject";
         $mail->Body    = $message;
-        $mail->send();
+        @$mail->send();
         // echo 'Message has been sent';
     }
     catch (Exception $e) {
-        echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+        //echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
     }
   }
 
