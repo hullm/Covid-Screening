@@ -71,11 +71,17 @@ if ($connection->query($sql) === TRUE) {
     echo "People table already exists...<br />";
 }
 
+// Remove Students from the People table
+$sql = "DELETE FROM People WHERE UserType='Student';";
+$connection->query($sql);
+echo "Students removed from the people table...<br />";
+
 // Change all adults to employees in the database
 $sql = "UPDATE Tracking SET UserType='Employee' WHERE UserType='Adult';";
 $connection->query($sql);
 $sql = "UPDATE People SET UserType='Employee' WHERE UserType='Adult';";
 $connection->query($sql);
+echo "Adults changed to Employees in the people table...<br />";
 
 // Close the connection to the database
 $connection->close();

@@ -76,7 +76,7 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
         }
 
         // If the user is not a visitor then add them to the people table, or update their info if they exist
-        if ($userType != "Visitor") {
+        if ($userType == "Employee" || $userType == "Admin") {
 
             // See if they're already in the table
             $sql = "SELECT id FROM People WHERE UserName='". $userName. "';";
@@ -334,12 +334,12 @@ function getMissingResults($building ){
     }
 
     // Build the SQL string to get the results
-    $sql = "SELECT DISTINCT People.UserName,People.FirstName,People.LastName,People.Email,People.PhoneNumber,People.UserType,Tracking.Building
+    $sql = "SELECT People.UserName,People.FirstName,People.LastName,People.Email,People.PhoneNumber,People.UserType,Tracking.Building
         FROM People INNER JOIN Tracking ON People.UserName=Tracking.UserName WHERE ". 
         "People.LastCheckIn<CURDATE() AND ".
         $buildingQuery. " AND ".
         $userTypeQuery. " ".
-        "ORDER BY People.LastName, People.FirstName;";
+        "GROUP BY People.UserName ORDER BY People.LastName, People.FirstName;";
 
     // Look up the data and output the SQL string if it fails
     if ($connection->query($sql) === FALSE) {
