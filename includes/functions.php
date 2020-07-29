@@ -369,7 +369,9 @@ function  getScreenedTodayLabels(){
     $chartData = "";
     if ($results->num_rows > 0) {
         while ($row=$results->fetch_assoc()) {
-            $chartData .= "'". $row['UserType']. "',";
+            if ($row['UserType'] != "Admin") {
+                $chartData .= "'". $row['UserType']. "',";
+            }
         }
     } 
     else {
@@ -394,16 +396,40 @@ function  getScreenedTodayData(){
     // Get the data from the database
     $results = $connection->query($sql);
 
-    // Build the chartData string
+    // Build the chartData string while merging employees and admin into one count.
     $chartData = "";
+    $adminCount = 0;
+    $employeeCount = 0;
     if ($results->num_rows > 0) {
         while ($row=$results->fetch_assoc()) {
-            $chartData .= $row['SubmittedToday']. ",";
+            switch ($row['UserType']) {
+                case "Admin":
+                    $adminCount = $row['SubmittedToday'];
+                    break;
+                case "Employee":
+                    $employeeCount = $row['SubmittedToday'] + $adminCount;
+                    $chartData = $employeeCount. ",";
+                    break;
+                case "Student":
+                    $chartData .= $row['SubmittedToday']. ",";
+                    break;
+                case "Visitor":
+                    $chartData .= $row['SubmittedToday'];
+                    break;
+            }
         }
-    } 
-    else {
-        $chartData = "0";
     }
+
+    // Old code that will list admins and employees separately.  If that's what you want uncomment this block. 
+    // $chartData = "";
+    // if ($results->num_rows > 0) {
+    //     while ($row=$results->fetch_assoc()) {
+    //         $chartData .= $row['SubmittedToday']. ",";
+    //     }
+    // } 
+    // else {
+    //     $chartData = "0";
+    // }
 
     // Return the results
     return $chartData;
