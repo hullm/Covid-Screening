@@ -512,6 +512,19 @@ function  getScreenedResults(){
 
 }
 
+function fixUserType($userType){
+
+    // This function will change the display name for admin to employee.
+
+    if ($userType == "Admin"){
+        return "Employee";
+    }
+    else {
+        return $userType;
+    }
+
+}
+
 function isAuthenticated($userName, $password) {
 
     // Takes the provided username and password and see if it's correct

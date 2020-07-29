@@ -1,6 +1,6 @@
 <?php 
 // Query the database
-$results = getRecentResults(5);
+$results = getRecentResults(10);
 ?>
 
 <div class="container">
@@ -56,7 +56,7 @@ $results = getRecentResults(5);
                         <td><?php echo $row['Email'];?></td>
                         <td><?php echo $row['PhoneNumber'];?></td>
                         <td><?php echo $row['Building'];?></td>
-                        <td><?php echo $row['UserType'];?></td>
+                        <td><?php echo fixUserType($row['UserType']);?></td>
                         <td><?php echo date_format(date_create($row['DateSubmitted']),"m/d/Y"). " ". date_format(date_create($row['TimeSubmitted']),"g:ia");?></td>
                     </tr>
                 <?php }?>
