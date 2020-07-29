@@ -3,7 +3,7 @@
 // Send error information to the browser
 error_reporting(E_ALL);
 ini_set('display_errors', 'on');
-$configFile="../../configdev.ini";
+$configFile="../config.ini";
 
 // Read in the config file
 $config = parse_ini_file($configFile);
