@@ -1,5 +1,5 @@
 <div id="overlay" onclick="off()">
-    <div id="text"><i class="fas fa-times" style="color:red" ></i></br>Entry Denied</div>
+    <div id="text"><i class="fas fa-ban" style="color:red" ></i></br>Entry Denied</div>
 </div>
 
 <script>

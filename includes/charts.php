@@ -42,7 +42,7 @@ $results = getRecentResults(5);
                                 echo "<i class=\"fas fa-check\" style=\"color:green\" title=\"Allowed\"></i>";
                             }
                             else {
-                                echo "<i class=\"fas fa-times\" style=\"color:red\" title=\"Denied\"></i>";
+                                echo "<i class=\"fas fa-ban\" style=\"color:red\" title=\"Denied\"></i>";
                             };?></td>
                         <td><?php 
                             if ($row['HasPassed']) {
@@ -70,10 +70,10 @@ $results = getRecentResults(5);
         <div class="adminResults">
 <?php 
 if (getUserResults($currentUser)) { ?>
-    <div><i class="fas fa-check" style="color:green" ></i>Allowed</div>
+    <div><i class="fas fa-check" style="color:green" ></i> Allowed</div>
 <?php } 
 else { ?>
-    <div><i class="fas fa-times" style="color:red" ></i>Entry Denied</div>
+    <div><i class="fas fa-ban" style="color:red" ></i > Entry Denied</div>
 <?php } ?>
         </div>
     </div>

@@ -122,7 +122,7 @@ purgeOldData($config['purgeafter']);
                                     echo "<i class=\"fas fa-check\" style=\"color:green\" title=\"Allowed\"></i>";
                                 }
                                 else {
-                                    echo "<i class=\"fas fa-times\" style=\"color:red\" title=\"Denied\"></i>";
+                                    echo "<i class=\"fas fa-ban\" style=\"color:red\" title=\"Denied\"></i>";
                                 };?></td>
                             <td><?php 
                                 if ($row['HasPassed']) {
