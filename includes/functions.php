@@ -373,9 +373,12 @@ function  getScreenedTodayLabels(){
                 $chartData .= "'". $row['UserType']. "',";
             }
         }
+        if ($chartData == "") {
+            $chartData = "'Employee'";
+        }
     } 
     else {
-        $chartData = "Employee";
+        $chartData = "'Employee'";
     }
 
     // Return the results
@@ -398,16 +401,15 @@ function  getScreenedTodayData(){
 
     // Build the chartData string while merging employees and admin into one count.
     $chartData = "";
-    $adminCount = 0;
     $employeeCount = 0;
     if ($results->num_rows > 0) {
         while ($row=$results->fetch_assoc()) {
             switch ($row['UserType']) {
                 case "Admin":
-                    $adminCount = $row['SubmittedToday'];
+                    $employeeCount = $row['SubmittedToday'];
                     break;
                 case "Employee":
-                    $employeeCount = $row['SubmittedToday'] + $adminCount;
+                    $employeeCount += $row['SubmittedToday'];
                     $chartData = $employeeCount. ",";
                     break;
                 case "Student":
@@ -417,6 +419,9 @@ function  getScreenedTodayData(){
                     $chartData .= $row['SubmittedToday'];
                     break;
             }
+        }
+        if ($chartData == "") {
+            $chartData = $employeeCount;
         }
     }
 
