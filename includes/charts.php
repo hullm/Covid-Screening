@@ -83,7 +83,7 @@ else { ?>
 
 <script>
 var ctx = document.getElementById('employeesScreened').getContext('2d');
-var myChart = new Chart(ctx, {
+var employeesScreened = new Chart(ctx, {
     type: 'doughnut',
     data: {
         labels: ['Screened', 'Not Screened'],
@@ -112,6 +112,19 @@ var myChart = new Chart(ctx, {
                 fontColor: '#000',
                 position: 'inside'
             }
+        },
+        onClick: (evt) => {
+            var activeElement = employeesScreened.getElementAtEvent(evt)[0];
+            var label = employeesScreened.data.labels[activeElement._index];
+            var value = employeesScreened.data.datasets[activeElement._datasetIndex].data[activeElement._index];
+            var today = new Date();
+            var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + today.getDate()).slice(-2);
+            if (label == "Screened") {
+                window.open("reports.php?LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=Employee&building=All&passed=All","_self");
+            }
+            else {
+                window.open("missing.php?LoadMissing&building=All","_self");
+            }
         }
     }
 });
@@ -119,7 +132,7 @@ var myChart = new Chart(ctx, {
 
 <script>
 var ctx = document.getElementById('totalScreened').getContext('2d');
-var myChart = new Chart(ctx, {
+var totalScreened = new Chart(ctx, {
     type: 'doughnut',
     data: {
         labels: [<?php echo getScreenedTodayLabels(); ?>],
@@ -151,6 +164,14 @@ var myChart = new Chart(ctx, {
                 fontColor: '#000',
                 position: 'inside'
             }
+        },
+        onClick: (evt) => {
+            var activeElement = totalScreened.getElementAtEvent(evt)[0];
+            var label = totalScreened.data.labels[activeElement._index];
+            var value = totalScreened.data.datasets[activeElement._datasetIndex].data[activeElement._index];
+            var today = new Date();
+            var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + today.getDate()).slice(-2);
+            window.open("reports.php?LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=" + label + "&building=All&passed=All","_self");
         }
     }
 });
@@ -158,7 +179,7 @@ var myChart = new Chart(ctx, {
 
 <script>
 var ctx = document.getElementById('screeningResults').getContext('2d');
-var myChart = new Chart(ctx, {
+var screeningResults = new Chart(ctx, {
     type: 'doughnut',
     data: {
         labels: ['Passed','Failed'],
@@ -185,6 +206,19 @@ var myChart = new Chart(ctx, {
             labels: { render: 'value',
                 fontColor: '#000',
                 position: 'inside'
+            }
+        },
+        onClick: (evt) => {
+            var activeElement = screeningResults.getElementAtEvent(evt)[0];
+            var label = screeningResults.data.labels[activeElement._index];
+            var value = screeningResults.data.datasets[activeElement._datasetIndex].data[activeElement._index];
+            var today = new Date();
+            var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + today.getDate()).slice(-2);
+            if (label == "Passed") {
+                window.open("reports.php?LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=True","_self");
+            }
+            else {
+                window.open("reports.php?LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=False","_self");
             }
         }
     }

@@ -367,20 +367,14 @@ function  getScreenedTodayLabels(){
     $results = $connection->query($sql);
 
     // Build the chartData string
-    $chartData = "";
+    $chartData = "'Employee',";
     if ($results->num_rows > 0) {
         while ($row=$results->fetch_assoc()) {
             if ($row['UserType'] != "Admin") {
                 $chartData .= "'". $row['UserType']. "',";
             }
         }
-        if ($chartData == "") {
-            $chartData = "'Employee'";
-        }
     } 
-    else {
-        $chartData = "'Employee'";
-    }
 
     // Return the results
     return $chartData;
@@ -414,9 +408,15 @@ function  getScreenedTodayData(){
                     $chartData = $employeeCount. ",";
                     break;
                 case "Student":
+                    if ($chartData == "" && $employeeCount != "") {
+                        $chartData = $employeeCount. ",";
+                    }
                     $chartData .= $row['SubmittedToday']. ",";
                     break;
                 case "Visitor":
+                    if ($chartData == "" && $employeeCount != "") {
+                        $chartData = $employeeCount. ",";
+                    }
                     $chartData .= $row['SubmittedToday'];
                     break;
             }
