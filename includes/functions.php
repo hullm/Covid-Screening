@@ -281,6 +281,7 @@ function getReportResults($startDate, $endDate, $userType, $building, $hasPassed
         $buildingQuery. " AND ".
         $userTypeQuery. " ".
         "ORDER BY LastName, FirstName;";
+        
     // Look up the data and output the SQL string if it fails
     if ($connection->query($sql) === FALSE) {
         echo $sql. "<br />";

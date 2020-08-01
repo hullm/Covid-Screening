@@ -121,14 +121,59 @@ if (basename($_SERVER['PHP_SELF']) == "index.php") {
 
 // Check if the user submitted the form on the reports page 
 if (basename($_SERVER['PHP_SELF']) == "reports.php"){
-    if (isset($_POST["submit"])){
+    if (isset($_POST["submit"]) || isset($_GET['LoadReport'])){
 
+        // Initialize the variables
+        $fromDate = "";
+        $toDate = "";
+        $userType = "";
+        $building = "";
+        $passed = "";
+        
         // Get the values from the form
-        $fromDate = $_POST["from_date"];
-        $toDate = $_POST["to_date"];
-        $userType = $_POST["user_type"];
-        $building = $_POST["building"];
-        $passed = $_POST["passed"];
+        if (isset($_POST["submit"])) {
+            $fromDate = $_POST["from_date"];
+            $toDate = $_POST["to_date"];
+            $userType = $_POST["user_type"];
+            $building = $_POST["building"];
+            $passed = $_POST["passed"];
+
+            // Redirect the user to a page with a sharable URL
+            header("location:reports.php?LoadReport&fromDate=". $fromDate.
+                "&toDate=". $toDate.
+                "&userType=". $userType. 
+                "&building=". $building.
+                "&passed=". $passed);
+            die; 
+        }
+
+        // Get the values from the URL
+        if (isset($_GET['LoadReport'])) {
+            if ($fromDate == "" && isset($_GET['fromDate'])) {
+                $fromDate = $_GET["fromDate"];
+            }
+            if ($toDate == "" && isset($_GET['toDate'])) {
+                $toDate = $_GET["toDate"];
+            }
+            if ($userType == "" && isset($_GET['userType'])) {
+                $userType = $_GET["userType"];
+            }
+            else {
+                $userType = "All";
+            }
+            if ($building == "" && isset($_GET['building'])) {
+                $building = $_GET["building"];
+            }
+            else {
+                $building = "All";
+            }
+            if ($passed == "" && isset($_GET['passed'])) {
+                $passed = $_GET["passed"];
+            }
+            else {
+                $passed = "All";
+            }
+        }
 
         // Query the database
         $results = getReportResults($fromDate, $toDate, $userType, $building, $passed);
@@ -206,10 +251,26 @@ if (basename($_SERVER['PHP_SELF']) == "reports.php"){
 
 // Check if the user submitted the form on the missing page 
 if (basename($_SERVER['PHP_SELF']) == "missing.php"){
-    if (isset($_POST["submit"])){
+    if (isset($_POST["submit"]) || isset($_GET['LoadMissing'])){
+
+        // Initialize the variable
+        $building = "";
 
         // Get the values from the form
-        $building = $_POST["building"];
+        if (isset($_POST["submit"])) {
+            $building = $_POST["building"];
+
+            // Redirect the user to a page with a sharable URL
+            header("location:missing.php?LoadMissing&building=". $building);
+            die; 
+        }
+
+        // Get the values from the URL
+        if (isset($_GET['LoadMissing'])) {
+            if ($building == "" && isset($_GET['building'])) {
+                $building = $_GET["building"];
+            }
+        }
 
         // Query the database
         $results = getMissingResults($building);

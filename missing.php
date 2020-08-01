@@ -43,7 +43,7 @@ $buildings = explode(',',$config['sites']);
         </div>
     </form>
 </div>
-<?php if(isset($_POST["submit"]) AND $results->num_rows>0){?>
+<?php if((isset($_POST["submit"]) || isset($_GET["LoadMissing"])) AND $results->num_rows>0){?>
     <div class = "container">
         <div class = "row justify-content-md-center">
             <table id="missing" class="table table-striped table-dark hover">

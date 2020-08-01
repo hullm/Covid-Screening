@@ -97,7 +97,7 @@ purgeOldData($config['purgeafter']);
         </div>
     </form>
 </div>
-<?php if(isset($_POST["submit"]) AND $results->num_rows>0){?>
+<?php if((isset($_POST["submit"]) || isset($_GET["LoadReport"])) && ($results->num_rows>0)){?>
     <div class = "container">
         <div class = "row justify-content-md-center">
             <table id="report" class="table table-striped table-dark hover">
