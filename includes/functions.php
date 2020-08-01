@@ -370,7 +370,7 @@ function  getScreenedTodayLabels(){
     $chartData = "'Employee',";
     if ($results->num_rows > 0) {
         while ($row=$results->fetch_assoc()) {
-            if ($row['UserType'] != "Admin") {
+            if ($row['UserType'] != "Admin" && $row['UserType'] != "Employee") {
                 $chartData .= "'". $row['UserType']. "',";
             }
         }
