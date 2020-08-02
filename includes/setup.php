@@ -1,9 +1,3 @@
-<?php
-include 'includes/config.php';
-include 'includes/functions.php';
-include 'includes/header.php';
-?>
-
 <div class="container">
     <div class="row justify-content-center" style="padding-top:4%;">
         <div class="col-16 text-center">
@@ -89,10 +83,8 @@ $connection->close();
 echo "Database upgraded successfully <br />";
 
 ?>
-<a href="login.php">View the site</a>
+<a href="index.php">View the site</a>
 </div>
 </div>
 </div>
 </div>
-
-<?php include 'includes/footer.php'; ?>

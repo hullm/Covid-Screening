@@ -2,11 +2,11 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <form id="screeningForm" method="POST" action="index.php">
+            <form id="screeningForm" method="POST" action="index.php?screeningform">
                 <!-- Phone & Building Tab -->
                 <div class="row">
                     <div class="tab"><h4>Please enter your phone number</h4>
-                        <p><input name="phone_number" placeholder="(123) 456-7890" value="<?php echo getPhonenumber($_SESSION["userName"]);?>" oninput="this.className = ''" onblur="formatPhone(this);"></p>
+                        <p><input name="phone_number" placeholder="(123) 456-7890" value="<?php echo getPhoneNumber($_SESSION["userName"]);?>" oninput="this.className = ''" onblur="formatPhone(this);"></p>
                         <label for building> <h4>Please select a building</h4></label>
                             <select name = "building" class = "form-control" required>
                                 <option value="" disable selected>Select a building...</option>

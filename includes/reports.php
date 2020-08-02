@@ -1,14 +1,9 @@
 <?php
-include 'includes/config.php';
-include 'includes/functions.php';
-include 'includes/submit.php';
-include 'includes/header.php';
-include 'includes/footer.php';
 $buildings = explode(',',$config['sites']);
 purgeOldData($config['purgeafter']);
 ?>
 <div class="container">
-    <form id="reportsForm" class="needs-validation" method="POST" action="reports.php" novalidate>
+    <form id="reportsForm" class="needs-validation" method="POST" action="index.php?reports" novalidate>
         <div class="form-row justify-content-around">
             <div class="col-md-2 mb-5">
                 <label for="fromdate">From Date</label>

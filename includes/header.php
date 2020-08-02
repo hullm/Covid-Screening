@@ -1,8 +1,7 @@
 <?php 
 
 // Show the typewriter and reCAPTCHA on the login page, and remove the logout.
-if (basename($_SERVER['PHP_SELF']) == "login.php") {
-    //$showLogout="visibility:hidden;";
+if (isset($_GET['login'])) {
     $showLogout="False";
     $onLoad="onload=typeWriter()";
     $showTypewriter="<p id='subtitle' style='color:white; text-shadow:2px 2px 5px black;'></p>";
@@ -20,12 +19,13 @@ else{
     $reCAPTCHA="";
 }
 
-// Kick them out if they aren't an admin and they try to get to reports or setup.
-if ((basename($_SERVER['PHP_SELF']) == "reports.php") && $_SESSION['userType'] != "Admin") {
-    header("Location: index.php?logout");
-}
-if ((basename($_SERVER['PHP_SELF']) == "setup.php") && $_SESSION['userType'] != "Admin") {
-    header("Location: index.php?logout");
+// Kick them out if they aren't an admin and they try to get to an admin page.
+if ((isset($_GET['charts']) ||
+    isset($_GET['reports']) ||
+    isset($_GET['missing']) ||
+    isset($_GET['setup'])) &&
+    $_SESSION['userType'] != "Admin") {
+        header("Location: index.php?logout");
 }
 
 // Only show the reports button if they are an admin
@@ -43,19 +43,17 @@ $navReportsActive = "";
 $navReportsSpan = "";
 $navMissingActive = "";
 $navMissingSpan = "";
-switch (basename($_SERVER['PHP_SELF'])) {
-    case "index.php":
-        $navHomeActive = "active";
-        $navHomeSpan = "<span class=\"sr-only\">(current)</span>";
-        break;
-    case "reports.php":
-        $navReportsActive = "active";
-        $navReportsSpan = "<span class=\"sr-only\">(current)</span>";
-        break;
-    case "missing.php":
-        $navMissingActive = "active";
-        $navMissingSpan = "<span class=\"sr-only\">(current)</span>";
-        break;
+if (isset($_GET['reports'])) {
+    $navReportsActive = "active";
+    $navReportsSpan = "<span class=\"sr-only\">(current)</span>";
+}
+elseif (isset($_GET['missing'])) {
+    $navMissingActive = "active";
+    $navMissingSpan = "<span class=\"sr-only\">(current)</span>";
+}
+else {
+    $navHomeActive = "active";
+    $navHomeSpan = "<span class=\"sr-only\">(current)</span>";
 }
 ?>
 
@@ -87,6 +85,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
     <?php echo $reCAPTCHA; ?>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <head>
 
 <body id="main" <?php echo $onLoad; ?>>
@@ -105,10 +104,10 @@ switch (basename($_SERVER['PHP_SELF'])) {
                 </li>
         <?php   if($isAdmin == "True") {?>
                 <li class="nav-item <?php echo $navReportsActive;?>">
-                    <a class="nav-link" href="reports.php">Reports <?php echo $navReportsSpan; ?></a>
+                    <a class="nav-link" href="index.php?reports">Reports <?php echo $navReportsSpan; ?></a>
                 </li>
                 <li class="nav-item <?php echo $navMissingActive;?>">
-                    <a class="nav-link" href="missing.php">Missing <?php echo $navMissingSpan; ?></a>
+                    <a class="nav-link" href="index.php?missing">Missing <?php echo $navMissingSpan; ?></a>
                 </li>
         <?php   } 
                 if ($showLogout == "True") { ?>

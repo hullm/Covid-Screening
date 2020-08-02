@@ -28,7 +28,7 @@ function db_connect() {
     // Verify the connection was successful, if not send them to the setup page
     if($connection == FALSE) {
         echo "<script>";
-        echo "window.location.href = \"setup.php\";";
+        echo "window.location.href = \"index.php?setup\";";
         echo "</script>";
     }
 
@@ -629,7 +629,7 @@ function logout() {
     $_SESSION["lastName"] = "";
     $_SESSION["email"] = "";
     $_SESSION["userType"] = "";
-    header("location:login.php");
+    header("location:index.php?login");
     die; 
 }
 

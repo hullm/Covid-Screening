@@ -16,14 +16,14 @@ if(!isset($_SESSION)) {
 // If the user is already signed in on the login page send them to the index, 
 // and if they aren't signed in send them to the login screen.
 if(isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == TRUE) {
-    if (basename($_SERVER['PHP_SELF']) == "login.php") {
+    if (isset($_GET['login'])) {
         header("location:index.php");
         die;
     }
 } else {
 
-    if (basename($_SERVER['PHP_SELF']) != "login.php") {
-        header("location:login.php");
+    if (!isset($_GET['login'])) {
+        header("location:index.php?login");
         die; 
     }
 }

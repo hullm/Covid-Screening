@@ -6,7 +6,7 @@ if(isset($_GET['logout'])){
 }
 
 // Check and see if the user submitted the form on the login page
-if (basename($_SERVER['PHP_SELF']) == "login.php") {
+if (isset($_GET['login'])) {
     
     // If they provided the right username and password then send them to the form, if not show access denied message
     if (isset($_POST["employee_submit"])){
@@ -82,7 +82,7 @@ if (basename($_SERVER['PHP_SELF']) == "login.php") {
 }
 
 //Check and see if the user submitted the form on the index page
-if (basename($_SERVER['PHP_SELF']) == "index.php") {
+if (isset($_GET['screeningform'])) {
     if (isset($_POST["submit"])) {
 
         // Get the values from the form
@@ -120,7 +120,7 @@ if (basename($_SERVER['PHP_SELF']) == "index.php") {
 }
 
 // Check if the user submitted the form on the reports page 
-if (basename($_SERVER['PHP_SELF']) == "reports.php"){
+if (isset($_GET['reports'])){
     if (isset($_POST["submit"]) || isset($_GET['LoadReport'])){
 
         // Initialize the variables
@@ -139,7 +139,7 @@ if (basename($_SERVER['PHP_SELF']) == "reports.php"){
             $passed = $_POST["passed"];
 
             // Redirect the user to a page with a sharable URL
-            header("location:reports.php?LoadReport&fromDate=". $fromDate.
+            header("location:index.php?reports&LoadReport&fromDate=". $fromDate.
                 "&toDate=". $toDate.
                 "&userType=". $userType. 
                 "&building=". $building.
@@ -250,7 +250,7 @@ if (basename($_SERVER['PHP_SELF']) == "reports.php"){
 }
 
 // Check if the user submitted the form on the missing page 
-if (basename($_SERVER['PHP_SELF']) == "missing.php"){
+if (isset($_GET['missing'])){
     if (isset($_POST["submit"]) || isset($_GET['LoadMissing'])){
 
         // Initialize the variable
@@ -261,7 +261,7 @@ if (basename($_SERVER['PHP_SELF']) == "missing.php"){
             $building = $_POST["building"];
 
             // Redirect the user to a page with a sharable URL
-            header("location:missing.php?LoadMissing&building=". $building);
+            header("location:index.php?missing&LoadMissing&building=". $building);
             die; 
         }
 

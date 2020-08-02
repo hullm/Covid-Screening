@@ -120,10 +120,10 @@ var employeesScreened = new Chart(ctx, {
             var today = new Date();
             var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + today.getDate()).slice(-2);
             if (label == "Screened") {
-                window.open("reports.php?LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=Employee&building=All&passed=All","_self");
+                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=Employee&building=All&passed=All","_self");
             }
             else {
-                window.open("missing.php?LoadMissing&building=All","_self");
+                window.open("index.php?missing&LoadMissing&building=All","_self");
             }
         }
     }
@@ -171,7 +171,7 @@ var totalScreened = new Chart(ctx, {
             var value = totalScreened.data.datasets[activeElement._datasetIndex].data[activeElement._index];
             var today = new Date();
             var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + today.getDate()).slice(-2);
-            window.open("reports.php?LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=" + label + "&building=All&passed=All","_self");
+            window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=" + label + "&building=All&passed=All","_self");
         }
     }
 });
@@ -215,10 +215,10 @@ var screeningResults = new Chart(ctx, {
             var today = new Date();
             var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + today.getDate()).slice(-2);
             if (label == "Passed") {
-                window.open("reports.php?LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=True","_self");
+                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=True","_self");
             }
             else {
-                window.open("reports.php?LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=False","_self");
+                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=False","_self");
             }
         }
     }

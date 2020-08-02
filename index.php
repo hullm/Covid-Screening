@@ -3,22 +3,49 @@ include 'includes/config.php';
 include 'includes/functions.php';
 include 'includes/submit.php';
 include 'includes/header.php';
+include 'includes/footer.php';
+
+// Show the login page
+if(isset($_GET['login'])) {
+    include 'includes/login.php';
+}
+
+// Show the charts page if they're an admin and the page is requested
+elseif(isset($_GET['charts']) && $_SESSION['userType'] == "Admin"){
+    include 'includes/charts.php';
+}
+
+// Show the reports page if they're an admin and the page is requested
+elseif(isset($_GET['reports']) && $_SESSION['userType'] == "Admin"){
+    include 'includes/reports.php';
+}
+
+// Show the missing page if they're an admin and the page is requested
+elseif(isset($_GET['missing']) && $_SESSION['userType'] == "Admin"){
+    include 'includes/missing.php';
+}
+
+// Show the setup page if they're an admin and the page is requested
+elseif(isset($_GET['setup']) && $_SESSION['userType'] == "Admin"){
+    include 'includes/setup.php';
+}
 
 // If the user is visiting for the first time today we'll show 
 // them the form, otherwise we'll show them their result.
-if (alreadySubmitted($currentUser)) {
-    if (isset($_SESSION['userType']) && $_SESSION['userType'] == "Admin") {
-        include 'includes/charts.php';
-    }
-    else {
-        if (getUserResults($currentUser)) {
-            include 'includes/allow.php';
-        } else {
-            include 'includes/deny.php';
+else {
+    if (alreadySubmitted($currentUser)) {
+        if (isset($_SESSION['userType']) && $_SESSION['userType'] == "Admin") {
+            include 'includes/charts.php';
         }
+        else {
+            if (getUserResults($currentUser)) {
+                include 'includes/allow.php';
+            } else {
+                include 'includes/deny.php';
+            }
+        }
+    } else {
+        include 'includes/form.php';
     }
-} else {
-    include 'includes/form.php';
 }
-include 'includes/footer.php';
 ?>
