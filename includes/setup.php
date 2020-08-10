@@ -77,6 +77,11 @@ $sql = "UPDATE People SET UserType='Employee' WHERE UserType='Adult';";
 $connection->query($sql);
 echo "Adults changed to Employees in the people table...<br />";
 
+// Disable the ONLY_FULL_GROUP_BY option in SQL
+$sql = "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
+$connection->query($sql);
+echo "Fixed Missing People Query...<br />";
+
 // Close the connection to the database
 $connection->close();
 
