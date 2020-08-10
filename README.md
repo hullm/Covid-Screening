@@ -145,6 +145,7 @@ UNINSTALL COMPONENT "file://component_validate_password";
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password';
 FLUSH PRIVILEGES;
 INSTALL COMPONENT "file://component_validate_password";
+SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 EXIT;
 ```
 
