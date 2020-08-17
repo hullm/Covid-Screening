@@ -1,6 +1,15 @@
 <?php
 $buildings = explode(',',$config['sites']);
 purgeOldData($config['purgeafter']);
+
+// Set the URL used in the delete link later on
+if (isset($_GET["passed"])) {
+    $url = "index.php?reports&LoadReport&fromDate=". $_GET["fromDate"]. 
+        "&toDate=". $_GET["toDate"]. 
+        "&userType=". $_GET["userType"].
+        "&building=". $_GET["building"]. 
+        "&passed=". $_GET["passed"];
+}
 ?>
 <div class="container">
     <form id="reportsForm" class="needs-validation" method="POST" action="index.php?reports" novalidate>
@@ -99,6 +108,7 @@ purgeOldData($config['purgeafter']);
                 <thead>
                     <tr>
                         <th></th>
+                        <th>Delete</th>
                         <th>Status</th>
                         <th>First Name</th>
                         <th>Last Name</th>
@@ -119,6 +129,11 @@ purgeOldData($config['purgeafter']);
                                 else {
                                     echo "<i class=\"fas fa-ban\" style=\"color:red\" title=\"Denied\"></i>";
                                 };?></td>
+                            <td align="center">
+                                <a href="<?php echo $url. "&delete&id=". $row['id'];?>">
+                                    <i class="fas fa-times" style="color:red" title="Delete"></i>
+                                </a>
+                            </td>
                             <td><?php 
                                 if ($row['HasPassed']) {
                                     echo "Passed";
@@ -187,10 +202,10 @@ $(document).ready(function() {
     var width = window.innerWidth;
 
     if (width<480) {
-        table.columns([1,4,5,6,7,8]).visible(false);
+        table.columns([1,2,5,6,7,8,9]).visible(false);
     }
     else {
-        table.columns([1]).visible(false);
+        table.columns([1,2]).visible(false);
     }
 });
 </script>

@@ -273,7 +273,7 @@ function getReportResults($startDate, $endDate, $userType, $building, $hasPassed
     }
 
     // Build the SQL string to get the results
-    $sql = "SELECT UserName,FirstName,LastName,Email,PhoneNumber,Building,UserType,HasPassed,DateSubmitted,TimeSubmitted 
+    $sql = "SELECT id,UserName,FirstName,LastName,Email,PhoneNumber,Building,UserType,HasPassed,DateSubmitted,TimeSubmitted 
         FROM Tracking WHERE ".
         "DateSubmitted>='". $startDate. "' AND ".
         "DateSubmitted<='". $endDate. "' AND ".
@@ -353,6 +353,21 @@ function getMissingResults($building ){
     return $results;
 }
 
+function deleteScreeningEntry($id){
+
+    // This function will delete an entry in the screening table
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Build the sql string used to delete the entry
+    $sql = "DELETE FROM Tracking WHERE id=". $id;
+
+    // Delete the entry
+    $connection->query($sql);
+
+}
+
 function  getScreenedTodayLabels(){
 
     // This function will return labels needed for the Total Screened Today pie chart
@@ -379,6 +394,10 @@ function  getScreenedTodayLabels(){
     // Return the results
     return $chartData;
 
+}
+
+function getScreenedHistoryLabel(){
+    
 }
 
 function  getScreenedTodayData(){

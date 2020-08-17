@@ -81,7 +81,7 @@ if (isset($_GET['login'])) {
     }
 }
 
-//Check and see if the user submitted the form on the index page
+//Check and see if the user submitted the screening form
 if (isset($_GET['screeningform'])) {
     if (isset($_POST["submit"])) {
 
@@ -246,6 +246,28 @@ if (isset($_GET['reports'])){
         $resultsAllSelected = "selected";
         $resultsPassedSelected = "";
         $resultsFailedSelected = "";
+    }
+}
+
+// Check if the user clicked the delete link on the reports page 
+if (isset($_GET['reports'])){
+    if (isset($_GET["delete"]) || isset($_GET['id'])){
+        
+        // Delete the entry
+        deleteScreeningEntry($_GET['id']);
+
+        // Build the return URL
+        $url = "index.php?reports&LoadReport&fromDate=". $_GET["fromDate"]. 
+            "&toDate=". $_GET["toDate"]. 
+            "&userType=". $_GET["userType"].
+            "&building=". $_GET["building"]. 
+            "&passed=". $_GET["passed"];
+
+        // Redirect the user to a page with a sharable URL
+        header("location:". $url);
+        die;
+        
+
     }
 }
 
