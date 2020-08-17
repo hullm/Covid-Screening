@@ -3,7 +3,7 @@ This is a screening form for Covid 19 symptoms.  It asks you questions to see if
 ![Login Screen](https://covid.lkgeorge.org/images/loginscreen2.png)
 Created by Matt Hull and Dane Davis.  
 
-![Stats Screen](https://covid.lkgeorge.org/images/stats.png)
+![Stats Screen](https://covid.lkgeorge.org/images/stats1.png)
 ![Reports Screen](https://covid.lkgeorge.org/images/reports1.png)
 ![Missing Screen](https://covid.lkgeorge.org/images/missing.png)
 
@@ -145,7 +145,6 @@ UNINSTALL COMPONENT "file://component_validate_password";
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password';
 FLUSH PRIVILEGES;
 INSTALL COMPONENT "file://component_validate_password";
-SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));
 EXIT;
 ```
 
