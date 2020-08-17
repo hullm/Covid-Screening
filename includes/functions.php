@@ -396,8 +396,80 @@ function  getScreenedTodayLabels(){
 
 }
 
-function getScreenedHistoryLabel(){
+function getScreenedHistoryLabel($days){
     
+    // This function returns the labels for the Screened History chart
+
+    // Build the list of dates
+    $results = "";
+    for ($i = $days-1; $i >= 0; $i--) {
+        $results .= "'". date("m/d/Y", strtotime("-$i day")). "',";
+    }
+
+    // Return the list of dates
+    return $results;
+}
+
+function getScreeningHistoryData($dataType,$days){
+
+    // This function returns the data for the Screening History chart
+
+    // Connect to the database
+    $connection = db_connect();
+
+    $data = "";
+
+
+    for ($i = $days-1; $i >= 0; $i--) {
+
+        switch ($dataType) {
+            case "Passed":
+                $sql = "SELECT DateSubmitted, Count(ID) AS Submitted 
+                    FROM Tracking WHERE HasPassed AND 
+                    DateSubmitted = '".  date("Y/m/d", strtotime("-$i day")). "'
+                    GROUP BY DateSubmitted";
+                break;
+            case "Failed":
+                $sql = "SELECT DateSubmitted, Count(ID) AS Submitted 
+                    FROM Tracking WHERE NOT HasPassed AND 
+                    DateSubmitted = '".  date("Y/m/d", strtotime("-$i day")). "'
+                    GROUP BY DateSubmitted";
+                break;
+            case "Employee":
+                $sql = "SELECT DateSubmitted, Count(ID) AS Submitted 
+                    FROM Tracking WHERE (UserType='Employee' OR  UserType='Admin') AND 
+                    DateSubmitted = '".  date("Y/m/d", strtotime("-$i day")). "'
+                    GROUP BY DateSubmitted";
+                break;
+            case "Visitor":
+                $sql = "SELECT DateSubmitted, Count(ID) AS Submitted 
+                    FROM Tracking WHERE UserType='Visitor' AND 
+                    DateSubmitted = '".  date("Y/m/d", strtotime("-$i day")). "'
+                    GROUP BY DateSubmitted";
+                break;
+            case "Student":
+                $sql = "SELECT DateSubmitted, Count(ID) AS Submitted 
+                    FROM Tracking WHERE UserType='Student' AND 
+                    DateSubmitted = '".  date("Y/m/d", strtotime("-$i day")). "'
+                    GROUP BY DateSubmitted";
+                break;
+        }
+
+        // Get the data from the database
+        $results = $connection->query($sql);
+
+        if ($results->num_rows > 0) {
+            while ($row=$results->fetch_assoc()) {
+                $data .= $row['Submitted']. ",";
+            }
+        }
+        else {
+            $data .= "0,";
+        }
+    }
+
+    return $data;
+
 }
 
 function  getScreenedTodayData(){

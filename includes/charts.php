@@ -15,6 +15,11 @@ $results = getRecentResults(10);
             <canvas id="screeningResults" width="100" height="100"></canvas>
         </div>
     </div>
+    <div class="form-row justify-content-around">
+        <div class="lineChart">
+            <canvas id="screeningHistory" width="100" height="100"></canvas>
+        </div>
+    </div>
 </div>
 
 <div class = "container">
@@ -81,6 +86,7 @@ else { ?>
 <br />
 <br />
 
+<!-- Employees Screened Today Doughnut Chart -->
 <script>
 var ctx = document.getElementById('employeesScreened').getContext('2d');
 var employeesScreened = new Chart(ctx, {
@@ -130,6 +136,7 @@ var employeesScreened = new Chart(ctx, {
 });
 </script>
 
+<!-- Total Screened Today Doughnut Chart -->
 <script>
 var ctx = document.getElementById('totalScreened').getContext('2d');
 var totalScreened = new Chart(ctx, {
@@ -177,6 +184,7 @@ var totalScreened = new Chart(ctx, {
 });
 </script>
 
+<!-- Screening Results Doughnut Chart -->
 <script>
 var ctx = document.getElementById('screeningResults').getContext('2d');
 var screeningResults = new Chart(ctx, {
@@ -223,6 +231,86 @@ var screeningResults = new Chart(ctx, {
         }
     }
 });
+</script>
+
+<!-- Line Graph -->
+<script>
+
+var ctx = document.getElementById('screeningHistory');
+
+var width = window.innerWidth;
+if (width<480) {
+    ctx.height = "65";
+}
+else {
+    ctx.height = "25";
+};
+
+var screeningResults = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [<?php echo getScreenedHistoryLabel(14); ?>],
+        datasets: [{
+            label: ['Passed'],
+            fill: false,
+            borderColor: 'rgba(54, 162, 235, 0.8)',
+            backgroundColor: 'rgba(54, 162, 235, 0.8)',
+            data: [<?php echo getScreeningHistoryData("Passed",14); ?>],
+        },
+        {
+            label: ['Failed'],
+            fill: false,
+            borderColor: 'rgba(255, 15, 15, 0.8)',
+            backgroundColor: 'rgba(255, 15, 15, 0.8)',
+            data: [<?php echo getScreeningHistoryData("Failed",14); ?>],
+        },
+        {
+            label: ['Employees'],
+            fill: false,
+            borderColor: 'rgba(255, 206, 86, 0.8)',
+            backgroundColor: 'rgba(255, 206, 86, 0.8)',
+            data: [<?php echo getScreeningHistoryData("Employee",14); ?>],
+        },
+        {
+            label: ['Visitors'],
+            fill: false,
+            borderColor: 'rgba(0, 204, 0, 0.8)',
+            backgroundColor: 'rgba(0, 204, 0, 0.8)',
+            data: [<?php echo getScreeningHistoryData("Visitor",14); ?>],
+        },
+        {
+            label: ['Students'],
+            fill: false,
+            borderColor: 'rgba(255, 153, 51, 0.8)',
+            backgroundColor: 'rgba(255, 153, 51, 0.8)',
+            data: [<?php echo getScreeningHistoryData("Student",14); ?>],
+        }
+        ]
+
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Screening History'
+        },
+        plugins: {
+            labels: { render: 'value',
+                fontColor: '#000',
+                position: 'inside'
+            }
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        },
+
+    }
+});
+
 </script>
 
 <script>

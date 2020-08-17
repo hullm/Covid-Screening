@@ -266,8 +266,6 @@ if (isset($_GET['reports'])){
         // Redirect the user to a page with a sharable URL
         header("location:". $url);
         die;
-        
-
     }
 }
 
