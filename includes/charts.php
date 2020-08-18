@@ -1,6 +1,7 @@
 <?php 
 // Query the database
 $results = getRecentResults(10);
+purgeOldData($config['purgeafter']);
 ?>
 
 <div class="container">
