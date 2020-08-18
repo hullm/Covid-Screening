@@ -3,6 +3,9 @@ include 'includes/privacy.php';
 include 'includes/easteregg.php'; //Shhhh it's a secret...
 ?>
 <div class="footer">
+    <button onclick="reloadCSS()"
+        class="btn btn-sm btn-link">
+    </button>
     <button id="privacy_policy"
         class="btn btn-sm btn-link"
         data-toggle="modal" 
@@ -32,4 +35,18 @@ function typeWriter() {
         setTimeout(typeWriter, speed);
     }
 }
+
+function reloadCSS() {
+    var h, a, f;
+    a = document.getElementsByTagName('link');
+    for (h = 0; h < a.length; h++) {
+        f = a[h];
+        if (f.rel.toLowerCase().match(/stylesheet/) && f.href) {
+            var g = f.href.replace(/(&|\?)rnd=\d+/, '');
+            f.href = g + (g.match(/\?/) ? '&' : '?');
+            f.href += 'rnd=' + (new Date().valueOf());
+        }
+    }
+}
+
 </script>
