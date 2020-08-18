@@ -246,7 +246,7 @@ else {
     ctx.height = "25";
 };
 
-var screeningResults = new Chart(ctx, {
+var screeningHistory = new Chart(ctx, {
     type: 'line',
     data: {
         labels: [<?php echo getScreenedHistoryLabel(14); ?>],
