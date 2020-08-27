@@ -202,6 +202,27 @@ function getPhoneNumber($userName){
     }
 }
 
+function getLastBuilding($userName) {
+
+    // Get the last site the user submitted
+
+    // Connect to the database
+    $connection = db_connect();
+    
+    // Look up the user in the database
+    $sql = "SELECT Building FROM Tracking WHERE UserName='". $userName. "' ORDER BY ID DESC;";
+    $results = $connection->query($sql);
+
+    // Return the building if found, otherwise return an empty string
+    if ($results->num_rows > 0) {
+        $row = $results->fetch_assoc();     
+        return $row['Building'];
+    } 
+    else {
+        return "";
+    }
+}
+
 function getUserResults($userName){
 
     // If the user already took the test today this will return if they passed or not.

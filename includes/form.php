@@ -1,4 +1,13 @@
-<?php $sites = explode(',',$config['sites']); ?>
+<?php 
+
+// Get the sites from the config file
+$sites = explode(',',$config['sites']); 
+
+// Get the user's phone number and the last site the used from the database
+$phoneNumber = getPhoneNumber($_SESSION["userName"]);
+$lastBuilding = getLastBuilding($_SESSION["userName"]);
+
+?>
 <div class="container">
     <div class="row">
         <div class="col-12">
@@ -6,11 +15,18 @@
                 <!-- Phone & Building Tab -->
                 <div class="row">
                     <div class="tab"><h4>Please enter your phone number</h4>
-                        <p><input name="phone_number" placeholder="(123) 456-7890" value="<?php echo getPhoneNumber($_SESSION["userName"]);?>" oninput="this.className = ''" onblur="formatPhone(this);"></p>
+                        <p><input name="phone_number" placeholder="(123) 456-7890" value="<?php echo $phoneNumber;?>" oninput="this.className = ''" onblur="formatPhone(this);"></p>
                         <label for building> <h4>Please select a building</h4></label>
                             <select name = "building" class = "form-control" required>
                                 <option value="" disable selected>Select a building...</option>
-                                <?php foreach($sites as $site) {echo "<option value=\"". $site. "\">". $site. "</option>";}?>
+                                <?php foreach($sites as $site) {
+                                        if ($site == $lastBuilding) {
+                                            echo "<option value=\"". $site. "\" selected>". $site. "</option>";
+                                        } 
+                                        else {
+                                            echo "<option value=\"". $site. "\">". $site. "</option>";
+                                        }
+                                    }?>
                             </select>
                     </div>
                 </div>
