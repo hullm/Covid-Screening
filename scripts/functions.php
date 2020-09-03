@@ -100,7 +100,7 @@ function sendMissingMessages() {
 
     // Loop through the users and send each of them a message
     while ($row=$results->fetch_assoc()) {
-        sendMissingMessage($row['FirstName'],$row['LastName']);
+        sendMissingMessage($row['FirstName'],$row['Email']);
     }
 }
 

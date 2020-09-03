@@ -7,7 +7,7 @@ include "functions.php";
 if (isset($argv[1])) {
     switch (strtolower($argv[1])) {
         case "missing":
-            sendMissingMessage("Matt","hullm@lkgeorge.org");
+            sendMissingMessages();
             break;
 
         case "summary":
