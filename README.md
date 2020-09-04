@@ -351,8 +351,12 @@ Now we need to schedule the jobs to run.  Open the crontab file and edit it.
 crontab -e
 ```
 
-In the config below we're running the missing task at 8am and the summary task at 11:59pm.  The summary message will go to the email address listed at the end of the command.  If you want to send it to multiple people you can list the command multiple times each time with a different email address.  When done press control+o to save and control+x to exit.
-![Crontab](https://covid.lkgeorge.org/images/cronjob.png)
+In the config below we're running the missing task at Monday - Friday at 8am and the summary task at 11:59pm.  The summary message will go to the email address listed at the end of the command.  If you want to send it to multiple people you can list the command multiple times each time with a different email address.  When done press control+o to save and control+x to exit.
+``` bash
+00 8 * * 1-5 cd /var/www/html/scripts/; /usr/bin/php -q email.php missing
+59 23 * * 1-5 cd /var/www/html/scripts/; /usr/bin/php -q email.php summary me@mail.com
+```
+![Crontab](https://covid.lkgeorge.org/images/cronjob1.png)
 
 # Updating the Covid Screening Site
 After installing you can use git pull to update the site.
