@@ -5,7 +5,7 @@ $buildings = explode(',',$config['sites']);
     <form class="needs-validation" method="POST" action="index.php?missingstudents" novalidate>
         <div class="form-row justify-content-around">
             <div class="col-md-3 mb-5">
-                <label for="fromdate">No Check In Since Before:</label>
+                <label for="fromdate">From Date</label>
                 <input type="date" class="form-control" name="from_date" id="from_date" placeholder="mm/dd/yyyy" value="<?php echo $fromDateValue;?>" required>
                 <div class="valid-feedback">
                     Looks good!
