@@ -19,6 +19,15 @@ if (isset($argv[1])) {
             }
             break;
 
+        case "parents":
+            if (isset($argv[2])) {
+                sendParentReminders($argv[2]);
+            }
+            else {
+                echo "Missing number of days...\n\r";
+            }
+            break;
+        
         default:
             echo "Invalid Argument...\n\r";
     }

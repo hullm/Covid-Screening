@@ -51,6 +51,10 @@ elseif (isset($_GET['missing'])) {
     $navMissingActive = "active";
     $navMissingSpan = "<span class=\"sr-only\">(current)</span>";
 }
+elseif (isset($_GET['missingstudents'])) {
+    $navMissingActive = "active";
+    $navMissingSpan = "<span class=\"sr-only\">(current)</span>";
+}
 else {
     $navHomeActive = "active";
     $navHomeSpan = "<span class=\"sr-only\">(current)</span>";
@@ -106,8 +110,15 @@ else {
                 <li class="nav-item <?php echo $navReportsActive;?>">
                     <a class="nav-link" href="index.php?reports">Reports <?php echo $navReportsSpan; ?></a>
                 </li>
-                <li class="nav-item <?php echo $navMissingActive;?>">
-                    <a class="nav-link" href="index.php?missing">Missing <?php echo $navMissingSpan; ?></a>
+                <li class="dropdown nav-item <?php echo $navMissingActive;?>"><a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#">Missing<span class="caret"></span> <?php echo $navMissingSpan; ?></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="index.php?missing">Employees</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="index.php?missingstudents">Students</a>
+                        </li>
+                    </ul>
                 </li>
         <?php   } 
                 if ($showLogout == "True") { ?>

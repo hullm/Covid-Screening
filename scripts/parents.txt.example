@@ -1,0 +1,12 @@
+Good morning %FIRSTNAME%, 
+<br /><br />
+According to our records %STUDENTFIRSTNAME% %STUDENTLASTNAME% hasn't filled out the required COVID Screening within the past %DAYS% days.  
+Please have %STUDENTFIRSTNAME% fill it out as soon as possible.
+<br /><br />
+You can <a href="https://covid.site.com">access the form using this link</a>.  The required login information is below.
+<br />
+<li><b>Username</b>: %USERNAME%</li>
+<li><b>Password</b>: %PASSWORD%</li>
+Thank you. 
+<br /><br />
+Please do not reply to this message.

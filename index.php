@@ -24,10 +24,18 @@ elseif(isset($_GET['reports']) && $_SESSION['userType'] == "Admin"){
 elseif(isset($_GET['missing']) && $_SESSION['userType'] == "Admin"){
     include 'includes/missing.php';
 }
+elseif(isset($_GET['missingstudents']) && $_SESSION['userType'] == "Admin"){
+    include 'includes/missingstudents.php';
+}
 
 // Show the setup page if they're an admin and the page is requested
 elseif(isset($_GET['setup']) && $_SESSION['userType'] == "Admin"){
     include 'includes/setup.php';
+}
+
+// Show the contact page if they're an admin and the page is requested
+elseif(isset($_GET['contact']) && $_SESSION['userType'] == "Admin"){
+    include 'includes/contact.php';
 }
 
 // If the user is visiting for the first time today we'll show 

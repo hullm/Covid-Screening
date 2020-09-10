@@ -17,7 +17,7 @@
                         <ul>
                             <li>First name</li>
                             <li>Last name</li>
-                            <li>Username (Employee's only)</li>
+                            <li>Username (Not for Visitors)</li>
                             <li>Email address </li>
                             <li>Phone number </li>
                             <li>True or False if you passed the questionnaire, no symptom information is stored. </li>

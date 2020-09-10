@@ -314,4 +314,60 @@ if (isset($_GET['missing'])){
         $buildingAllSelected = "selected";
     }
 }
+
+// Check if the user submitted the form on the missingstudents page 
+if (isset($_GET['missingstudents'])){
+    if (isset($_POST["submit"]) || isset($_GET['LoadMissing'])){
+
+        // Initialize the variable
+        $building = "";
+        $fromDate = "";
+        
+        // Get the values from the form
+        if (isset($_POST["submit"])) {
+            $building = $_POST["building"];
+            $fromDate = $_POST["from_date"];
+
+            // Redirect the user to a page with a sharable URL
+            header("location:index.php?missingstudents&LoadMissing".
+                "&building=". $building.
+                "&fromDate=". $fromDate);
+            die; 
+        }
+
+        // Get the values from the URL
+        if (isset($_GET['LoadMissing'])) {
+            if ($building == "" && isset($_GET['building'])) {
+                $building = $_GET["building"];
+            }
+            if ($fromDate == "" && isset($_GET['fromDate'])) {
+                $fromDate = $_GET["fromDate"];
+            }
+        }
+
+        // Query the database
+        $results = getMissingStudentResults($building,$fromDate);
+
+        // Set the default values for the form elements
+        $buildingValue = "";
+        $buildingAllSelected = "";
+        $fromDateValue = $fromDate;
+
+        // Set the defaults for building
+        $buildingValue = $building;
+        if ($buildingValue == "All") {
+            $buildingAllSelected = "selected";
+        }
+        else {
+            $buildingAllSelected = "";
+        }
+    }
+    else {
+
+        // Set the default values for the form elements
+        $buildingAllSelected = "selected";
+        $fromDateValue = date("Y-m-d");
+    }
+}
+
 ?>

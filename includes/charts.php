@@ -286,8 +286,8 @@ var screeningHistory = new Chart(ctx, {
         {
             label: ['Students'],
             fill: false,
-            borderColor: 'rgba(255, 153, 51, 0.8)',
-            backgroundColor: 'rgba(255, 153, 51, 0.8)',
+            borderColor: 'rgba(178, 102, 255, 0.8)',
+            backgroundColor: 'rgba(178, 102, 255, 0.8)',
             data: [<?php echo getScreeningHistoryData("Student",14); ?>],
         }
         ]

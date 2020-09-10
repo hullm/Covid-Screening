@@ -86,20 +86,24 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
             if ($results->num_rows > 0) {
                 $row = $results->fetch_assoc();
                 $sql = "UPDATE People SET 
+                    Active = True,
                     PhoneNumber='". $fixedPhoneNumber. "',
-                    LastCheckin=CURDATE() 
+                    UserType='". $fixedUserType. "',
+                    LastCheckin=CURDATE()
                     WHERE id=". $row['id']. ";";
             } 
             // Add them to the people table
             else {
-                $sql = "INSERT INTO People (UserName,FirstName,LastName,Email,PhoneNumber,UserType,LastCheckin)
-                    VALUES ('". 
+                $sql = "INSERT INTO People (Active,UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building,LastCheckin,)
+                    VALUES (
+                    True,'". 
                     $fixedUserName. "','". 
                     $fixedFirstName. "','". 
                     $fixedLastName. "','". 
                     $fixedEmail. "','".
                     $fixedPhoneNumber. "','". 
-                    $fixedUserType. "',".
+                    $fixedUserType. "','".
+                    $fixedBuilding. "',".
                     "CURDATE());";
                     }
             
@@ -108,6 +112,15 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
                 echo $sql. "<br />";
                 echo "Failed to add record to the database...";
             }
+        }
+
+        // If the user is a student then update the student table with the date.
+        if ($userType == "Student") {
+            $sql = "UPDATE Students SET 
+                LastCheckIn=CURDATE(),
+                PhoneNumber='". $fixedPhoneNumber. "'
+                WHERE Username='". $fixedUserName. "';";
+            $connection->query($sql);
         }
     }
 }
@@ -160,7 +173,7 @@ function alreadySubmitted($userName) {
     
 }
 
-function  GetLatestEntry() {
+function getLatestEntry() {
 
     // Returns the ID of the most recent entry
 
@@ -344,24 +357,54 @@ function getMissingResults($building ){
     // Prepare the variables for the database query
     $fixedBuilding = mysqli_real_escape_string($connection,$building);
     
-    // Set the SQL WHERE clause for the UserType
-    $userTypeQuery = "(People.UserType='Employee' OR People.UserType='Admin')";
-    
     // Set the SQL WHERE clause for the building
     if ($building!="All") {
-        $buildingQuery = "Tracking.Building='". $fixedBuilding. "'";
+        $buildingQuery = "Building='". $fixedBuilding. "'";
     }
     else {
-        $buildingQuery = "Tracking.Building IS NOT NULL";
+        $buildingQuery = "Building IS NOT NULL";
     }
 
     // Build the SQL string to get the results
-    $sql = "SELECT People.UserName,People.FirstName,People.LastName,People.Email,People.PhoneNumber,People.UserType,Tracking.Building
-        FROM People INNER JOIN Tracking ON People.UserName=Tracking.UserName WHERE ". 
-        "People.LastCheckIn<CURDATE() AND ".
-        $buildingQuery. " AND ".
-        $userTypeQuery. " ".
-        "GROUP BY People.UserName ORDER BY People.LastName, People.FirstName;";
+    $sql = "SELECT UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building
+        FROM People 
+        WHERE (LastCheckIn<CURDATE() OR LastCheckin IS NULL) AND Active=TRUE AND ". $buildingQuery. "
+        ORDER BY LastName,FirstName;";
+
+    // Look up the data and output the SQL string if it fails
+    if ($connection->query($sql) === FALSE) {
+        echo $sql. "<br />";
+        echo "Failed to query the database...";
+    }
+    $results = $connection->query($sql);
+
+    // Return the results
+    return $results;
+}
+
+function getMissingStudentResults($building,$fromDate){
+
+    // When you use the missing page and perform a query this function is called to get the data.
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Prepare the variables for the database query
+    $fixedBuilding = mysqli_real_escape_string($connection,$building);
+    
+    // Set the SQL WHERE clause for the building
+    if ($building!="All") {
+        $buildingQuery = "Building='". $fixedBuilding. "'";
+    }
+    else {
+        $buildingQuery = "Building IS NOT NULL";
+    }
+
+    // Build the SQL string to get the results
+    $sql = "SELECT StudentID,FirstName,LastName,UserName,Email,PhoneNumber,Building
+        FROM Students 
+        WHERE (LastCheckIn<'". $fromDate. "' OR LastCheckin IS NULL) AND Active=TRUE AND ". $buildingQuery. "
+        ORDER BY LastName,FirstName;";
 
     // Look up the data and output the SQL string if it fails
     if ($connection->query($sql) === FALSE) {
@@ -381,12 +424,34 @@ function deleteScreeningEntry($id){
     // Connect to the database
     $connection = db_connect();
 
-    // Build the sql string used to delete the entry
-    $sql = "DELETE FROM Tracking WHERE id=". $id;
+    // Get the username for the person whose entry we're deleting
+    $sql = "SELECT UserName FROM Tracking WHERE id=". $id;
+    $results = $connection->query($sql);
 
     // Delete the entry
+    $sql = "DELETE FROM Tracking WHERE id=". $id;
     $connection->query($sql);
 
+    // Find out when they last checked in
+    if ($results->num_rows > 0) {
+        $row=$results->fetch_assoc();
+        $userName = $row['UserName'];
+        $sql = "SELECT DateSubmitted FROM Tracking WHERE UserName='". $userName. "' ORDER BY id DESC;";
+        $results = $connection->query($sql);
+
+        // Rollback the LastCheckIn to its previous value, or null if it's not found
+        if ($results->num_rows > 0) {
+            $row=$results->fetch_assoc();
+            $sql = "UPDATE People SET LastCheckIn='". $row['DateSubmitted']. "' WHERE UserName='". $userName. "'";
+        }
+        else {
+            $sql = "UPDATE People SET LastCheckIn=NULL WHERE UserName='". $userName. "'";
+        }
+    }
+    else {
+        $sql = "UPDATE People SET LastCheckIn=NULL WHERE UserName='". $userName. "'";
+    }
+    $connection->query($sql);
 }
 
 function  getScreenedTodayLabels(){
@@ -575,13 +640,13 @@ function  getEmployeesScreenedToday(){
     }
 
     // Build the SQL string to get the number who haven't submitted today.
-    $sql = "SELECT COUNT(ID) as SubmittedToday FROM People WHERE LastCheckin<CURDATE();";
+    $sql = "SELECT COUNT(ID) as NotSubmittedToday FROM People WHERE (LastCheckin<CURDATE() OR LastCheckin IS NULL) AND Active=TRUE;";
     
     // Get the data from the database
     $results = $connection->query($sql);
     if ($results->num_rows > 0) {
         $result = $results->fetch_assoc();
-        $chartData .= $result['SubmittedToday'];
+        $chartData .= $result['NotSubmittedToday'];
     }
     else {
         $chartData .= "0";
@@ -630,6 +695,50 @@ function  getScreenedResults(){
 
 }
 
+function getContactInfo($userName) {
+
+    // This function will return the student's contact information.
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Prepare the variables for adding to the database
+    $fixedUserName = mysqli_real_escape_string($connection,$userName);
+
+    // Build the SQL string to get the results
+    $sql = "SELECT Students.FirstName As StudentFirstName,
+        Students.LastName As StudentLastName,
+        UserName,PWord,Parents.FirstName,Parents.LastName,Relationship,Parents.Email,
+        Parents.HomePhone,Parents.CellPhone,Students.StudentID
+        FROM Students 
+        INNER JOIN Parents On Students.StudentID = Parents.StudentID
+        WHERE Students.Active=True AND UserName='". $fixedUserName. "';";
+
+    // Get the data from the database and return it
+    $results = $connection->query($sql);
+    return $results;
+
+}
+
+function getStudentInfo($userName) {
+
+    // This function will return the students account information
+
+       // Connect to the database
+       $connection = db_connect();
+
+       // Prepare the variables for adding to the database
+       $fixedUserName = mysqli_real_escape_string($connection,$userName);
+   
+       // Build the SQL string to get the results
+       $sql = "SELECT * FROM Students WHERE UserName='". $fixedUserName. "';";
+   
+       // Get the data from the database and return it
+       $results = $connection->query($sql);
+       return $results;
+
+}
+
 function fixUserType($userType){
 
     // This function will change the display name for admin to employee.
@@ -640,7 +749,6 @@ function fixUserType($userType){
     else {
         return $userType;
     }
-
 }
 
 function isAuthenticated($userName, $password) {
@@ -929,5 +1037,55 @@ function entryDeniedEmail($firstName, $lastName, $building){
         //echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
     }
   }
+
+function checkRemoteFile($url) {
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,$url);
+
+    // don't download content
+    curl_setopt($ch, CURLOPT_NOBODY, 1);
+    curl_setopt($ch, CURLOPT_FAILONERROR, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    $result = curl_exec($ch);
+    curl_close($ch);
+
+    if($result !== FALSE) {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+function formatPhoneNumber($phone) {
+    
+    // note: making sure we have something
+    if(!isset($phone)) { return ''; }
+    
+    // note: strip out everything but numbers 
+    $phone = preg_replace("/[^0-9]/", "", $phone);
+    $length = strlen($phone);
+    
+    switch($length) {
+        case 7:
+            return preg_replace("/([0-9]{3})([0-9]{4})/", "$1-$2", $phone);
+            break;
+        
+        case 10:
+            return preg_replace("/([0-9]{3})([0-9]{3})([0-9]{4})/", "($1) $2-$3", $phone);
+            break;
+    
+        case 11:
+            return preg_replace("/([0-9]{1})([0-9]{3})([0-9]{3})([0-9]{4})/", "$1($2) $3-$4", $phone);
+            break;
+    
+        default:
+            return $phone;
+            break;
+    }
+}
 
 ?>
