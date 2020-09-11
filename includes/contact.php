@@ -8,7 +8,7 @@ if (isset($_GET['username'])) {
 
 if ($userName != "") {
 
-    // Get the contact info fand student info from the database
+    // Get the contact info and student info from the database
     $contactInfo = getContactInfo($userName);
     $studentInfo = getStudentInfo($userName);
     $studentInfo = $studentInfo->fetch_assoc();

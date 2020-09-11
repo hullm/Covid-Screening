@@ -334,10 +334,10 @@ function getMissingResults(){
     $connection = db_connect();
 
     // Build the SQL string to get the results
-    $sql = "SELECT People.UserName,People.FirstName,People.LastName,People.Email,People.PhoneNumber,People.UserType,Tracking.Building
-        FROM People INNER JOIN Tracking ON People.UserName=Tracking.UserName
-        WHERE People.LastCheckIn<CURDATE() AND Tracking.Building IS NOT NULL AND (People.UserType='Employee' OR People.UserType='Admin')
-        GROUP BY People.UserName ORDER BY People.LastName, People.FirstName;";
+    $sql = "SELECT UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building
+        FROM People 
+        WHERE (LastCheckIn<CURDATE() OR LastCheckin IS NULL) AND Active=TRUE AND Building IS NOT NULL
+        ORDER BY LastName,FirstName;";
 
     // Look up the data in the database
     $results = $connection->query($sql);
