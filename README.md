@@ -1,5 +1,6 @@
 # Covid-Screening
 This is a screening form for Covid 19 symptoms.  It asks you questions to see if you are risk for entering the school.  This connects to the NY state health site to retrieve the list of restricted sites, as well as the CDC site to pull the most current list of symptoms.  If you pass the questionnaire you're granted access to the building otherwise you're denied access.  When you submit the form  your contact information is logged as well as the results of the screening survey.  Data older then x number of days, where x equals a value you set, is purged automatically.  More information about what data is collected is available in the Privacy Policy.  No symptom information is stored.
+
 ![Login Screen](https://covid.lkgeorge.org/images/loginscreen2.png)
 Created by Matt Hull and Dane Davis.  
 
@@ -33,6 +34,7 @@ sudo ufw allow ssh
 ```
 
 Test your Apache install by opening the site in a web browser.  You should see the default page. (http://*servername*)
+
 ![Login Screen](https://covid.lkgeorge.org/images/apacheinstalled.png)
 
 # Step 2 - Install PHP
@@ -50,6 +52,7 @@ sudo echo "<?php phpinfo();?>" > ~/test.php
 sudo mv ~/test.php /var/www/html/test.php
 ```
 Test your PHP install by opening the test.php page in a web browser.  You should see the PHP info page. (http://*servername*/test.php)
+
 ![Login Screen](https://covid.lkgeorge.org/images/phpinstalled.png)
 
 After testing PHP delete the test.php file.
@@ -250,6 +253,7 @@ Set the values in the config file.
 * **mailRecipients**: A comma separated list of email addresses who will receive an alert if someone fails the survey. 
 
 When you're done press control+x to exit, answer y to same, and enter to accept the file name.
+
 ![Config File](https://covid.lkgeorge.org/images/config4.png)
 
 If you chose to store config.ini in a different location you need to edit config.php to tell it where the config file is located.  Open includes/config.php and set the path to the config file.
@@ -259,6 +263,7 @@ sudo nano includes/config.php
 Set $configFile to the path of the config file.  When you're done press control+x to exit, answer y to same, and enter to accept the file name.
 
 After the config files are setup open the site in a web browser. (http://*servername*/)
+
 ![Login Screen](https://covid.lkgeorge.org/images/loginscreen2.png)
 
 If everything is setup properly the first time you log in it will redirect you to the setup page which will create the database.  If everything went well click View the site.
@@ -287,6 +292,7 @@ During the install you'll be asked to select a web server, use the space bar to 
 After that you'll be asked if you want to configure a database for phpmyadmin, answer yes.  After that provide a password for the database and confirm the password.
 
 Test your phpMyAdmin install by opening it in a web browser.  You can sign in using root as the username and the password you set earlier. (http://*servername*/phpmyadmin)
+
 ![phpMyAdmin Install](https://covid.lkgeorge.org/images/phpmyadmin.png)
 
 After you install phpMyAdmin you can enable password validation in MariaDB.
@@ -338,6 +344,7 @@ sudo nano missing.txt
 ```
 
 Modify the message to your liking.  #FIRSTNAME# will be replaced with the user's first name.  Make sure you update the URL to the what's used in your environment.  When done press control+o to save and control+x to exit.
+
 ![Edit missing.txt](https://covid.lkgeorge.org/images/missingemail2.png)
 
 Next you can edit the summary message.
@@ -345,6 +352,7 @@ Next you can edit the summary message.
 sudo nano summary.txt
 ```
 Change this message to whatever you want it to be.  %LIST% is needed as it's the list of users who haven't submitted yet.  When done press control+o to save and control+x to exit.
+
 ![Edit summary.txt](https://covid.lkgeorge.org/images/summaryemail2.png)
 
 Finally you can send emails to parents with login information if it's available.  In order for this you need to import student and parent data using the directions in the optional step for importing data.
@@ -354,6 +362,7 @@ Edit the parent message.
 sudo nano parent.txt
 ```
 You can modify the message to say what ever you want.  Make sure to change the URL to your own.  If you imported username and password data for students you can give that information to the parents.  If you didn't import that data make sure you remove the username and password references.  When done press control+o to save and control+x to exit.
+
 ![Edit parents.txt](https://covid.lkgeorge.org/images/parentsemail.png)
 
 Now we need to schedule the jobs to run.  Open the crontab file and edit it.
@@ -367,6 +376,7 @@ In the config below we're running the missing task at Monday - Friday at 8am and
 59 23 * * 1-5 cd /var/www/html/scripts/; /usr/bin/php -q email.php summary me@mail.com
 30 7 * * * cd /var/www/html/scripts/; /usr/bin/php -q email.php parents 14
 ```
+
 ![Crontab](https://covid.lkgeorge.org/images/cronjob2.png)
 
 # Updating the Covid Screening Site
