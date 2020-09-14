@@ -325,38 +325,49 @@ After you submit you'll be presented with a site key and a secret key.  Copy tho
 Visitors may not want to use a dirty school device to sign in.  You can add a QR code to the login screen so visitors can easily use their personal devices to access the form.  Place a file named qrcode.png in the images folder and it will appear in the login screen. If you want to add text you can do so in config.ini.  Change qrcodetext to what you want ti include below the QR code.
 
 # Optional Step - Sending out Scheduled Emails
-You can configure the system to send out scheduled emails to employees letting them know they haven't submitted their form today, or a summary email that lists all the people who haven't submitted yet today.  We do this using cron jobs in linux.
+You can configure the system to send out scheduled emails to employees or students letting them know they haven't submitted their form today, or a summary email that lists all the people who haven't submitted yet.  We do this using cron jobs in linux.
 
-Before we schedule the tasks we will customize the messages.  We're going to copy the example messages and edit them.
+Before we schedule the tasks we'll customize the messages.  We're going to copy the example messages and edit them.
 
 ```bash
 cd /var/www/html/scripts
 cp missing.txt.example missing.txt
 cp summary.txt.example summary.txt
-nano missing.txt
+cp parents.txt.example parents.txt
+sudo nano missing.txt
 ```
 
 Modify the message to your liking.  #FIRSTNAME# will be replaced with the user's first name.  Make sure you update the URL to the what's used in your environment.  When done press control+o to save and control+x to exit.
-![Edit missing.txt](https://covid.lkgeorge.org/images/missingemail.png)
+![Edit missing.txt](https://covid.lkgeorge.org/images/missingemail2.png)
 
 Next you can edit the summary message.
 ```bash
-nano summary.txt
+sudo nano summary.txt
 ```
 Change this message to whatever you want it to be.  %LIST% is needed as it's the list of users who haven't submitted yet.  When done press control+o to save and control+x to exit.
-![Edit summary.txt](https://covid.lkgeorge.org/images/summaryemail.png)
+![Edit summary.txt](https://covid.lkgeorge.org/images/summaryemail2.png)
+
+Finally you can send emails to parents with login information if it's available.  In order for this you need to import student and parent data using the directions in the optional step for importing data.
+
+Edit the parent message.
+```bash
+sudo nano parent.txt
+```
+You can modify the message to say what ever you want.  Make sure to change the URL to your own.  If you imported username and password data for students you can give that information to the parents.  If you didn't import that data make sure you remove the username and password references.  When done press control+o to save and control+x to exit.
+![Edit parents.txt](https://covid.lkgeorge.org/images/parentsemail.png)
 
 Now we need to schedule the jobs to run.  Open the crontab file and edit it.
 ``` bash
 crontab -e
 ```
 
-In the config below we're running the missing task at Monday - Friday at 8am and the summary task at 11:59pm.  The summary message will go to the email address listed at the end of the command.  If you want to send it to multiple people you can list the command multiple times each time with a different email address.  When done press control+o to save and control+x to exit.
+In the config below we're running the missing task at Monday - Friday at 8am and the summary task at 11:59pm.  The summary message will go to the email address listed at the end of the command.  If you want to send it to multiple people you can list the command multiple times each time with a different email address.  The parent email is going out 7 days a week at 7:30am.  The 14 represent the number days the students are required to check in.  If they have to check in every day change that to a 1, if every week change it to a 7.  When done press control+o to save and control+x to exit.
 ``` bash
 00 8 * * 1-5 cd /var/www/html/scripts/; /usr/bin/php -q email.php missing
 59 23 * * 1-5 cd /var/www/html/scripts/; /usr/bin/php -q email.php summary me@mail.com
+30 7 * * * cd /var/www/html/scripts/; /usr/bin/php -q email.php parents 14
 ```
-![Crontab](https://covid.lkgeorge.org/images/cronjob1.png)
+![Crontab](https://covid.lkgeorge.org/images/cronjob2.png)
 
 # Updating the Covid Screening Site
 After installing you can use git pull to update the site.
