@@ -330,6 +330,35 @@ After you submit you'll be presented with a site key and a secret key.  Copy tho
 # Optional Step - Adding a QR Code
 Visitors may not want to use a dirty school device to sign in.  You can add a QR code to the login screen so visitors can easily use their personal devices to access the form.  Place a file named qrcode.png in the images folder and it will appear in the login screen. If you want to add text you can do so in config.ini.  Change qrcodetext to what you want ti include below the QR code.
 
+# Optional Step - Importing Data
+You can pre populate your employee and student tables.  This is an optional step because the data will be added as people use the screener for the first time.  Importing people will allow you to see who has never used the screener.  You can also import parent data which can be used to send out emails.  You'll also be able to look up the parent info for students who haven't checked in.  
+
+The import files used in our environment have some columns that aren't used as part of the import.  When you create you're file you can leave those columns blank.  There are templates you can use to prepare your data for importing.  They're found in scripts/csv.  Download the template to your computer and add your data.  Once you have the data ready we're going to copy them into the templates on the server.
+
+First this we're going to do is make copies of the templates.
+```bash
+cd /var/www/html/scripts/csv/
+cp employees-templete.csv employees.csv
+cp parents-templete.csv parents.csv
+cp students-template.csv students.csv
+```
+
+Now we're going to open each file and copy and paste the data into them.  
+```bash
+nano employees.csv
+```
+
+Open the csv on your computer with a text editor, not a spreadsheet program.  Select all the data and copy it to the clipboard.  Delete everything in the nano editor then paste your data.  When done press control+o to save and control+x to exit.  Repeat this for each template.
+
+Once you have the data ready you can import your data.
+```bash
+php import.php employees
+php import.php parents
+php import.php students
+```
+
+After the data's imported you need to update the database.  Visit index.php?upgrade to perform the upgrade.
+
 # Optional Step - Sending out Scheduled Emails
 You can configure the system to send out scheduled emails to employees or students letting them know they haven't submitted their form today, or a summary email that lists all the people who haven't submitted yet.  We do this using cron jobs in linux.
 
@@ -345,7 +374,7 @@ sudo nano missing.txt
 
 Modify the message to your liking.  #FIRSTNAME# will be replaced with the user's first name.  Make sure you update the URL to the what's used in your environment.  When done press control+o to save and control+x to exit.
 
-![Edit missing.txt](https://covid.lkgeorge.org/images/missingemail2.png)
+![Edit missing.txt](https://covid.lkgeorge.org/images/missingemail.png)
 
 Next you can edit the summary message.
 ```bash
@@ -353,7 +382,7 @@ sudo nano summary.txt
 ```
 Change this message to whatever you want it to be.  %LIST% is needed as it's the list of users who haven't submitted yet.  When done press control+o to save and control+x to exit.
 
-![Edit summary.txt](https://covid.lkgeorge.org/images/summaryemail2.png)
+![Edit summary.txt](https://covid.lkgeorge.org/images/summaryemail.png)
 
 Finally you can send emails to parents with login information if it's available.  In order for this you need to import student and parent data using the directions in the optional step for importing data.
 
@@ -363,7 +392,7 @@ sudo nano parent.txt
 ```
 You can modify the message to say what ever you want.  Make sure to change the URL to your own.  If you imported username and password data for students you can give that information to the parents.  If you didn't import that data make sure you remove the username and password references.  When done press control+o to save and control+x to exit.
 
-![Edit parents.txt](https://covid.lkgeorge.org/images/parentsemail.png)
+![Edit parents.txt](https://covid.lkgeorge.org/images/parentsemail2.png)
 
 Now we need to schedule the jobs to run.  Open the crontab file and edit it.
 ``` bash
@@ -377,7 +406,7 @@ In the config below we're running the missing task at Monday - Friday at 8am and
 30 7 * * * cd /var/www/html/scripts/; /usr/bin/php -q email.php parents 14
 ```
 
-![Crontab](https://covid.lkgeorge.org/images/cronjob2.png)
+![Crontab](https://covid.lkgeorge.org/images/cronjob3.png)
 
 # Updating the Covid Screening Site
 After installing you can use git pull to update the site.
