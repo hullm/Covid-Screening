@@ -2,6 +2,12 @@
 $buildings = explode(',',$config['sites']);
 ?>
 <div class="container" id="reportsForm">
+    <div class="row justify-content-center">
+        <h3>
+            Missing Employee Report
+            <?php if (isset($results)) { echo ": ". $results->num_rows; } ?>
+        </h3>
+    </div>
     <form class="needs-validation" method="POST" action="index.php?missing" novalidate>
         <div class="form-row justify-content-around">
             <div class="col-md-3 mb-5">

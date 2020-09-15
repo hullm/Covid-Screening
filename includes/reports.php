@@ -13,6 +13,12 @@ if (isset($_GET["passed"])) {
 ?>
 <div class="container">
     <form id="reportsForm" class="needs-validation" method="POST" action="index.php?reports" novalidate>
+        <div class="row justify-content-center">
+            <h3>
+                Screening Report
+                <?php if (isset($results)) { echo ": ". $results->num_rows; } ?>
+            </h3>
+        </div>   
         <div class="form-row justify-content-around">
             <div class="col-md-2 mb-5">
                 <label for="fromdate">From Date</label>
