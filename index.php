@@ -29,7 +29,7 @@ elseif(isset($_GET['missingstudents']) && $_SESSION['userType'] == "Admin"){
 }
 
 // Show the setup page if they're an admin and the page is requested
-elseif(isset($_GET['setup']) && $_SESSION['userType'] == "Admin"){
+elseif((isset($_GET['setup']) || isset($_GET['upgrade'])) && $_SESSION['userType'] == "Admin"){
     include 'includes/setup.php';
 }
 
