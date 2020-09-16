@@ -187,7 +187,7 @@ $(document).ready(function() {
     });
     
     if (width<480) {
-        table.columns([3,4,5]).visible(false);
+        table.columns([3,4,5,6]).visible(false);
     }
 
 });
