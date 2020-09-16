@@ -66,6 +66,7 @@ $buildings = explode(',',$config['sites']);
                         <th>Email</th>
                         <th>Phone Number</th>
                         <th>Building</th>
+                        <th>Last Screening</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -85,6 +86,7 @@ $buildings = explode(',',$config['sites']);
                             <td><?php echo $row['Email'];?></td>
                             <td><?php echo $row['PhoneNumber'];?></td>
                             <td><?php echo $row['Building'];?></td>
+                            <td><?php if ($row['LastCheckIn']=="1978-06-16"){echo "Never";}else{echo date('m/d/Y',strtotime($row['LastCheckIn']));}?></td>
                         </tr>
                     <?php }?>
                 </tbody>
@@ -140,6 +142,7 @@ if((isset($_POST["submit"]) || isset($_GET["LoadMissing"])) AND $results->num_ro
                                             <b>Building</b>: <?php echo $row['Building'];?><br />
                                             <b>Username</b>: <?php echo $row['UserName'];?><br />
                                             <b>Password</b>: <?php echo $row['PWord'];?><br />
+                                            <b>Last Screening</b>: <?php if ($row['LastCheckIn']=="1978-06-16"){echo "Never";}else{echo date('m/d/Y',strtotime($row['LastCheckIn']));}?><br />
                                         </p>
                                         <?php while ($row=$contactInfo->fetch_assoc()){ ?>
                                                 <b><?php echo $row['Relationship']. "</b>: ". $row['FirstName']. " ". $row['LastName'] ;?>

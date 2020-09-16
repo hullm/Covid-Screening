@@ -366,7 +366,7 @@ function getMissingResults($building ){
     }
 
     // Build the SQL string to get the results
-    $sql = "SELECT UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building
+    $sql = "SELECT UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building,LastCheckIn
         FROM People 
         WHERE (LastCheckIn<CURDATE() OR LastCheckin IS NULL) AND Active=TRUE AND ". $buildingQuery. "
         ORDER BY LastName,FirstName;";
@@ -401,7 +401,7 @@ function getMissingStudentResults($building,$fromDate){
     }
 
     // Build the SQL string to get the results
-    $sql = "SELECT StudentID,FirstName,LastName,UserName,Email,PhoneNumber,Building,PWord,Grade
+    $sql = "SELECT StudentID,FirstName,LastName,UserName,Email,PhoneNumber,Building,PWord,Grade,LastCheckIn
         FROM Students 
         WHERE (LastCheckIn<'". $fromDate. "' OR LastCheckin IS NULL) AND Active=TRUE AND ". $buildingQuery. "
         ORDER BY LastName,FirstName;";
