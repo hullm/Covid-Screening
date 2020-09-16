@@ -1,6 +1,6 @@
 [database]
 servername = "localhost"
-username = "username"
+username = "root"
 password = "password"
 dbname = "covid"
 purgeafter = "14"
@@ -24,9 +24,13 @@ secretkey = ""
 score = "0.5"
 
 [mail settings]
-host = "server.domain.com"
+host = ""
 smtpAuth = false
 port = "25"
 fromAddress = "covid@domain.com"
 fromName = "COVID Screening"
 mailRecipients = "username@email.com"
+
+[photo settings]
+studentPhotos = "/var/www/html/images/students/"
+photoFormat = "jpg"
