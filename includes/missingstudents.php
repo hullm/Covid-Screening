@@ -71,7 +71,15 @@ $buildings = explode(',',$config['sites']);
                 <tbody>
                     <?php while ($row=$results->fetch_assoc()){?>
                         <tr>
-                            <td><a href="index.php?contact&username=<?php echo $row['UserName'];?>" title="Contact Information" style="color:white;"><i class="far fa-id-card"></i></a></td>
+                            <td>
+                                <button id="<?php echo $row['FirstName']. $row['UserName'];?>-btn"
+                                    class="btn btn-sm btn-link"
+                                    style="color:white;"
+                                    data-toggle="modal"
+                                    data-target="#<?php echo $row['FirstName']. $row['UserName'];?>">
+                                    <i class="far fa-id-card"></i>
+                                </button>
+                            </td>
                             <td><?php echo $row['FirstName'];?></td>
                             <td><?php echo $row['LastName'];?></td>
                             <td><?php echo $row['Email'];?></td>
@@ -86,6 +94,72 @@ $buildings = explode(',',$config['sites']);
 <?php }?>
 <br />
 <br />
+
+<?php 
+if((isset($_POST["submit"]) || isset($_GET["LoadMissing"])) AND $results->num_rows>0){
+    $results->data_seek(0); 
+    while ($row=$results->fetch_assoc()){ 
+        
+        $userName = $row['UserName'];
+
+        // Get the contact info from the database
+        $contactInfo = getContactInfo($userName);
+        $studentID = $row['StudentID'];
+
+        // Get the student image if available
+        if (file_exists("/images/students/". $studentID. ".". strtolower($config['photoFormat']))) {
+            $studentImage = "<img src=\"/images/students/". $studentID. ".". strtolower($config['photoFormat']). "\" title=\"". $studentID. "\" />";
+        }
+        elseif (file_exists("/var/www/html/images/students/". $studentID. ".". strtoupper($config['photoFormat']))) {
+            $studentImage = "<img src=\"/images/students/". $studentID. ".". strtoupper($config['photoFormat']). "\" title=\"". $studentID. "\" />";
+        }
+        else {
+            $studentImage =  "<img src=\"/images/student.png\" title=\"". $studentID. "\" />";
+        }
+?>
+        <div class="container">
+            <div id="<?php echo $row['FirstName']. $row['UserName'];?>" class="modal fade" style="display:none" tabindex="-1">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content modal-round">
+                        <div class="modal-header">
+                            <h3>Student Information</h3>
+                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body center">
+                            <div class="container">
+                                <div class="form-row justify-content-around">
+                                    <div class="col-md-3 mb-5">
+                                        <?php echo $studentImage; ?>
+                                    </div>
+                                    <div class="col-md-7 mb-5">
+                                        <h3><?php echo $row['FirstName']. " ". $row['LastName']; ?></h1>
+                                        <p>
+                                            <i><?php echo $row['Grade'];?></i><br />
+                                            <b>Building</b>: <?php echo $row['Building'];?><br />
+                                            <b>Username</b>: <?php echo $row['UserName'];?><br />
+                                            <b>Password</b>: <?php echo $row['PWord'];?><br />
+                                        </p>
+                                        <?php while ($row=$contactInfo->fetch_assoc()){ ?>
+                                                <b><?php echo $row['Relationship']. "</b>: ". $row['FirstName']. " ". $row['LastName'] ;?>
+                                                <li>Home Phone: <?php echo formatPhoneNumber($row['HomePhone']);?></li>
+                                                <li>Cell Phone: <?php echo formatPhoneNumber($row['CellPhone']);?></li>
+                                                <li>Email Address: <?php echo $row['Email'];?></li>
+                                                <br />
+                                        <?php }?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<?php
+    }
+}
+?>
 
 <script>
 $(document).ready(function() {

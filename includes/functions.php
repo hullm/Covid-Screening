@@ -401,7 +401,7 @@ function getMissingStudentResults($building,$fromDate){
     }
 
     // Build the SQL string to get the results
-    $sql = "SELECT StudentID,FirstName,LastName,UserName,Email,PhoneNumber,Building
+    $sql = "SELECT StudentID,FirstName,LastName,UserName,Email,PhoneNumber,Building,PWord,Grade
         FROM Students 
         WHERE (LastCheckIn<'". $fromDate. "' OR LastCheckin IS NULL) AND Active=TRUE AND ". $buildingQuery. "
         ORDER BY LastName,FirstName;";
