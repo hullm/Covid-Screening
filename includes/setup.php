@@ -29,11 +29,11 @@ $connection = db_connect();
 // Create the tracking table
 $sql = "CREATE TABLE Tracking (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    FirstName VARCHAR(30) NOT NULL,
-    LastName VARCHAR(30) NOT NULL,
-    UserName VARCHAR(30),
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    UserName VARCHAR(50),
     UserType VARCHAR(30),
-    Email VARCHAR(50),
+    Email VARCHAR(75),
     PhoneNumber VARCHAR(30),
     Building VARCHAR(30),
     HasPassed BOOLEAN,
@@ -49,11 +49,11 @@ if ($connection->query($sql) === TRUE) {
 // Create the people table
 $sql = "CREATE TABLE People (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    FirstName VARCHAR(30) NOT NULL,
-    LastName VARCHAR(30) NOT NULL,
-    UserName VARCHAR(30),
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
+    UserName VARCHAR(50),
     UserType VARCHAR(30),
-    Email VARCHAR(50),
+    Email VARCHAR(75),
     PhoneNumber VARCHAR(30),
     LastCheckin DATE
     )";
@@ -68,13 +68,13 @@ $sql = "CREATE TABLE Students (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Active BOOLEAN,
     StudentID INT(10) UNSIGNED,
-    FirstName VARCHAR(30) NOT NULL,
-    LastName VARCHAR(30) NOT NULL,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
     Building VARCHAR(30) NOT NULL,
     Grade VARCHAR(30) NOT NULL,
-    UserName VARCHAR(30),
+    UserName VARCHAR(50),
     PWord VARCHAR(30),
-    Email VARCHAR(50),
+    Email VARCHAR(75),
     PhoneNumber VARCHAR(30),
     LastCheckin DATE
     )";
@@ -90,10 +90,10 @@ $sql = "CREATE TABLE Parents (
     Active BOOLEAN,
     ParentID INT(10) UNSIGNED,
     StudentID INT(10) UNSIGNED,
-    FirstName VARCHAR(30) NOT NULL,
-    LastName VARCHAR(30) NOT NULL,
+    FirstName VARCHAR(50) NOT NULL,
+    LastName VARCHAR(50) NOT NULL,
     Relationship VARCHAR(30),
-    Email VARCHAR(50),
+    Email VARCHAR(75),
     HomePhone VARCHAR(30),
     CellPhone VARCHAR(30)
     )";
@@ -169,10 +169,36 @@ $sql = "UPDATE People SET UserType='Employee' WHERE UserType='Adult';";
 $connection->query($sql);
 echo "Adults changed to Employees in the people table...<br />";
 
-// Disable the ONLY_FULL_GROUP_BY option in SQL
-$sql = "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
+// Increase the sizes of the text fields in the database
+$sql = "ALTER TABLE `Parents` CHANGE `FirstName` `FirstName` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
 $connection->query($sql);
-echo "Fixed Missing People Query...<br />";
+$sql = "ALTER TABLE `Parents` CHANGE `LastName` `LastName` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `Parents` CHANGE `Email` `Email` VARCHAR(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `People` CHANGE `FirstName` `FirstName` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `People` CHANGE `LastName` `LastName` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `People` CHANGE `Email` `Email` VARCHAR(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `Students` CHANGE `FirstName` `FirstName` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `Students` CHANGE `LastName` `LastName` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `Students` CHANGE `Email` `EMail` VARCHAR(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `Students` CHANGE `UserName` `UserName` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `Tracking` CHANGE `FirstName` `FirstName` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `Tracking` CHANGE `LastName` `LastName` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `Tracking` CHANGE `Email` `Email` VARCHAR(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+$sql = "ALTER TABLE `Tracking` CHANGE `UserName` `UserName` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;";
+$connection->query($sql);
+echo "Increased the size of needed text fields...<br />";
 
 // Close the connection to the database
 $connection->close();
