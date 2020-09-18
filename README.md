@@ -251,10 +251,12 @@ Set the values in the config file.
 * **fromAddress**: The address from which emails will come.
 * **fromName**: The name on the email address from which emails will come.
 * **mailRecipients**: A comma separated list of email addresses who will receive an alert if someone fails the survey. 
+* **studentPhotos**: Location of student photos.
+* **photoFormat**: Format of student photos.
 
 When you're done press control+x to exit, answer y to same, and enter to accept the file name.
 
-![Config File](https://covid.lkgeorge.org/images/config4.png)
+![Config File](https://covid.lkgeorge.org/images/config5.png)
 
 If you chose to store config.ini in a different location you need to edit config.php to tell it where the config file is located.  Open includes/config.php and set the path to the config file.
 ```bash
@@ -358,6 +360,9 @@ php import.php students
 ```
 
 After the data's imported you need to update the database.  Visit index.php?upgrade to perform the upgrade.
+
+# Optional Step - Adding Student Photos
+When viewing the contact information of a student you can add the student's photo to the left side of the pop up screen.  The photos need to be named with the student's ID as the file name.  Copy the images to /var/www/html/images/students/ using your preferred SFTP program.  The config file is set to look for jpg images by default, if they are in another format update the config file.
 
 # Optional Step - Sending out Scheduled Emails
 You can configure the system to send out scheduled emails to employees or students letting them know they haven't submitted their form today, or a summary email that lists all the people who haven't submitted yet.  We do this using cron jobs in linux.
