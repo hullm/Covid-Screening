@@ -102,8 +102,8 @@ var employeesScreened = new Chart(ctx, {
         datasets: [{
             data: [<?php echo getEmployeesScreenedToday(); ?>],
             backgroundColor: [
-                'rgba(54, 162, 235, 0.8)',
-                'rgba(255, 15, 15, 0.8)'
+                'rgba(0, 204, 0, 0.8)', <!-- Green -->, 
+                'rgba(255, 15, 15, 0.8)' <!-- Red -->,
             ],
             borderColor: [
                 'rgba(255, 255, 255, 1)',
@@ -151,16 +151,14 @@ var totalScreened = new Chart(ctx, {
         datasets: [{
             data: [<?php echo getScreenedTodayData(); ?>],
             backgroundColor: [
-                'rgba(54, 162, 235, 0.8)',
-                'rgba(255, 15, 15, 0.8)',
-                'rgba(255, 206, 86, 0.8)',
-                'rgba(153, 102, 255, 0.8)',
+                'rgba(54, 162, 235, 0.8)', <!-- Blue -->
+                'rgba(178, 102, 255, 0.8)', <!-- Purple -->
+                'rgba(255, 206, 86, 0.8)', <!-- Yellow -->
             ],
             borderColor: [
                 'rgba(255, 255, 255, 1)',
                 'rgba(255, 255, 255, 1)',
                 'rgba(255, 255, 255, 1)',
-                'rgba(255, 255, 255, 1)'
             ],
             borderWidth: 1
         }]
@@ -199,8 +197,8 @@ var screeningResults = new Chart(ctx, {
         datasets: [{
             data: [<?php echo getScreenedResults(); ?>],
             backgroundColor: [
-                'rgba(54, 162, 235, 0.8)',
-                'rgba(255, 15, 15, 0.8)',
+                'rgba(0, 175, 0, 0.8)', <!-- Green -->, 
+                'rgba(255, 15, 15, 0.8)' <!-- Red -->,
             ],
             borderColor: [
                 'rgba(255, 255, 255, 1)',
@@ -258,37 +256,38 @@ var screeningHistory = new Chart(ctx, {
         datasets: [{
             label: ['Passed'],
             fill: false,
-            borderColor: 'rgba(54, 162, 235, 0.8)',
-            backgroundColor: 'rgba(54, 162, 235, 0.8)',
+            borderColor: 'rgba(0, 204, 0, 0.8)',
+            backgroundColor: 'rgba(0, 175, 0, 0.8)', <!-- Green -->
+
             data: [<?php echo getScreeningHistoryData("Passed",14); ?>],
         },
         {
             label: ['Failed'],
             fill: false,
             borderColor: 'rgba(255, 15, 15, 0.8)',
-            backgroundColor: 'rgba(255, 15, 15, 0.8)',
+            backgroundColor: 'rgba(255, 15, 15, 0.8)', <!-- Red -->
             data: [<?php echo getScreeningHistoryData("Failed",14); ?>],
         },
         {
             label: ['Employees'],
             fill: false,
-            borderColor: 'rgba(255, 206, 86, 0.8)',
-            backgroundColor: 'rgba(255, 206, 86, 0.8)',
+            borderColor: 'rgba(54, 162, 235, 0.8)',
+            backgroundColor: 'rgba(54, 162, 235, 0.8)', <!-- Blue -->
             data: [<?php echo getScreeningHistoryData("Employee",14); ?>],
-        },
-        {
-            label: ['Visitors'],
-            fill: false,
-            borderColor: 'rgba(0, 204, 0, 0.8)',
-            backgroundColor: 'rgba(0, 204, 0, 0.8)',
-            data: [<?php echo getScreeningHistoryData("Visitor",14); ?>],
         },
         {
             label: ['Students'],
             fill: false,
             borderColor: 'rgba(178, 102, 255, 0.8)',
-            backgroundColor: 'rgba(178, 102, 255, 0.8)',
+            backgroundColor: 'rgba(178, 102, 255, 0.8)', <!-- Purple -->
             data: [<?php echo getScreeningHistoryData("Student",14); ?>],
+        },
+        {
+            label: ['Visitors'],
+            fill: false,
+            borderColor: 'rgba(255, 206, 86, 0.8)',
+            backgroundColor: 'rgba(255, 206, 86, 0.8)', <!-- Yellow -->
+            data: [<?php echo getScreeningHistoryData("Visitor",14); ?>],
         }
         ]
 

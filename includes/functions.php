@@ -468,14 +468,7 @@ function  getScreenedTodayLabels(){
     $results = $connection->query($sql);
 
     // Build the chartData string
-    $chartData = "'Employee',";
-    if ($results->num_rows > 0) {
-        while ($row=$results->fetch_assoc()) {
-            if ($row['UserType'] != "Admin" && $row['UserType'] != "Employee") {
-                $chartData .= "'". $row['UserType']. "',";
-            }
-        }
-    } 
+    $chartData = "'Employee','Student','Visitor'";
 
     // Return the results
     return $chartData;
@@ -574,6 +567,8 @@ function  getScreenedTodayData(){
     // Build the chartData string while merging employees and admin into one count.
     $chartData = "";
     $employeeCount = 0;
+    $studentCount = 0;
+    $visitorCount = 0;
     if ($results->num_rows > 0) {
         while ($row=$results->fetch_assoc()) {
             switch ($row['UserType']) {
@@ -582,37 +577,17 @@ function  getScreenedTodayData(){
                     break;
                 case "Employee":
                     $employeeCount += $row['SubmittedToday'];
-                    $chartData = $employeeCount. ",";
                     break;
                 case "Student":
-                    if ($chartData == "" && $employeeCount != "") {
-                        $chartData = $employeeCount. ",";
-                    }
-                    $chartData .= $row['SubmittedToday']. ",";
+                    $studentCount = $row['SubmittedToday'];
                     break;
                 case "Visitor":
-                    if ($chartData == "" && $employeeCount != "") {
-                        $chartData = $employeeCount. ",";
-                    }
-                    $chartData .= $row['SubmittedToday'];
+                    $visitorCount = $row['SubmittedToday'];
                     break;
             }
         }
-        if ($chartData == "") {
-            $chartData = $employeeCount;
-        }
     }
-
-    // Old code that will list admins and employees separately.  If that's what you want uncomment this block. 
-    // $chartData = "";
-    // if ($results->num_rows > 0) {
-    //     while ($row=$results->fetch_assoc()) {
-    //         $chartData .= $row['SubmittedToday']. ",";
-    //     }
-    // } 
-    // else {
-    //     $chartData = "0";
-    // }
+    $chartData = $employeeCount. ",". $studentCount. ",". $visitorCount;
 
     // Return the results
     return $chartData;
