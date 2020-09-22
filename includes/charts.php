@@ -178,6 +178,7 @@ var totalScreened = new Chart(ctx, {
         onClick: (evt) => {
             var activeElement = totalScreened.getElementAtEvent(evt)[0];
             var label = totalScreened.data.labels[activeElement._index];
+            label = label.slice(0,label.length - 1); // Drop the s off the label
             var value = totalScreened.data.datasets[activeElement._datasetIndex].data[activeElement._index];
             var today = new Date();
             var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + today.getDate()).slice(-2);
