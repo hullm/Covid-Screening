@@ -370,4 +370,45 @@ if (isset($_GET['missingstudents'])){
     }
 }
 
+// Check if the user clicked an action link on the Missing Student Report page
+if (isset($_GET['missingstudents'])){
+    if (isset($_GET['userName'])){
+        
+        // Get the students information from the database
+        $results = getStudentInfo($_GET['userName']);
+        $studentData=$results->fetch_assoc();
+
+        // Set the hasPassed variable based on what icon this clicked
+        if (isset($_GET['allow'])) {
+            $hasPassed = "TRUE";
+        }
+        if (isset($_GET['deny'])) {
+            $hasPassed = "FALSE";
+
+            // Send email if they failed the screener
+            entryDeniedEmail($studentData['FirstName'], $studentData['LastName'], $studentData['Building']);
+        }
+
+        // Add the entry to the database
+        if (isset($hasPassed)) {
+            addEvent($studentData['UserName'],
+                $studentData['FirstName'],
+                $studentData['LastName'],
+                $studentData['Email'],
+                $studentData['PhoneNumber'],
+                $studentData['Building'],
+                "Student", 
+                $hasPassed);
+        }
+
+        // Build the return URL
+        $url = "index.php?missingstudents&LoadMissing&building=". $_GET["building"]. 
+            "&fromDate=". $_GET["fromDate"];    
+
+        // Redirect the user to a page with a sharable URL
+        header("location:". $url);
+        die;
+    }
+}
+
 ?>

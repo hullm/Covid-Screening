@@ -1,5 +1,12 @@
 <?php
 $buildings = explode(',',$config['sites']);
+
+// Set the URL used in the action links
+if (isset($_GET["LoadMissing"])) {
+    $url = "index.php?missingstudents&LoadMissing&building=". $_GET["building"]. 
+        "&fromDate=". $_GET["fromDate"];
+}
+
 ?>
 <div class="container" id="reportsForm">
     <div class="row justify-content-center">
@@ -67,6 +74,7 @@ $buildings = explode(',',$config['sites']);
                         <th>Phone Number</th>
                         <th>Building</th>
                         <th>Last Screening</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,6 +95,14 @@ $buildings = explode(',',$config['sites']);
                             <td><?php echo $row['PhoneNumber'];?></td>
                             <td><?php echo $row['Building'];?></td>
                             <td><?php if ($row['LastCheckIn']=="1978-06-16"){echo "N/A";}else{echo date('m/d/Y',strtotime($row['LastCheckIn']));}?></td>
+                            <td>
+                                <a href="<?php echo $url. "&allow&userName=". $row['UserName'];?>">
+                                    <i class="fas fa-check" style="color:green;" ></i>
+                                </a>
+                                <a href="<?php echo $url. "&deny&userName=". $row['UserName'];?>">
+                                    <i class="fas fa-ban" style="color:red;padding-left:35px;" ></i>
+                                </a>
+                            </td>
                         </tr>
                     <?php }?>
                 </tbody>
@@ -187,7 +203,7 @@ $(document).ready(function() {
     });
     
     if (width<480) {
-        table.columns([3,4,5,6]).visible(false);
+        table.columns([3,4,5,6,7]).visible(false);
     }
 
 });
