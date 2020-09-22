@@ -147,7 +147,7 @@ var ctx = document.getElementById('totalScreened').getContext('2d');
 var totalScreened = new Chart(ctx, {
     type: 'doughnut',
     data: {
-        labels: [<?php echo getScreenedTodayLabels(); ?>],
+        labels: ['Employees','Students','Visitors'],
         datasets: [{
             data: [<?php echo getScreenedTodayData(); ?>],
             backgroundColor: [
@@ -311,7 +311,23 @@ var screeningHistory = new Chart(ctx, {
                 }
             }]
         },
-
+        onClick: (evt) => {
+            var activeElement = screeningHistory.   getElementAtEvent(evt)[0];
+            var value = screeningHistory.data.datasets[activeElement._datasetIndex].label;
+            var date = screeningHistory.data.labels[activeElement._index];
+            date = new Date(date);
+            date = date.getFullYear() + '-' + ("0" + (date.getMonth() + 1)).slice(-2) + '-' + ("0" + date.getDate()).slice(-2);
+            if (value == "Passed") {
+                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=True","_self");
+            }
+            else if (value == "Failed") {
+                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=False","_self");
+            }
+            else {
+                value = value[0].slice(0,value[0].length - 1); // Drop the s off the label
+                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&building=All&userType=" + value,"_self");
+            }
+        }
     }
 });
 

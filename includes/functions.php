@@ -454,27 +454,6 @@ function deleteScreeningEntry($id){
     $connection->query($sql);
 }
 
-function  getScreenedTodayLabels(){
-
-    // This function will return labels needed for the Total Screened Today pie chart
-
-    // Connect to the database
-    $connection = db_connect();
-
-    // Build the SQL string to get the number who have submitted today.
-    $sql = "SELECT UserType, COUNT(ID) as SubmittedToday FROM Tracking WHERE DateSubmitted=CURDATE() GROUP BY UserType ORDER BY UserType;";
-    
-    // Get the data from the database
-    $results = $connection->query($sql);
-
-    // Build the chartData string
-    $chartData = "'Employee','Student','Visitor'";
-
-    // Return the results
-    return $chartData;
-
-}
-
 function getScreenedHistoryLabel($days){
     
     // This function returns the labels for the Screened History chart

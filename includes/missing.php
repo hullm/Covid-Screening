@@ -68,7 +68,7 @@ $buildings = explode(',',$config['sites']);
                             <td><?php echo $row['Email'];?></td>
                             <td><?php echo $row['PhoneNumber'];?></td>
                             <td><?php echo $row['Building'];?></td>
-                            <td><?php if ($row['LastCheckIn']==""){echo "Never";}else{echo date('m/d/Y',strtotime($row['LastCheckIn']));}?></td>
+                            <td><?php if ($row['LastCheckIn']==""){echo "N/A";}else{echo date('m/d/Y',strtotime($row['LastCheckIn']));}?></td>
                         </tr>
                     <?php }?>
                 </tbody>
