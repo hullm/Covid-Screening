@@ -762,6 +762,7 @@ function isAuthenticated($userName, $password) {
                 $_SESSION["lastName"] = $userLookup[0]["sn"][0];
                 $_SESSION["email"] = $userLookup[0]["userprincipalname"][0];
                 $_SESSION["loggedIn"] = TRUE;
+                $_SESSION['lastActivity'] = time();
             }
 
             // Close the connection to Active Directory

@@ -1,5 +1,11 @@
 <?php 
 
+// 
+if (isset($_SESSION['lastActivity']) && (time() - $_SESSION['lastActivity'] > 4*60*60)) { // Four hours 
+    header("Location: index.php?logout");
+}
+$_SESSION['lastActivity'] = time();
+
 // Show the typewriter and reCAPTCHA on the login page, and remove the logout.
 if (isset($_GET['login'])) {
     $showLogout="False";
