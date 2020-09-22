@@ -15,7 +15,11 @@ studentOU = "OU=Students,DC=domain,DC=com"
 sites = "Elementary School,High School"
 title = "Covid Screening"
 logontext = "School District's Daily Health Screening Questionnaire."
+employeetext = "Employee/Student"
+visitortext = "Visitor Sign In"
 qrcodetext = ""
+allowtext = "Allowed"
+denytext = "Entry Denied"
 admins = ""
 
 [reCAPTCHA Settings]

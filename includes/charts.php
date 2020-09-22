@@ -49,10 +49,10 @@ $results = getRecentResults(10);
                     <tr>
                         <td><?php 
                             if ($row['HasPassed']) {
-                                echo "<i class=\"fas fa-check\" style=\"color:green\" title=\"Allowed\"></i>";
+                                echo "<i class=\"fas fa-check\" style=\"color:green\" title=\"". $config['allowtext']. "\"></i>";
                             }
                             else {
-                                echo "<i class=\"fas fa-ban\" style=\"color:red\" title=\"Denied\"></i>";
+                                echo "<i class=\"fas fa-ban\" style=\"color:red\" title=\"". $config['denytext']. "\"></i>";
                             };?></td>
                         <td><?php 
                             if ($row['HasPassed']) {

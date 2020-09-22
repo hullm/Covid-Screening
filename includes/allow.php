@@ -1,5 +1,5 @@
 <div id="overlay" onclick="off()">
-    <div id="text"><i class="fas fa-check" style="color:green" ></i></br>Allowed</div>
+    <div id="text"><i class="fas fa-check" style="color:green" ></i></br><?php echo $config['allowtext'];?></div>
 </div>
 
 <script>

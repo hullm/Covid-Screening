@@ -240,7 +240,11 @@ Set the values in the config file.
 * **sites**: The sites that people will check in to.
 * **title**: The title of the webpage.
 * **logintext**: The message tha appears on the login screen.
+* **employeetext**: Text to display on the employee login button and login window.
+* **visitortext**: Text to display on the visitor login button and login window.
 * **qrcodetext**: The message tha appears under the QR code if you have one enabled.
+* **allowtext**: Text to display when someone passes the screener.
+* **denytext**: Text to display when someone fails the screener.
 * **admins**: Comma separated list of usernames who will act as administrators.  Users in this list will be able to create the database and view reports.  You need to have at least one administrator.
 * **sitekey**: reCAPTCHA v3 site key, more information below in reCAPTCHA section. 
 * **secretkey**: reCAPTCHA v3 secret key, more information below in reCAPTCHA section.
@@ -256,7 +260,7 @@ Set the values in the config file.
 
 When you're done press control+x to exit, answer y to same, and enter to accept the file name.
 
-![Config File](https://covid.lkgeorge.org/images/config5.png)
+![Config File](https://covid.lkgeorge.org/images/config7.png)
 
 If you chose to store config.ini in a different location you need to edit config.php to tell it where the config file is located.  Open includes/config.php and set the path to the config file.
 ```bash

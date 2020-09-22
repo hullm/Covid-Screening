@@ -5,7 +5,7 @@
                 <button id="employee-login-button"
                 class="btn btn-lg btn-light button-rounded"
                 style="border-color: grey; border-size: 3px;"
-                data-toggle="modal" data-target="#employee-login-modal">Employee/Student</button>
+                data-toggle="modal" data-target="#employee-login-modal"><?php echo $config['employeetext'];?></button>
             </div>
             <div class="col-sm-2 text-center">
                 &nbsp;
@@ -15,7 +15,7 @@
                 type="button" 
                 class="btn btn-lg btn-light button-rounded" 
                 style="border-color: grey; border-size: 3px;"
-                data-toggle="modal" data-target="#visitor-sign-in-modal">Visitor Sign In</button>
+                data-toggle="modal" data-target="#visitor-sign-in-modal"><?php echo $config['visitortext'];?></button>
             </div>
         </div>
     </div>
@@ -43,7 +43,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content modal-round">
                     <div class="modal-header">
-                        <h2 class="modal-title text-center" id="employee-modal-title">Employee/Student Login</h2>
+                        <h2 class="modal-title text-center" id="employee-modal-title"><?php echo $config['employeetext'];?></h2>
                         <button class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -78,7 +78,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content modal-round">
                     <div class="modal-header">
-                        <h2 class="modal-title text-center" id="visitor-modal-title">Visitor Sign In</h2>
+                        <h2 class="modal-title text-center" id="visitor-modal-title"><?php echo $config['visitortext'];?></h2>
                         <button class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
