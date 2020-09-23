@@ -436,22 +436,28 @@ function deleteScreeningEntry($id){
     if ($results->num_rows > 0) {
         $row=$results->fetch_assoc();
         $userName = $row['UserName'];
-        $sql = "SELECT DateSubmitted FROM Tracking WHERE UserName='". $userName. "' ORDER BY id DESC;";
+        $sql = "SELECT DateSubmitted, UserType FROM Tracking WHERE UserName='". $userName. "' ORDER BY id DESC;";
         $results = $connection->query($sql);
 
         // Rollback the LastCheckIn to its previous value, or null if it's not found
         if ($results->num_rows > 0) {
+
             $row=$results->fetch_assoc();
-            $sql = "UPDATE People SET LastCheckIn='". $row['DateSubmitted']. "' WHERE UserName='". $userName. "'";
+            $sqlPeople = "UPDATE People SET LastCheckIn='". $row['DateSubmitted']. "' WHERE UserName='". $userName. "'";
+            $sqlStudents = "UPDATE Students SET LastCheckIn='". $row['DateSubmitted']. "' WHERE UserName='". $userName. "'";
         }
         else {
-            $sql = "UPDATE People SET LastCheckIn=NULL WHERE UserName='". $userName. "'";
+            $sqlPeople = "UPDATE People SET LastCheckIn=NULL WHERE UserName='". $userName. "'";
+            $sqlStudents = "UPDATE Students SET LastCheckIn='1978-06-16' WHERE UserName='". $userName. "'";
         }
     }
     else {
-        $sql = "UPDATE People SET LastCheckIn=NULL WHERE UserName='". $userName. "'";
+        $sqlPeople = "UPDATE People SET LastCheckIn=NULL WHERE UserName='". $userName. "'";
+        $sqlStudents = "UPDATE Students SET LastCheckIn='1978-06-16' WHERE UserName='". $userName. "'";
     }
-    $connection->query($sql);
+    // echo $sqlPeople. "<br />". $sqlStudents;
+    $connection->query($sqlPeople);
+    $connection->query($sqlStudents);
 }
 
 function getScreenedHistoryLabel($days){
