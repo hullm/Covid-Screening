@@ -25,7 +25,7 @@
             <?php 
                 clearstatcache();
                 if (file_exists("images/qrcode.png")) { ?>
-                    <img src="images/qrcode.png" />" <br />
+                    <img src="images/qrcode.png" /> <br />
                 <?php
                     if ($config['qrcodetext'] != "") { ?>
                     <div class="qrcode">
