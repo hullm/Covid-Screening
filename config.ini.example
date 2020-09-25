@@ -38,3 +38,8 @@ mailRecipients = "username@email.com"
 [photo settings]
 studentPhotos = "/var/www/html/images/students/"
 photoFormat = "jpg"
+
+[sms settings]
+accountSID = "AC****"
+authToken = ""
+smsNumber = "+1518555121"

@@ -2,9 +2,11 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Twilio\Rest\Client;
 require '/var/www/PHPMailer/src/Exception.php';
 require '/var/www/PHPMailer/src/PHPMailer.php';
 require '/var/www/PHPMailer/src/SMTP.php';
+require '/var/www/html/vendor/autoload.php';
 
 function db_connect() {
 
@@ -441,5 +443,41 @@ function sendMissingMessage($firstName, $email){
     $mail->Body    = $message;
     $mail->send();
   }
+
+function sendMissingSMSs() {
+
+        // Get the list of users from the database
+        $results = getMissingResults();
+
+        // Loop through the users and send each of them a message
+        while ($row=$results->fetch_assoc()) {
+            sendMissingSMS($row['FirstName'],$row['PhoneNumber']);
+        }
+}
+
+function sendMissingSMS($firstName, $cellPhone) {
+
+    // Get settings from config file to send the SMS message
+    include 'config.php';
+    $config = parse_ini_file($configFile); 
+
+    // Set the settings needed to send the SMS messages
+    $accountSID = $config['accountSID'];;
+    $authToken = $config['authToken'];;
+    $smsNumber = $config['smsNumber'];;
+
+    // Get the message from the file
+    $message = file_get_contents("employees-sms.txt");
+    $message = str_replace("%FIRSTNAME%",$firstName,$message);
+
+    $client = new Client($accountSID, $authToken);
+    $client->messages->create(
+        "+1". $cellPhone,
+        array(
+            'from' => $smsNumber,
+            'body' => $message
+        )
+    );
+}
 
 ?>
