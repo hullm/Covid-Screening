@@ -80,10 +80,10 @@ $results = getRecentResults(10);
         <div class="adminResults">
 <?php 
 if (getUserResults($currentUser)) { ?>
-    <div><i class="fas fa-check" style="color:green" ></i> Allowed</div>
+    <div><i class="fas fa-check" style="color:green" ></i> <?php echo $config['allowtext']; ?></div>
 <?php } 
 else { ?>
-    <div><i class="fas fa-ban" style="color:red" ></i > Entry Denied</div>
+    <div><i class="fas fa-ban" style="color:red" ></i > <?php echo $config['denytext']; ?></div>
 <?php } ?>
         </div>
     </div>
