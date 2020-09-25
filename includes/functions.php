@@ -94,7 +94,7 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
             } 
             // Add them to the people table
             else {
-                $sql = "INSERT INTO People (Active,UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building,LastCheckin,)
+                $sql = "INSERT INTO People (Active,UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building,LastCheckin)
                     VALUES (
                     True,'". 
                     $fixedUserName. "','". 
