@@ -31,7 +31,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     </div>
                 </div>
                 <!-- Temperature Tab -->
-                <div class="tab"><h4>Is your temperature over 100 today?</h4>
+                <div class="tab"><h4>Is your temperature greater than or equal to 100 today?</h4>
                     <div class="row">
                         <div class="radio">
                             <label>
@@ -48,7 +48,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     </div>
                 </div>
                 <!-- Symptoms Tab -->
-                <div class="tab"><h4>Are you experiencing any other COVID-19 symptoms? <?php echo getSymptoms(); ?></h4>
+                <div class="tab"><h4>Do you currently have, or have you had in the last 10 days, one of more of these <b>new</b> or <b>worsening</b> symptoms? <?php echo getSymptoms(); ?></h4>
                     <div class="row">
                         <div class="radio">
                             <label>
@@ -65,7 +65,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     </div>
                 </div>
                 <!-- Test Positive Tab -->
-                <div class="tab"><h4>Have you tested positive through a diagnostic test for COVID-19 in the past 14 days?</h4>
+                <div class="tab"><h4>In the past 10 days have you been tested for COVID-19 resulting in a positive result or are you still waiting for a result?</h4>
                     <div class="row">
                         <div class="radio">
                             <label>
@@ -82,9 +82,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     </div>
                 </div>
                 <!-- Proximate Contact Tab -->
-                <div class="tab"><h4>Have you knowingly been in close or proximate contact in the past 14 days with 
-                        anyone who has tested positive through a diagnostic test for COVID-19 or who has had symptoms of 
-                        COVID-19?</h4>
+                <div class="tab"><h4>In the past 14 days, have you been designated a contact of a person who tested positive for COVID-19 by a local health department?</h4>
                     <div class="row">
                         <div class="radio">
                             <label>
@@ -101,7 +99,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     </div>
                 </div>
                 <!-- Travel Tab -->
-                <div class="tab"><h4>Have you traveled internationally or to any of the restricted states in the last 14 days?  <?php echo getStates();?></h4>
+                <div class="tab"><h4>Have you traveled internationally or to any of the restricted states, as identified by Governor Cuomo's Executive Order 205, in the last 14 days?  <?php echo getStates();?></h4>
                     <div class="row">
                         <div class="radio">
                             <label>
