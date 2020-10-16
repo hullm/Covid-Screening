@@ -48,7 +48,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     </div>
                 </div>
                 <!-- Symptoms Tab -->
-                <div class="tab"><h4>Do you currently have, or have you had in the last 10 days, one of more of these <b>new</b> or <b>worsening</b> symptoms? <?php echo getSymptoms(); ?></h4>
+                <div class="tab"><h4>Do you currently have, or have you had in the last 10 days, one or more of these <b>new</b> or <b>worsening</b> symptoms? <?php echo getSymptoms(); ?></h4>
                     <div class="row">
                         <div class="radio">
                             <label>
