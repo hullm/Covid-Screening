@@ -341,17 +341,23 @@ You can pre populate your employee and student tables.  This is an optional step
 
 The import files used in our environment have some columns that aren't used as part of the import.  When you create you're file you can leave those columns blank.  There are templates you can use to prepare your data for importing.  They're found in scripts/csv.  Download the template to your computer and add your data.  Once you have the data ready we're going to copy them into the templates on the server.
 
-First this we're going to do is make copies of the templates.
+First we're going to lock down the scripts folder so it's not accessible from the web.
+```bash
+cd /var/www/html/scripts
+sudo chmod 700 -R .
+```
+
+Then we're going to do is make copies of the templates.
 ```bash
 cd /var/www/html/scripts/csv/
-cp employees-templete.csv employees.csv
-cp parents-templete.csv parents.csv
-cp students-template.csv students.csv
+sudo cp employees-templete.csv employees.csv
+sudo cp parents-templete.csv parents.csv
+sudo cp students-template.csv students.csv
 ```
 
 Now we're going to open each file and copy and paste the data into them.  
 ```bash
-nano employees.csv
+sudo nano employees.csv
 ```
 
 Open the csv on your computer with a text editor, not a spreadsheet program.  Select all the data and copy it to the clipboard.  Delete everything in the nano editor then paste your data.  When done press control+o to save and control+x to exit.  Repeat this for each template.
@@ -375,9 +381,9 @@ Before we schedule the tasks we'll customize the messages.  We're going to copy 
 
 ```bash
 cd /var/www/html/scripts
-cp missing.txt.example missing.txt
-cp summary.txt.example summary.txt
-cp parents.txt.example parents.txt
+sudo cp missing.txt.example missing.txt
+sudo cp summary.txt.example summary.txt
+sudo cp parents.txt.example parents.txt
 sudo nano missing.txt
 ```
 
@@ -418,8 +424,10 @@ In the config below we're running the missing task at Monday - Friday at 8am and
 ![Crontab](https://covid.lkgeorge.org/images/cronjob3.png)
 
 # Updating the Covid Screening Site
-After installing you can use git pull to update the site.
+When upgrading compare the above config.ini with yours to see if there's anything new you need to add to yours.  Then you can  use git pull to update the site.
 ```bash
 cd /var/www/html
 sudo git pull
 ```
+
+After that run the web upgrade from your website by visiting (YourSiteAddress)/index.php?upgrade
