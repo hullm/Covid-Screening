@@ -89,6 +89,7 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
                     Active = True,
                     PhoneNumber='". $fixedPhoneNumber. "',
                     UserType='". $fixedUserType. "',
+                    building='". $fixedBuilding. "',
                     LastCheckin=CURDATE()
                     WHERE id=". $row['id']. ";";
             } 
@@ -118,6 +119,7 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
         if ($userType == "Student") {
             $sql = "UPDATE Students SET 
                 LastCheckIn=CURDATE(),
+                building='". $fixedBuilding. "',
                 PhoneNumber='". $fixedPhoneNumber. "'
                 WHERE Username='". $fixedUserName. "';";
             $connection->query($sql);
