@@ -99,7 +99,12 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     </div>
                 </div>
                 <!-- Travel Tab -->
-                <div class="tab"><h4>Have you traveled internationally or to any of the restricted states, as identified by Governor Cuomo's Executive Order 205, in the last 14 days?  <?php echo getStates();?></h4>
+                <div class="tab"><h4>In the past 14 days, have you traveled internationally to a 
+                <a href="https://www.cdc.gov/coronavirus/2019-ncov/travelers/map-and-travel-notices.html#travel-1" target="_blank">
+                    CDC level 2 or 3 COVID-19 related travel health country
+                </a>;
+                OR in the past 3 days, have you returned from spending more than 24 hours in any state other than Vermont, Massachusets, Connecticut,
+                Pennsylvania or New Jersey?</h4>
                     <div class="row">
                         <div class="radio">
                             <label>
