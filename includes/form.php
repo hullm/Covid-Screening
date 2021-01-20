@@ -82,7 +82,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     </div>
                 </div>
                 <!-- Proximate Contact Tab -->
-                <div class="tab"><h4>In the past 14 days, have you been designated a contact of a person who tested positive for COVID-19 by a local health department?</h4>
+                <div class="tab"><h4>In the past 10 days, have you been designated a contact of a person who tested positive for COVID-19 by a local health department?</h4>
                     <div class="row">
                         <div class="radio">
                             <label>
