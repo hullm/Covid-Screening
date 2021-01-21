@@ -126,13 +126,13 @@ if((isset($_POST["submit"]) || isset($_GET["LoadMissing"])) AND $results->num_ro
 
         // Get the student image if available
         if (file_exists($config['studentPhotos']. $studentID. ".". strtoupper($config['photoFormat']))) {
-            $studentImage = "<img src=\"/images/students/". $studentID. ".". strtoupper($config['photoFormat']). "\" title=\"". $studentID. "\" />";
+            $studentImage = "<img src=\"/images/students/". $studentID. ".". strtoupper($config['photoFormat']). "\" title=\"". $studentID. "\" width=\"300\" />";
         }
         elseif (file_exists($config['studentPhotos']. $studentID. ".". strtolower($config['photoFormat']))) {
-            $studentImage = "<img src=\"/images/students/". $studentID. ".". strtolower($config['photoFormat']). "\" title=\"". $studentID. "\" />";
+            $studentImage = "<img src=\"/images/students/". $studentID. ".". strtolower($config['photoFormat']). "\" title=\"". $studentID. "\" width=\"300\" />";
         }
         else {
-            $studentImage =  "<img src=\"/images/student.png\" title=\"". $studentID. "\" />";
+            $studentImage =  "<img src=\"/images/student.png\" title=\"". $studentID. "\" width=\"300\" />";
         }
 ?>
         <div class="container">
