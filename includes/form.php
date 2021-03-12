@@ -80,10 +80,6 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                             </label>
                         </div>
                     </div>
-                    <div class="row">
-                        <p style=color:red><em>If you have been fully vaccinated and/or are previously diagnosed with 
-                        laboratory confirmed COVID-19 and since recovered, please answer no.</em></p>
-                    </div>
                 </div>
                 <!-- Proximate Contact Tab -->
                 <div class="tab"><h4>In the past 10 days, have you been designated a contact of a person who tested positive for COVID-19 by a local health department?</h4>
@@ -100,6 +96,10 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                                 <input type="radio" name="contact_radios" id="contact_no" value="no">No
                             </label>
                         </div>
+                    </div>
+                    <div class="row">
+                        <p style=color:red><em>If you have been fully vaccinated and/or are previously diagnosed with 
+                        laboratory confirmed COVID-19 and since recovered, please answer no.</em></p>
                     </div>
                 </div>
                 <!-- Travel Tab -->
