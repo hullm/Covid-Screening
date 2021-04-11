@@ -105,7 +105,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                 <!-- Travel Tab -->
                 <div class="tab"><h4>In the past 14 days, have you traveled internationally to a 
                 <a href="https://www.cdc.gov/coronavirus/2019-ncov/travelers/map-and-travel-notices.html#travel-1" target="_blank">
-                    CDC level 2 or 3 COVID-19 related travel health country
+                    CDC level 2 or 3 COVID-19 related travel health country?
                 </a></h4>
                     <div class="row">
                         <div class="radio">
