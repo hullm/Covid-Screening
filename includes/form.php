@@ -125,8 +125,8 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     <div class="row">
                         <p style=color:red><em>For domestic travel, if you have been fully vaccinated and/or are previously diagnosed with 
                         laboratory confirmed COVID-19 and since recovered, please answer no.</em></p>
-                    </div>
-                </div> -->
+                    </div> -->
+                </div>
                     <!-- Next & Previous Buttons -->
                 <div style="overflow:auto;">
                     <div style="float:right;">
