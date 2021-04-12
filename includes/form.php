@@ -103,6 +103,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     </div>
                 </div>
                 <!-- Travel Tab -->
+                <!--
                 <div class="tab"><h4>In the past 14 days, have you traveled internationally to a 
                 <a href="https://www.cdc.gov/coronavirus/2019-ncov/travelers/map-and-travel-notices.html#travel-1" target="_blank">
                     CDC level 2 or 3 COVID-19 related travel health country?
@@ -121,12 +122,12 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                             </label>
                         </div>
                     </div>
-                    <!--
+
                     <div class="row">
                         <p style=color:red><em>For domestic travel, if you have been fully vaccinated and/or are previously diagnosed with 
                         laboratory confirmed COVID-19 and since recovered, please answer no.</em></p>
-                    </div> -->
-                </div>
+                    </div> 
+                </div> -->
                     <!-- Next & Previous Buttons -->
                 <div style="overflow:auto;">
                     <div style="float:right;">
@@ -136,7 +137,6 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                 </div>
                 <!-- Circles which indicates the steps of the form: -->
                 <div style="text-align:center;margin-top:40px;">
-                    <span class="step"></span>
                     <span class="step"></span>
                     <span class="step"></span>
                     <span class="step"></span>

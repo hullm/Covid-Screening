@@ -92,7 +92,10 @@ if (isset($_GET['screeningform'])) {
         $symptoms = $_POST["symptoms_radios"];
         $tested = $_POST["tested_radios"];
         $contact = $_POST["contact_radios"];
-        $travel = $_POST["travel_radios"];
+        // $travel = $_POST["travel_radios"];
+
+        // Override for a questions that's been removed
+        $travel = "no";
 
         // Determine if the users passed the checks
         if ($temperature <> "no" || $symptoms <> "no" || $tested <> "no" || $contact <> "no" || $travel <> "no"){
