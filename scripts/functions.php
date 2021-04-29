@@ -6,7 +6,7 @@ use Twilio\Rest\Client;
 require '/var/www/PHPMailer/src/Exception.php';
 require '/var/www/PHPMailer/src/PHPMailer.php';
 require '/var/www/PHPMailer/src/SMTP.php';
-require '/var/www/html/vendor/autoload.php';
+require '../vendor/autoload.php';
 
 function db_connect() {
 
