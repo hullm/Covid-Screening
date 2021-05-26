@@ -12,7 +12,7 @@ include 'includes/easteregg.php'; //Shhhh it's a secret...
         data-target="#privacyPolicy">
         Privacy Policy
     </button>
-    &copy;2020 Lake George CSD
+    &copy;2020-2021 Lake George CSD
     <button id="easter_egg"
         class="btn btn-sm btn-link"
         data-toggle="modal"

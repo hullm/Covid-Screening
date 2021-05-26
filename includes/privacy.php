@@ -21,7 +21,8 @@
                             <li>Email address </li>
                             <li>Phone number </li>
                             <li>True or False if you passed the questionnaire, no symptom information is stored. </li>
-                            <li>Date and time form was filled out.</li>
+			    <li>Date and time form was filled out.</li>
+                            <li>Vaccination Status</li>
                         </ul>
                     </p>
                     <h4>How we use the data</h4>
@@ -39,7 +40,9 @@
                     </p>
                     <h4>Data removal</h4>
                     <p>
-                        Data will be purged from the database after <?php echo $config['purgeafter'];?> days.
+                        Screening data will be purged from the database after <?php echo $config['purgeafter'];?> days. 
+			Employee and student metadata remains until deleted by an administrator.  This is done so we can determine who hasn't submitted
+                        the screening form.  Visitor metadata is purged with screening data.
                     </p>
                 </div>
             </div>
