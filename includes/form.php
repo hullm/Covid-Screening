@@ -31,7 +31,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     </div>
                 </div>
                 <!-- Have You Been Vaccinated Tab -->
-                <div class ="tab"><h4>Have you been vaccinated?</h4>
+                <div class ="tab"><h4>Have you been fully vaccinated?</h4>
                     <div class="row">
                         <div class="radio">
                             <label>
@@ -52,6 +52,9 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                                 <input type="radio" name="vaccinated_radios" id="vaccinated_unknown" value="no"/>I'd prefer not to say
                             </label>
                         </div>
+                    </div>
+                    <div class="row">
+                        <p style=color:red><em>To be considered fully vaccinated, you must be greater than 2 weeks following receipt of the second dose in a 2-dose series or greater than 2 weeks following receipt of one dose of a single-dose vaccine..</em></p>
                     </div>
                 </div>
                 <!-- Temperature Tab -->
