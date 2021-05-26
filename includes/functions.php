@@ -36,7 +36,7 @@ function db_connect() {
     return $connection;
 }
 
-function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$userType,$hasPassed) {
+function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$userType,$hasPassed,$isVaccinated) {
 
     // This will add the results of the form to the database, and add employees to the people table.  If an employee is already in the
     // people table it will update the LastCheckin date, and their phone number.
@@ -57,7 +57,7 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
         $fixedUserType = mysqli_real_escape_string($connection,$userType);
 
         // Write the data to the tracking table
-        $sql = "INSERT INTO Tracking (UserName,FirstName,LastName,Email,PhoneNumber,Building,UserType,HasPassed,DateSubmitted,TimeSubmitted)
+        $sql = "INSERT INTO Tracking (UserName,FirstName,LastName,Email,PhoneNumber,Building,UserType,HasPassed,Vaccinated,DateSubmitted,TimeSubmitted)
             VALUES ('". 
             $fixedUserName. "','". 
             $fixedFirstName. "','". 
@@ -66,7 +66,8 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
             $fixedPhoneNumber. "','". 
             $fixedBuilding. "','". 
             $fixedUserType. "',".
-            $hasPassed. 
+            $hasPassed. ",".
+            $isVaccinated.
             ",CURDATE(),CURTIME());";
         
         // We test while adding data to the database, if it fails the SQL string will be displayed.
@@ -89,13 +90,14 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
                     Active = True,
                     PhoneNumber='". $fixedPhoneNumber. "',
                     UserType='". $fixedUserType. "',
-                    building='". $fixedBuilding. "',
+                    Building='". $fixedBuilding. "',
+                    Vaccinated=". $isVaccinated. ",
                     LastCheckin=CURDATE()
                     WHERE id=". $row['id']. ";";
             } 
             // Add them to the people table
             else {
-                $sql = "INSERT INTO People (Active,UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building,LastCheckin)
+                $sql = "INSERT INTO People (Active,UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building,Vaccinated,LastCheckin)
                     VALUES (
                     True,'". 
                     $fixedUserName. "','". 
@@ -105,6 +107,7 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
                     $fixedPhoneNumber. "','". 
                     $fixedUserType. "','".
                     $fixedBuilding. "',".
+                    $isVaccinated. ",".
                     "CURDATE());";
                     }
             
@@ -121,6 +124,7 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
                 LastCheckIn=CURDATE(),
                 building='". $fixedBuilding. "',
                 PhoneNumber='". $fixedPhoneNumber. "'
+                Vaccinated=". $isVaccinated. ",
                 WHERE Username='". $fixedUserName. "';";
             $connection->query($sql);
         }
@@ -264,7 +268,7 @@ function getUserResults($userName){
     }
 }
 
-function getReportResults($startDate, $endDate, $userType, $building, $hasPassed){
+function getReportResults($startDate, $endDate, $userType, $building, $hasPassed, $vaccinated){
 
     // When you use the reports page and perform a query this function is called to get the data.
 
@@ -308,16 +312,30 @@ function getReportResults($startDate, $endDate, $userType, $building, $hasPassed
         $hasPassQuery = "hasPassed IS NOT NULL";
     }
 
+    // Set the SQL WHERE clause for vaccinated
+    if ($vaccinated!="All") {
+        if ($vaccinated=="Yes") {
+            $vaccinatedQuery = "vaccinated=TRUE";
+        }
+        else {
+            $vaccinatedQuery = "vaccinated=FALSE";
+        }
+    }
+    else {
+        $vaccinatedQuery = "vaccinated IS NOT NULL";
+    }
+
     // Build the SQL string to get the results
-    $sql = "SELECT id,UserName,FirstName,LastName,Email,PhoneNumber,Building,UserType,HasPassed,DateSubmitted,TimeSubmitted 
+    $sql = "SELECT id,UserName,FirstName,LastName,Email,PhoneNumber,Building,UserType,HasPassed,DateSubmitted,TimeSubmitted,Vaccinated
         FROM Tracking WHERE ".
         "DateSubmitted>='". $startDate. "' AND ".
         "DateSubmitted<='". $endDate. "' AND ".
         $hasPassQuery. " AND ".
         $buildingQuery. " AND ".
-        $userTypeQuery. " ".
+        $userTypeQuery. " AND ".
+        $vaccinatedQuery. " ".
         "ORDER BY LastName, FirstName;";
-        
+    
     // Look up the data and output the SQL string if it fails
     if ($connection->query($sql) === FALSE) {
         echo $sql. "<br />";
@@ -335,7 +353,7 @@ function getRecentResults($numberOfDays) {
     $connection = db_connect();
     
     // 
-    $sql = "SELECT id,UserName,FirstName,LastName,Email,PhoneNumber,Building,UserType,HasPassed,DateSubmitted,TimeSubmitted  
+    $sql = "SELECT id,UserName,FirstName,LastName,Email,PhoneNumber,Building,UserType,HasPassed,DateSubmitted,TimeSubmitted,Vaccinated
         FROM Tracking ORDER BY id DESC LIMIT ". $numberOfDays. ";";
 
     // Look up the data and output the SQL string if it fails
@@ -370,7 +388,7 @@ function getMissingResults($building ){
     // Build the SQL string to get the results
     $sql = "SELECT UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building,LastCheckIn
         FROM People 
-        WHERE (LastCheckIn<CURDATE() OR LastCheckin IS NULL) AND Active=TRUE AND ". $buildingQuery. "
+        WHERE (LastCheckIn<CURDATE() OR LastCheckin IS NULL) AND Active=TRUE AND Vaccinated=FALSE AND ". $buildingQuery. "
         ORDER BY LastName,FirstName;";
 
     // Look up the data and output the SQL string if it fails
@@ -405,7 +423,7 @@ function getMissingStudentResults($building,$fromDate){
     // Build the SQL string to get the results
     $sql = "SELECT StudentID,FirstName,LastName,UserName,Email,PhoneNumber,Building,PWord,Grade,LastCheckIn
         FROM Students 
-        WHERE (LastCheckIn<'". $fromDate. "' OR LastCheckin IS NULL) AND Active=TRUE AND ". $buildingQuery. "
+        WHERE (LastCheckIn<'". $fromDate. "' OR LastCheckin IS NULL) AND Vaccinated=FALSE AND Active=TRUE AND ". $buildingQuery. "
         ORDER BY LastName,FirstName;";
 
     // Look up the data and output the SQL string if it fails
@@ -650,6 +668,120 @@ function  getScreenedResults(){
     }
     else {
         $chartData .= "1";
+    }
+
+    // Return the results
+    return $chartData;
+
+}
+
+function  getVaccinationInfoEmployee(){
+    
+    // This function will return data for the vaccination charts
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Build the SQL string to get the number who are vaccinated
+    $sql = "SELECT COUNT(ID) as Vaccinated FROM People WHERE Vaccinated=TRUE AND Active=TRUE";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+    if ($results->num_rows > 0) {
+        $result = $results->fetch_assoc();
+        $chartData = $result['Vaccinated']. ",";
+    }
+    else {
+        $chartData = "0,";
+    }
+
+    // Build the SQL string to get the number who are not vaccinated
+    $sql = "SELECT COUNT(ID) as NotVaccinated FROM People WHERE Vaccinated=FALSE AND Active=TRUE";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+    if ($results->num_rows > 0) {
+        $result = $results->fetch_assoc();
+        $chartData .= $result['NotVaccinated'];
+    }
+    else {
+        $chartData .= "0";
+    }
+
+    // Return the results
+    return $chartData;
+
+}
+
+function  getVaccinationInfoStudent(){
+    
+    // This function will return data for the vaccination charts
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Build the SQL string to get the number who are vaccinated
+    $sql = "SELECT COUNT(ID) as Vaccinated FROM Students WHERE Vaccinated=TRUE AND Active=TRUE";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+    if ($results->num_rows > 0) {
+        $result = $results->fetch_assoc();
+        $chartData = $result['Vaccinated']. ",";
+    }
+    else {
+        $chartData = "0,";
+    }
+
+    // Build the SQL string to get the number who are not vaccinated
+    $sql = "SELECT COUNT(ID) as NotVaccinated FROM Students WHERE Vaccinated=FALSE AND Active=TRUE";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+    if ($results->num_rows > 0) {
+        $result = $results->fetch_assoc();
+        $chartData .= $result['NotVaccinated'];
+    }
+    else {
+        $chartData .= "0";
+    }
+
+    // Return the results
+    return $chartData;
+
+}
+
+function  getVaccinationInfoVisitor(){
+    
+    // This function will return data for the vaccination charts
+
+    // Connect to the database
+    $connection = db_connect();
+
+    // Build the SQL string to get the number who are vaccinated
+    $sql = "SELECT COUNT(ID) as Vaccinated FROM Tracking WHERE UserType='Visitor' AND Vaccinated=TRUE";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+    if ($results->num_rows > 0) {
+        $result = $results->fetch_assoc();
+        $chartData = $result['Vaccinated']. ",";
+    }
+    else {
+        $chartData = "0,";
+    }
+
+    // Build the SQL string to get the number who are not vaccinated
+    $sql = "SELECT COUNT(ID) as NotVaccinated FROM Tracking WHERE UserType='Visitor' AND Vaccinated=FALSE";
+    
+    // Get the data from the database
+    $results = $connection->query($sql);
+    if ($results->num_rows > 0) {
+        $result = $results->fetch_assoc();
+        $chartData .= $result['NotVaccinated'];
+    }
+    else {
+        $chartData .= "0";
     }
 
     // Return the results
@@ -905,7 +1037,7 @@ function getSymptoms(){
         $doc->loadHTML($html);
         libxml_clear_errors(); 
         $xpath = new DOMXPath($doc);
-        $rows = $xpath->query('//*[@class="public-symptoms"]//li');
+        $rows = $xpath->query('//*[@class=" mt-0"]//li');
     
         // If data is found then look through it for the symptoms
         if($rows->length > 0){

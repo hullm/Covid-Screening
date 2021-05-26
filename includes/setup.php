@@ -144,6 +144,42 @@ if ($connection->query($sql) === TRUE) {
     echo "Active Column already exists in People table...<br />";
 }
 
+// Add the vaccinated column to the people table
+$sql = "ALTER TABLE People ADD COLUMN Vaccinated BOOLEAN;";
+if ($connection->query($sql) === TRUE) {
+    
+    // Set all the users as active
+    $sql = "UPDATE People SET vaccinated=False;";
+    $connection->query($sql);
+    echo "Added Vaccinated column to People table...<br />";
+} else {
+    echo "Vaccinated Column already exists in People table...<br />";
+}
+
+// Add the vaccinated column to the students table
+$sql = "ALTER TABLE Students ADD COLUMN Vaccinated BOOLEAN;";
+if ($connection->query($sql) === TRUE) {
+    
+    // Set all the users as active
+    $sql = "UPDATE Students SET vaccinated=False;";
+    $connection->query($sql);
+    echo "Added Vaccinated column to Students table...<br />";
+} else {
+    echo "Vaccinated Column already exists in Students table...<br />";
+}
+
+// Add the vaccinated column to the tracking table
+$sql = "ALTER TABLE Tracking ADD COLUMN Vaccinated BOOLEAN;";
+if ($connection->query($sql) === TRUE) {
+    
+    // Set all the users as active
+    $sql = "UPDATE Tracking SET vaccinated=False;";
+    $connection->query($sql);
+    echo "Added Vaccinated column to Tracking table...<br />";
+} else {
+    echo "Vaccinated Column already exists in Tracking table...<br />";
+}
+
 // Add the last time the students checked in to the student table
 $sql = "UPDATE Students SET LastCheckin='1978-06-16'";
 $connection->query($sql);

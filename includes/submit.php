@@ -85,15 +85,28 @@ if (isset($_GET['login'])) {
 if (isset($_GET['screeningform'])) {
     if (isset($_POST["submit"])) {
 
+        // Get or set data depending on vaccination status
+        $vaccinated = $_POST["vaccinated_radios"];
+        if ($vaccinated=="yes") {
+            $temperature = "no";
+            $symptoms = "no";
+            $tested = "no";
+            $contact = "no";
+            $isVaccinated = "TRUE";
+        }
+        else {
+            $temperature = $_POST["temperature_radios"];
+            $symptoms = $_POST["symptoms_radios"];
+            $tested = $_POST["tested_radios"];
+            $contact = $_POST["contact_radios"];
+            $isVaccinated = "FALSE";
+        }
+
         // Get the values from the form
         $phoneNumber = $_POST["phone_number"];
         $building = $_POST["building"];
-        $temperature = $_POST["temperature_radios"];
-        $symptoms = $_POST["symptoms_radios"];
-        $tested = $_POST["tested_radios"];
-        $contact = $_POST["contact_radios"];
+        
         // $travel = $_POST["travel_radios"];
-
         // Override for a questions that's been removed
         $travel = "no";
 
@@ -118,7 +131,8 @@ if (isset($_GET['screeningform'])) {
             $phoneNumber,
             $building,
             $_SESSION["userType"], 
-            $hasPassed);
+            $hasPassed,
+            $isVaccinated);
     }
 }
 
@@ -132,6 +146,7 @@ if (isset($_GET['reports'])){
         $userType = "";
         $building = "";
         $passed = "";
+        $vaccinated = "";
         
         // Get the values from the form
         if (isset($_POST["submit"])) {
@@ -140,13 +155,15 @@ if (isset($_GET['reports'])){
             $userType = $_POST["user_type"];
             $building = $_POST["building"];
             $passed = $_POST["passed"];
+            $vaccinated = $_POST["vaccinated"];
 
             // Redirect the user to a page with a sharable URL
             header("location:index.php?reports&LoadReport&fromDate=". $fromDate.
                 "&toDate=". $toDate.
                 "&userType=". $userType. 
                 "&building=". $building.
-                "&passed=". $passed);
+                "&passed=". $passed.
+                "&vaccinated=". $vaccinated);
             die; 
         }
 
@@ -176,10 +193,16 @@ if (isset($_GET['reports'])){
             else {
                 $passed = "All";
             }
+            if ($vaccinated == "" && isset($_GET['vaccinated'])) {
+                $vaccinated = $_GET["vaccinated"];
+            }
+            else {
+                $vaccinated = "All";
+            }
         }
 
         // Query the database
-        $results = getReportResults($fromDate, $toDate, $userType, $building, $passed);
+        $results = getReportResults($fromDate, $toDate, $userType, $building, $passed, $vaccinated);
 
         // Set the default values for the form elements
         $fromDateValue = $fromDate;
@@ -193,6 +216,9 @@ if (isset($_GET['reports'])){
         $resultsAllSelected = "";
         $resultsPassedSelected = "";
         $resultsFailedSelected = "";
+        $vaccinatedAllSelected = "";
+        $vaccinatedYesSelected = "";
+        $vaccinatedNoSelected = "";
         
         // Choose which option is enabled in the UserType dropdown
         switch ($userType) {
@@ -234,6 +260,20 @@ if (isset($_GET['reports'])){
                 $resultsAllSelected = "selected";
                 break;
         }
+
+        // Choose which option is selected in the Vaccinated dropdown
+        switch ($vaccinated) {
+            case "Yes":
+                $vaccinatedYesSelected = "Selected";
+                break;
+            case "No":
+                $vaccinatedNoSelected = "Selected";
+                break;
+            default:
+                $vaccinatedAllSelected = "Selected";
+                break;
+        }
+
     }
     else {
 
@@ -249,6 +289,9 @@ if (isset($_GET['reports'])){
         $resultsAllSelected = "selected";
         $resultsPassedSelected = "";
         $resultsFailedSelected = "";
+        $vaccinatedAllSelected = "selected";
+        $vaccinatedYesSelected = "";
+        $vaccinatedNoSelected = "";
     }
 }
 
@@ -401,7 +444,7 @@ if (isset($_GET['missingstudents'])){
                 $studentData['PhoneNumber'],
                 $studentData['Building'],
                 "Student", 
-                $hasPassed);
+                $hasPassed,FALSE);
         }
 
         // Build the return URL

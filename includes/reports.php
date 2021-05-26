@@ -58,7 +58,7 @@ if (isset($_GET["passed"])) {
                 </div>
             </div>
             <div class="col-md-2 mb-5">
-                <label for="usertype">Building</label>
+                <label for="building">Building</label>
                 <div class="input-group">
                     <select class="custom-select form-control" name="building" id="building" required>
                         <option value="All" <?php echo $buildingAllSelected; ?>>All</option>
@@ -81,12 +81,28 @@ if (isset($_GET["passed"])) {
                 </div>
             </div>
             <div class="col-md-2 mb-5">
-                <label for="usertype">Results</label>
+                <label for="passed">Results</label>
                 <div class="input-group">
                     <select class="custom-select form-control" name="passed" id="passed" required>
                         <option value="All" <?php echo $resultsAllSelected;?>>All</option>
                         <option value="True" <?php echo $resultsPassedSelected;?>>Passed</option>
                         <option value="False" <?php echo $resultsFailedSelected;?>>Failed</option>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please choose a building.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 mb-5">
+                <label for="vaccinated">Vaccinated</label>
+                <div class="input-group">
+                    <select class="custom-select form-control" name="vaccinated" id="vaccinated" required>
+                        <option value="All" <?php echo $vaccinatedAllSelected;?>>All</option>
+                        <option value="Yes" <?php echo $vaccinatedYesSelected;?>>Yes</option>
+                        <option value="No" <?php echo $vaccinatedNoSelected;?>>No</option>
                     </select>
                     <div class="valid-feedback">
                         Looks good!
@@ -121,6 +137,7 @@ if (isset($_GET["passed"])) {
                         <th>Email</th>
                         <th>Phone Number</th>
                         <th>Building</th>
+                        <th>Vaccinated</th>
                         <th>Type</th>
                         <th>Date Submitted</th>
                     </tr>
@@ -152,6 +169,13 @@ if (isset($_GET["passed"])) {
                             <td><?php echo $row['Email'];?></td>
                             <td><?php echo $row['PhoneNumber'];?></td>
                             <td><?php echo $row['Building'];?></td>
+                            <td><?php 
+                            if ($row['Vaccinated']) {
+                                echo "Yes";
+                            }
+                            else {
+                                echo "No";
+                            };?></td>
                             <td><?php echo fixUserType($row['UserType']);?></td>
                             <td><?php echo date_format(date_create($row['DateSubmitted']),"m/d/Y"). " ". date_format(date_create($row['TimeSubmitted']),"g:ia");?></td>
                         </tr>

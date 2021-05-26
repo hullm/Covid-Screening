@@ -257,7 +257,7 @@ function getMissingStudents($days) {
             Username,PWord,Parents.FirstName,Parents.LastName,Relationship,Parents.Email
         FROM Students 
         INNER JOIN Parents On Students.StudentID = Parents.StudentID
-        WHERE DATEDIFF(NOW(),LastCheckin) > ". $days. " AND Parents.Email <> '' AND Students.Active=True 
+        WHERE DATEDIFF(NOW(),LastCheckin) > ". $days. " AND Parents.Email <> '' AND Students.Active=TRUE AND Vaccinated=FALSE
         ORDER BY Students.id ASC";
 
     // Look up the data in the database
@@ -338,7 +338,7 @@ function getMissingResults(){
     // Build the SQL string to get the results
     $sql = "SELECT UserName,FirstName,LastName,Email,PhoneNumber,UserType,Building
         FROM People 
-        WHERE (LastCheckIn<CURDATE() OR LastCheckin IS NULL) AND Active=TRUE AND Building IS NOT NULL
+        WHERE (LastCheckIn<CURDATE() OR LastCheckin IS NULL) AND Active=TRUE AND Vaccinated=FALSE AND Building IS NOT NULL
         ORDER BY LastName,FirstName;";
 
     // Look up the data in the database

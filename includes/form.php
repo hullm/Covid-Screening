@@ -30,12 +30,36 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                             </select>
                     </div>
                 </div>
+                <!-- Have You Been Vaccinated Tab -->
+                <div class ="tab"><h4>Have you been vaccinated?</h4>
+                    <div class="row">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="vaccinated_radios" id="vaccinated_yes" value="yes" required/>Yes
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="vaccinated_radios" id="vaccinated_no" value="no"/>No
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="vaccinated_radios" id="vaccinated_unknown" value="no"/>I'd prefer not to say
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <!-- Temperature Tab -->
                 <div class="tab"><h4>Is your temperature greater than or equal to 100 today?</h4>
                     <div class="row">
                         <div class="radio">
                             <label>
-                                <input type="radio" name="temperature_radios" id="temperature_yes" value="yes" required/>Yes
+                                <input type="radio" name="temperature_radios" id="temperature_yes" value="yes"/>Yes
                             </label>
                         </div>
                     </div>
@@ -142,6 +166,7 @@ $lastBuilding = getLastBuilding($_SESSION["userName"]);
                     <span class="step"></span>
                     <span class="step"></span>
                     <span class="step"></span>
+                    <span class="step"></span>
                 </div>
             </form>
         </div>
@@ -194,6 +219,7 @@ function nextPrev(n) {
 
 function validateForm() {
     var w, x, y, i, valid = true;
+    var vaccinated = document.getElementsByName("vaccinated_radios");
     x = document.getElementsByClassName("tab");
     y = x[currentTab].getElementsByTagName("input");
     if (currentTab == 0){
@@ -217,12 +243,26 @@ function validateForm() {
         valid = true;
     }
 
+    //Determine if vaccinated was selected
+    for (var i = 0; i<vaccinated.length; i++){
+        vaccinated[i].addEventListener('change', function(){
+            if(this.value=='yes'){
+                currentTab = x.length-1;
+                console.log(document.getElementsByName('vaccinated_radios')[0].value);
+                console.log(document.getElementsByName('temperature_radios')[0].value);
+            }
+            if(this.value=="no"){
+                currentTab = 1;
+            }
+        });
+    }
+
     // Loop that checks every radio input in the current tab
     for (i=1; i < y.length; i++){
         valid=true;
-        if(($("input[type='radio']:checked").length===currentTab-1)){
+        if(($("input[type='radio']:checked").length==currentTab-1)){
             // Should be adding invalid class to field.... doesn't work
-            y[i].className += " invalid";
+            // y[i].className += " invalid";
             alert("Please select an option.");
             // set valid status to false
             valid = false;
@@ -253,4 +293,6 @@ function formatPhone(obj) {
         obj.value += (char[i]||'') + numbers[i];
     }
 }
+
+
 </script>

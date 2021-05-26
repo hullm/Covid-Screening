@@ -21,6 +21,17 @@ $results = getRecentResults(10);
         </div>
     </div>
     <div class="form-row justify-content-around">
+        <div class="pieChart">
+            <canvas id="employeesVaccinated" width="100" height="100"></canvas>
+        </div>
+        <div class="pieChart">
+            <canvas id="studentsVaccinated" width="100" height="100"></canvas>
+        </div>
+        <div class="pieChart">
+            <canvas id="visitorsVaccinated" width="100" height="100"></canvas>
+        </div>
+    </div>
+    <div class="form-row justify-content-around">
         <div class="lineChart">
             <canvas id="screeningHistory" width="100" height="100"></canvas>
         </div>
@@ -40,6 +51,7 @@ $results = getRecentResults(10);
                     <th>Email</th>
                     <th>Phone Number</th>
                     <th>Building</th>
+                    <th>Vaccinated</th>
                     <th>Type</th>
                     <th>Date Submitted</th>
                 </tr>
@@ -66,6 +78,13 @@ $results = getRecentResults(10);
                         <td><?php echo $row['Email'];?></td>
                         <td><?php echo $row['PhoneNumber'];?></td>
                         <td><?php echo $row['Building'];?></td>
+                        <td><?php 
+                            if ($row['Vaccinated']) {
+                                echo "Yes";
+                            }
+                            else {
+                                echo "No";
+                            };?></td>
                         <td><?php echo fixUserType($row['UserType']);?></td>
                         <td><?php echo date_format(date_create($row['DateSubmitted']),"m/d/Y"). " ". date_format(date_create($row['TimeSubmitted']),"g:ia");?></td>
                     </tr>
@@ -131,7 +150,7 @@ var employeesScreened = new Chart(ctx, {
             var today = new Date();
             var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + today.getDate()).slice(-2);
             if (label == "Screened") {
-                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=Employee&building=All&passed=All","_self");
+                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=Employee&building=All&passed=All&Vaccinated=All","_self");
             }
             else {
                 window.open("index.php?missing&LoadMissing&building=All","_self");
@@ -182,7 +201,7 @@ var totalScreened = new Chart(ctx, {
             var value = totalScreened.data.datasets[activeElement._datasetIndex].data[activeElement._index];
             var today = new Date();
             var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + today.getDate()).slice(-2);
-            window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=" + label + "&building=All&passed=All","_self");
+            window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=" + label + "&building=All&passed=All&Vaccinated=All","_self");
         }
     }
 });
@@ -227,10 +246,10 @@ var screeningResults = new Chart(ctx, {
             var today = new Date();
             var date = today.getFullYear() + '-' + ("0" + (today.getMonth() + 1)).slice(-2) + '-' + ("0" + today.getDate()).slice(-2);
             if (label == "Passed") {
-                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=True","_self");
+                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=True&Vaccinated=All","_self");
             }
             else {
-                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=False","_self");
+                window.open("index.php?reports&LoadReport&fromDate=" + date +"&toDate=" + date + "&userType=All&building=All&passed=False&Vaccinated=All","_self");
             }
         }
     }
@@ -332,6 +351,117 @@ var screeningHistory = new Chart(ctx, {
     }
 });
 
+</script>
+
+<!-- Employee's who are vaccinated -->
+<script>
+var ctx = document.getElementById('employeesVaccinated').getContext('2d');
+var employeesScreened = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Vaccinated', 'Not Vaccinated'],
+        render: 'value',
+        datasets: [{
+            data: [<?php echo getVaccinationInfoEmployee(); ?>],
+            backgroundColor: [
+                'rgba(0, 204, 0, 0.8)', <!-- Green -->, 
+                'rgba(255, 15, 15, 0.8)' <!-- Red -->,
+            ],
+            borderColor: [
+                'rgba(255, 255, 255, 1)',
+                'rgba(255, 255, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Employees Vaccination Status'
+        },
+        plugins: {
+            labels: { render: 'value',
+                fontColor: '#000',
+                position: 'inside'
+            }
+        },
+    }
+});
+</script>
+
+<!-- Student's who are vaccinated -->
+<script>
+var ctx = document.getElementById('studentsVaccinated').getContext('2d');
+var employeesScreened = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Vaccinated', 'Not Vaccinated'],
+        render: 'value',
+        datasets: [{
+            data: [<?php echo getVaccinationInfoStudent(); ?>],
+            backgroundColor: [
+                'rgba(0, 204, 0, 0.8)', <!-- Green -->, 
+                'rgba(255, 15, 15, 0.8)' <!-- Red -->,
+            ],
+            borderColor: [
+                'rgba(255, 255, 255, 1)',
+                'rgba(255, 255, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Student Vaccination Status'
+        },
+        plugins: {
+            labels: { render: 'value',
+                fontColor: '#000',
+                position: 'inside'
+            }
+        },
+    }
+});
+</script>
+
+<!-- Visitor's who are vaccinated -->
+<script>
+var ctx = document.getElementById('visitorsVaccinated').getContext('2d');
+var employeesScreened = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Vaccinated', 'Not Vaccinated'],
+        render: 'value',
+        datasets: [{
+            data: [<?php echo getVaccinationInfoVisitor(); ?>],
+            backgroundColor: [
+                'rgba(0, 204, 0, 0.8)', <!-- Green -->, 
+                'rgba(255, 15, 15, 0.8)' <!-- Red -->,
+            ],
+            borderColor: [
+                'rgba(255, 255, 255, 1)',
+                'rgba(255, 255, 255, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        title: {
+            display: true,
+            text: 'Visitor Vaccination Status'
+        },
+        plugins: {
+            labels: { render: 'value',
+                fontColor: '#000',
+                position: 'inside'
+            }
+        },
+    }
+});
 </script>
 
 <script>
