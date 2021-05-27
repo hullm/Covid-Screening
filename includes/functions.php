@@ -118,15 +118,21 @@ function addEvent($userName,$firstName,$lastName,$email,$phoneNumber,$building,$
             }
         }
 
-        // If the user is a student then update the student table with the date.
+        // If the user is a student then update the student table with the data.
         if ($userType == "Student") {
             $sql = "UPDATE Students SET 
                 LastCheckIn=CURDATE(),
                 building='". $fixedBuilding. "',
-                PhoneNumber='". $fixedPhoneNumber. "'
-                Vaccinated=". $isVaccinated. ",
+                PhoneNumber='". $fixedPhoneNumber. "',
+                Vaccinated=". $isVaccinated. " 
                 WHERE Username='". $fixedUserName. "';";
             $connection->query($sql);
+
+            // Execute the SQL command and display the SQL string if it fails
+            if ($connection->query($sql) === FALSE) {
+                echo $sql. "<br />";
+                echo "Failed to add record to the database...";
+            }
         }
     }
 }
