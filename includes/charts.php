@@ -42,7 +42,7 @@ $results = getRecentResults(10);
     <div class = "row justify-content-md-center">
         <table id="report" class="table table-striped table-dark hover">
             <thead>
-                <tr><th colspan="9" style="text-align: center;">Most Recent Survey Results</th></tr>
+                <tr><th colspan="10" style="text-align: center;">Most Recent Survey Results</th></tr>
                 <tr>
                     <th></th>
                     <th>Status</th>
